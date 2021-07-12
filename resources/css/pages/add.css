@@ -1,0 +1,29 @@
+label.col-sm-2.control-label p {
+    font-size: 20px;
+}
+li.nav-item {
+    list-style: none;
+    font-size: 33px;
+    margin: -13px 5px 77px -39px;
+    margin-bottom: -10px;
+   
+}
+input#first_name {
+    margin: -2px 4px 28px -38px;
+}
+
+input#last_name {
+    margin: 0px 10px 28px -39px;
+}
+
+input#infor {
+    margin: -1px 10px 37px -41px;
+}
+
+input.btn.btn-primary {
+    margin: 10px 12px 20px 807px;
+}
+
+a.btn.btn-secondary {
+    margin: 9px 11px 20px 0px;
+}
