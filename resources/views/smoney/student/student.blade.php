@@ -159,9 +159,59 @@
     </div>
     <div class="container">
         <div class="row my-5">
-            <img src="{{ asset('img-smoney/img-students/dashboard_1.svg') }}" alt="" class="col-md-4  col-lg-4 col-12 mb-2 wow fadeInUp" data-wow-duration="3s">
-            <img src="{{ asset('img-smoney/img-students/dashboard_2.svg') }}" alt="" class="col-md-4  col-lg-4 col-12 mb-2 wow fadeInDown" data-wow-duration="3s">
-            <img src="{{ asset('img-smoney/img-students/dashboard_3.svg') }}" alt="" class="col-md-4  col-lg-4 col-12 mb-2 wow fadeInUp" data-wow-duration="3s">
+            <div class="col-md-4 col-lg-4 col-12 mb-2 wow fadeInUp" data-wow-duration="3s">
+                <div class="main-infomation" style="
+                background-image: url('{{asset('img-smoney/img-students/dashboard_1.png')}}');background-repeat: no-repeat;background-size: cover;">
+                    <span class="main-infomation-dollar">
+                        <i class="fas fa-dollar-sign"></i>
+                    </span> 
+                    <span class="main-infomation-title">
+                        Tổng số tiền đã vay
+                    </span>
+                    <p class="main-infomation-content">
+                        <span>25,000,000</span> VNĐ
+                    </p>
+                    <span class="main-infomation-more-infor">
+                        Tăng <span>40%</span> so với tháng trước
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-12 mb-2 wow fadeInDown" data-wow-duration="3s">
+                <div class="main-infomation" style="
+                background-image: url('{{asset('img-smoney/img-students/dashboard_2.png')}}');background-repeat: no-repeat;background-size: cover;">
+                    <span class="main-infomation-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </span> 
+                    <span class="main-infomation-title">
+                        Số tiền đã trả
+                    </span>
+                    <p class="main-infomation-content">
+                        <span>5,000,000</span> VNĐ
+                    </p>
+                    <span class="main-infomation-more-infor">
+                        Chiếm <span>20%</span> tổng số khoản vay
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-12 mb-2 wow fadeInUp" data-wow-duration="3s">
+                <div class="main-infomation" style="
+                background-image: url('{{asset('img-smoney/img-students/dashboard_3.png')}}');background-repeat: no-repeat;background-size: cover;">
+                    <span class="main-infomation-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </span> 
+                    <span class="main-infomation-title">
+                        Các việc làm đã nộp hồ sơ
+                    </span>
+                    <p class="main-infomation-content">
+                        <span>5</span> việc làm
+                    </p>
+                    <span class="main-infomation-more-infor">
+                        <span>2</span> việc làm bị từ chối
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
