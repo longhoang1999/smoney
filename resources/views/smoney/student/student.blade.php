@@ -123,10 +123,10 @@
                     <!-- avatar user -->
                     <div class="information-user-avatar nav-item">
                         <div class="information-user">
-                            <div class="info-avatar" style="background: url('{{ asset('img-smoney/img-students/bg-01.jpg')}}')">
+                            <div class="info-avatar" style="background: url('{{ asset('img-smoney/img-students/avatar-default.png')}}')">
                             </div>
                             <span class="name-user">
-                                Nguyễn Trung Hiếu 
+                                <span>{{ $name }} </span>
                                 <i class="fas fa-sort-down"></i>
                             </span>
                         </div>
@@ -134,7 +134,7 @@
                             <a href="#" class="item-information">
                                 Thông tin tài khoản
                             </a>
-                            <a href="#" class="item-information">
+                            <a href="{{ route('student.logout') }}" class="item-information">
                                 Đăng xuất
                             </a>
                         </div>
@@ -149,10 +149,10 @@
 <div class="information">
     <div class="row" style="margin-top: 5rem;">
         <div class="col-12 text-center my-5">
-            <div class="main-avatar" style="background: url('{{ asset('img-smoney/img-students/bg-01.jpg')  }}')"></div>
+            <div class="main-avatar" style="background: url('{{ asset('img-smoney/img-students/avatar-default.png')  }}')"></div>
             <div class="main-content">
                 <span>Xin chào,</span>
-                <span>Nguyễn Trung Hiếu</span>
+                <span>{{ $name }}</span>
             </div>
             <a href="#" class="user-page">(Trang cá nhân)</a>
         </div>

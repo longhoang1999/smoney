@@ -36,6 +36,14 @@
    </div>
    @endif
 
+   @if(Session::has('error'))
+   <div class="error-notification">
+      <ul>
+         <li>{{ Session::get('error') }}</li>
+      </ul>
+   </div>
+   @endif
+
    <div class="materialContainer">
       <div class="box">
          <div class="title">ĐĂNG NHẬP</div>

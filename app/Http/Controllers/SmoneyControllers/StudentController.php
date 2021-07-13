@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\SmoneyControllers;
 
-use App\Models\SmoneyModels\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -10,16 +9,20 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 // model
 use App\Models\SmoneyModels\TaiKhoanSmoney;
+use App\Models\SmoneyModels\Student;
 
 class StudentController extends Controller
 {
-    // public function getInfo()
-    // {
-    //     print_r(Student::get());
-    //     //echo "string";
-    // }
     public function studentPage() {
-        return view('smoney.student.student');
+        $userLogin = Auth::user();
+        $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+        if($findStudent) {
+            return view('smoney.student.student')->with([
+                'name' => $findStudent->hoten
+            ]);
+        }
+        else 
+            return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
     }
 
 
@@ -40,18 +43,27 @@ class StudentController extends Controller
         ]);
         $checkExist = TaiKhoanSmoney::where("tks_sdt",$req->phone)->first();
         if(!$checkExist){
+            $newStudent = new Student();
+            $newStudent->hoten = $req->fullname;
+            $newStudent->sdt = $req->phone;
+            $newStudent->save();
+
             $newAccount = new TaiKhoanSmoney();
+            $newAccount->tks_sotk = $newStudent->_id;
+            $newAccount->tks_tentk = $req->fullname;
             $newAccount->tks_sdt = $req->phone;
             $newAccount->ths_mk = Hash::make($req->password);
             $newAccount->save();
         }
-        if(Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$req->password]))
-        {
+        else{
+            return back()->with("error","Tài khoản đã tồn tại");
+        }
+
+        if(Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$req->password])){
             return redirect()->route("student.student");
         }
-        else
-        {
-            echo "Đăng nhập thất bại";
+        else{
+            return back()->with("error","Đăng nhập thất bại");
         }
     }
     public function postLogin(Request $req)
@@ -67,13 +79,17 @@ class StudentController extends Controller
             'password.min' => 'Mật khẩu quá ngắn',
             'password.max' => 'Mật khẩu quá dài',
         ]);
-        if(Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$req->password]))
-        {
+        if(Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$req->password])){
             return redirect()->route("student.student");
         }
-        else
-        {
-            echo "Đăng nhập thất bại";
+        else{
+            return back()->with("error","Sai tài khoản hoặc mật khẩu");
         }
+    }
+    public function logout()
+    {
+        Auth::logout();
+        session()->flush();
+        return redirect()->route("homepage.homepage_old");
     }
 }
