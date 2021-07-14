@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 // model
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\Student;
@@ -43,17 +44,25 @@ class StudentController extends Controller
         ]);
         $checkExist = TaiKhoanSmoney::where("tks_sdt",$req->phone)->first();
         if(!$checkExist){
+            // create new student
             $newStudent = new Student();
             $newStudent->hoten = $req->fullname;
             $newStudent->sdt = $req->phone;
+            // create folder
+            $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $newStudent->code = substr(str_shuffle($permitted_chars), 0, 20); 
+            $path = public_path().'/folder-user/' . $newStudent->code;
+            File::makeDirectory( $path,0777,true);
             $newStudent->save();
 
+            // create new account
             $newAccount = new TaiKhoanSmoney();
             $newAccount->tks_sotk = $newStudent->_id;
             $newAccount->tks_tentk = $req->fullname;
             $newAccount->tks_sdt = $req->phone;
             $newAccount->ths_mk = Hash::make($req->password);
             $newAccount->save();
+
         }
         else{
             return back()->with("error","Tài khoản đã tồn tại");

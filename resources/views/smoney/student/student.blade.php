@@ -58,8 +58,15 @@
             <!-- logo -->
             <a class="navbar-brand" href="#" id="header-logo">
                 <img src="{{ asset('img-smoney/img-students/logo.svg') }}" alt="" class="header-logo-item">
-                <img src="{{ asset('img-smoney/img-students/name-logo.svg') }}" alt="" class="header-logo-item">
-                <div class="tag-page header-logo-item">
+                <div class="header-logo-name">
+                    <img src="{{ asset('img-smoney/img-students/name-logo.svg') }}" alt="" class="header-logo-item">
+
+                    <div class="tag-page-none header-logo-item-none">
+                        <img src="{{ asset('img-smoney/img-students/tag-logo.svg') }}" alt="">
+                        <span>STUDENT</span>
+                    </div>
+                </div>
+                <div class="tag-page header-logo-item position">
                     <img src="{{ asset('img-smoney/img-students/tag-logo.svg') }}" alt="">
                     <span>STUDENT</span>
                 </div>

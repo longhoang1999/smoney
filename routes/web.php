@@ -2,8 +2,6 @@
 // use Illuminate\Support\Facades\Mail;
 require_once 'web_builder.php';
 
-
-
 // Route::pattern('slug', '[a-z0-9- _]+');
 // Route::group(
 //     ['prefix' => 'admin', 'namespace' => 'Admin'],

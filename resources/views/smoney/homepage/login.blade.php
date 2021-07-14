@@ -51,7 +51,7 @@
             @csrf
             <div class="input">
                <label for="input-phone">Số điện thoại</label>
-               <input type="text" name="phone" id="input-phone">
+               <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="phone" id="input-phone" />
                <span class="spin"></span>
             </div>
 
@@ -87,7 +87,7 @@
 
             <div class="input">
                <label for="input-register-phone">Số điện thoại</label>
-               <input type="text" name="phone" id="input-register-phone">
+               <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="phone" id="input-register-phone" />
                <span class="spin"></span>
             </div>
 
