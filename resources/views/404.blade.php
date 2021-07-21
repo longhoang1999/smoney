@@ -33,7 +33,7 @@
     <div class="hgroup">
         <h1>Page Not Found</h1>
         <h2>It seems that page you are looking for no longer exists.</h2>
-        <a href="{{ route('home') }}" class="btn btn-primary text-white">
+        <a href="{{ route('homepage.homepage_old') }}" class="btn btn-primary text-white">
             Home
         </a>
     </div>

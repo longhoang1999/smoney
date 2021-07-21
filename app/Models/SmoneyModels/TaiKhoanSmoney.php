@@ -14,7 +14,7 @@ class TaiKhoanSmoney extends Authenticatable
     use Notifiable;
     use HasApiTokens;
     protected $table = 'tksmoney';
-    protected $fillable = array('tks_sdt', 'ths_mk','tks_loaitk');    
+    protected $fillable = array('tks_sdt','ths_mk','tks_loaitk','tks_id','tks_sotk','tks_tentk');
     public $timestamps = false;
     public static $rules = array();
     protected $primaryKey = 'tks_id';

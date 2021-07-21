@@ -13,5 +13,5 @@ class Student extends Eloquent
     protected $connection='mongodb';
     protected $collection='Sinhvien_2';
     public $timestamps = false;
-    protected $fillable = ['masv','hoten','code','gioitinh','ngaysinh','diachi','sdt','email','diem','lophc','chuyennganh','loaict','stk'];
+    protected $fillable = ['masv','hoten','avatar','code','gioitinh','ngaysinh','diachi','sdt','email','diem','lophc','chuyennganh','loaict','stk','truong','cccd','keyforgot'];
 }

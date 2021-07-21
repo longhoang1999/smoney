@@ -20,6 +20,8 @@ use Illuminate\Http\Response;
 Route::post('login','SmoneyControllers\Api\AuthApiController@login');
 
 Route::group(['middleware' => ['auth:sanctum'] ], function(){
-    Route::get('get-information', 'SmoneyControllers\Api\AuthApiController@getInformation');
     Route::get('logout','SmoneyControllers\Api\AuthApiController@logout' );
+    // user
+    Route::get('get-information', 'SmoneyControllers\Api\UserApiController@getInformation');
+    Route::post('update-information', 'SmoneyControllers\Api\UserApiController@updateInformation');
 });
