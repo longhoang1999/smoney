@@ -1,0 +1,189 @@
+
+@media (max-width:992px){
+  .back_to_top{
+    bottom: 20%;
+  }
+  .last-content-top {
+    height: 93rem;
+  }
+  .last-content-bottom {
+    margin-top: 39rem;
+  }
+  .information-user-avatar {
+    margin-left: 0;
+  }
+  /* .menu-nav{
+    margin: 0;
+  } */
+  .menu-nav li span,
+  .menu-nav li #nav-link {
+    padding: 0;
+  }
+  #navbarSupportedContent{
+    align-items: flex-start ;
+    justify-content: inherit ;
+    flex-direction: column-reverse ;
+  }
+  .personal-info-nav{
+    flex-direction: row-reverse ;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  .icon-bell{
+    margin-left: 1rem;
+  }
+  .menu-nav li {
+    margin-bottom: 1rem;
+  }
+  
+}
+
+@media(max-width:768px) {
+  .information{
+    background-size: auto 80% !important;
+  }
+  .loan-nearly-title{
+    padding-top: 7rem;
+  }
+  .last-content-top-right {
+    padding-top: 5rem;
+    width: 45%;
+  }
+  .last-content-bottom {
+    margin-top: 37rem;
+  }
+  .back_to_top{
+    right: 5%;
+  }
+}
+
+@media(max-width: 576px ){
+  .col-xs-12 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .last-content-top-left-title, .last-content-top-right-title {
+    font-size: 32px;
+  }
+  .header .navbar{
+    padding: .5rem 1rem !important;
+  }
+} 
+@media (max-width: 320px){
+  .loan-nearly-title{
+    padding-top: 8rem;
+  }
+  .last-content-top-left-title, .last-content-top-right-title {
+    font-size: 32px;
+  }
+  .last-content-bottom {
+    margin-top: 44rem;
+  }
+  .job-content {
+    height: 210px;
+  }
+  .job-content-img {
+    width: auto;
+    border: 1px solid lightgray;
+  }
+
+}
+
+@media (min-width: 320px) and (max-width: 599px){
+  .navbar-toggler{
+    margin: 1rem 0;
+    margin-left: .5rem;
+    padding: .25rem .5rem;
+    font-size: 1rem;
+  }
+  #navbarSupportedContent{
+    border-top: 1px solid #e0dcdc;
+  }
+  .more-service{
+    z-index: 12;
+    top: 110%;
+    right: -70%;
+    width: 140px;
+  }
+  .more-notification{
+    left: -200px;
+  }
+  .information{
+    margin-top: 8rem;
+  }
+  .last-content-top-left{
+    margin-top: 5rem;
+  }
+  .last-content-bottom{
+    margin-top: 48rem;
+  }
+  .job-content-img{
+    height: 60%;
+  }
+  .job-content{
+    height: auto;
+  }
+}
+@media (min-width: 600px) and (max-width: 990px){
+  .more-service{
+    width: 200px;
+    right: -200%;
+    top: 100%;
+  }
+  .last-content-top-left{
+    padding-top: 14rem;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1200px){
+  .menu-nav li span, .menu-nav li #nav-link{
+    padding: 0 .7em;
+  }
+  .more-service{
+    width: 110%;
+  }
+}
+
+@media (max-width: 990px){
+  .table-loan-choose-company {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 600px){
+  .information{
+    margin-top: 0rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 410px){
+  .navbar-brand{
+    margin-right: 0;
+  }
+  .header-logo-item-none{
+    display: block;
+  }
+  .position{
+    display: none;
+  }
+  .information {
+      margin-top: 6rem;
+  }
+  .header-logo-name{
+    display: block;
+  }
+  .header .container{
+    min-height: 100px;
+  } 
+  #navbarSupportedContent{
+    margin-top: 2rem;
+  }
+  .back_to_top{
+    right: 7%;
+  }
+}
+

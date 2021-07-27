@@ -1,0 +1,21 @@
+li.nav-item { 
+    list-style: none;
+    font-size: 33px;
+    margin: 0px 21px 77px 0px;
+    margin-bottom: -10px;
+}
+
+
+label.col-sm-2.control-label p {
+    font-size: 21px;
+    font-family: inherit;
+}
+
+input.btn.btn-primary {
+    margin: 25px 12px 0 850px;
+}
+
+a.btn.btn-secondary {
+    margin-top: 26px;
+}
+

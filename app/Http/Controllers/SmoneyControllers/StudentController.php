@@ -8,13 +8,144 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use PHPMailer;
+use Redirect;
+use Cookie;
+
 // model
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\Student;
-use PHPMailer;
+use App\Models\SmoneyModels\TaiKhoanSmoney_Log;
 
 class StudentController extends Controller
 {
+    public function deviceName(){
+        $iPod    = stripos($_SERVER['HTTP_USER_AGENT'],"iPod");
+        $iPhone  = stripos($_SERVER['HTTP_USER_AGENT'],"iPhone");
+        $iPad    = stripos($_SERVER['HTTP_USER_AGENT'],"iPad");
+        $Android = stripos($_SERVER['HTTP_USER_AGENT'],"Android");
+        $webOS   = stripos($_SERVER['HTTP_USER_AGENT'],"webOS");
+        $webWindows = stripos($_SERVER['HTTP_USER_AGENT'],"Windows"); 
+
+        $device = "";
+        if($iPod != false)
+            $device = "iPod";
+        else if($iPhone != false)
+            $device = "iPhone";
+        else if($iPad != false)
+            $device = "iPad";
+        else if($Android != false)
+            $device = "Android";
+        else if($webOS != false)
+            $device = "webOS";
+        else if($webWindows != false)
+            $device = "webWindows";
+
+        return $device;
+    }
+    public function writeLog(){
+        // 1. make random string key, hash this -> save database
+        // 2. encrypt this -> send cokie client
+        // 3. decrypt token from client -> hash check with database
+        
+        $device = $this->deviceName();
+        // find code user login
+        $user = Auth::user();
+        $findStudent = Student::where("_id",$user->tks_sotk)->first();
+        $code = $findStudent->code;
+
+        // create token plain text
+        $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $tokenPlainText = substr(str_shuffle($permitted_chars), 0, 20);
+
+        // create token encrypt -> send this to cokie
+        $tokenEncrypt = $this->encrypt_decrypt($tokenPlainText, 'encrypt', $code);
+
+        $newLogUser = new TaiKhoanSmoney_Log();
+        $newLogUser->log_id_user = $user->tks_id;
+        $newLogUser->log_token = Hash::make($tokenPlainText);
+        $newLogUser->log_ip_address = \Request::ip();
+        $newLogUser->log_device_name = $device;
+        $newLogUser->save();
+
+        return $tokenEncrypt;
+    }
+    public function writeString($string){
+        // find code user login
+        $user = Auth::user();
+        $findStudent = Student::where("_id",$user->tks_sotk)->first();
+        $code = $findStudent->code;
+
+        // 
+        $tokenEncrypt = $this->encrypt_decrypt($string, 'encrypt', $code);
+        return $tokenEncrypt;
+    }
+    public function writeLog_Verifi_Device($tokenPlainText,$deviceName,$idAddress,$log_id_user){
+        // find code user login
+        $findAcc = TaiKhoanSmoney::where("tks_id",$log_id_user)->first();
+        $findStudent = Student::where("_id",$findAcc->tks_sotk)->first();
+        $code = $findStudent->code;
+
+        // create token encrypt -> send this to cokie
+        $tokenEncrypt = $this->encrypt_decrypt($tokenPlainText, 'encrypt', $code);
+
+        $newLogUser = new TaiKhoanSmoney_Log();
+        $newLogUser->log_id_user = $log_id_user;
+        $newLogUser->log_token = Hash::make($tokenPlainText);
+        $newLogUser->log_ip_address = $idAddress;
+        $newLogUser->log_device_name = $deviceName;
+        $newLogUser->save();
+
+        return $tokenEncrypt;
+    }
+    public function updateLog($idLog){
+        // find code user login
+        $user = Auth::user();
+        $findStudent = Student::where("_id",$user->tks_sotk)->first();
+        $code = $findStudent->code;
+
+        // create token plain text
+        $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $tokenPlainText = substr(str_shuffle($permitted_chars), 0, 20);
+
+        // create token encrypt -> send this to cokie
+        $tokenEncrypt = $this->encrypt_decrypt($tokenPlainText, 'encrypt', $code);
+
+        $oldLogUser = TaiKhoanSmoney_Log::where("log_id",$idLog)->first();
+        $oldLogUser->log_token = Hash::make($tokenPlainText);
+        $oldLogUser->save();
+
+        return $tokenEncrypt;
+    }
+    function encrypt_decrypt($string, $action = 'encrypt',$secret_key_Auth)
+    {
+        $encrypt_method = "AES-256-CBC";
+        $secret_key = $secret_key_Auth; // user define private key
+        $secret_iv = 'SMONEY'; // user define secret key
+        $key = hash('sha256', $secret_key);
+        $iv = substr(hash('sha256', $secret_iv), 0, 16); // sha256 is hash_hmac_algo
+        if ($action == 'encrypt') {
+            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+            $output = base64_encode($output);
+        } else if ($action == 'decrypt') {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        return $output;
+    }
+    function merge($a1, $a2) {
+
+        $aRes = $a1;
+        foreach ( array_slice ( func_get_args (), 1 ) as $aRay ) {
+            foreach ( array_intersect_key ( $aRay, $aRes ) as $key => $val )
+                $aRes [$key] += $val;
+            $aRes += $aRay;
+        }
+        return $aRes;
+    }
+
+
+
+
     public function studentPage() {
         $userLogin = Auth::user();
         $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
@@ -72,13 +203,42 @@ class StudentController extends Controller
                 $newAccount->ths_mk = Hash::make($req->password);
                 $newAccount->save();
 
+                $body = view('smoney/homepage/formcongratulations')->render();
+                if($this->sendMail($req->email,$body)){
+                    $sendMail = "success";
+                }else{
+                    $sendMail = "fail";
+                    // sendMail -> view
+                }
             }
             else{
                 return back()->with("error","Tài khoản đã tồn tại");
             }
 
             if(Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$req->password])){
-                return redirect()->route("student.student");
+                $user = Auth::user();
+                $tokenEncrypt = $this->writeLog();
+
+                $tokenLogObject = (object) array("tokenLog" => $tokenEncrypt);
+                $result = (object) array(
+                    $user->tks_id => $tokenLogObject,
+                );
+                $resultToJSON = json_encode($result);
+                // lấy token hiện tại thêm vào
+                $cookieOldLog = $req->cookie('tokenLog');
+                if(isset($cookieOldLog)){
+                    $a = json_decode($cookieOldLog);
+                    $b = json_decode($resultToJSON);
+                    $c= (object) $this->merge((array)$a, (array)$b);
+                    $c = json_encode($c);
+                }else{
+                    $c = $resultToJSON;
+                }
+
+                return redirect()->route('student.student')
+                    ->withCookie(cookie('tokenLog', $c, 43200))
+                    ->withCookie(cookie('phone', $req->phone, 20160))
+                    ->withCookie(cookie('password', $req->password, 20160));
             }
             else{
                 return back()->with("error","Đăng nhập thất bại");
@@ -100,26 +260,134 @@ class StudentController extends Controller
             'password.min' => 'Mật khẩu quá ngắn',
             'password.max' => 'Mật khẩu quá dài',
         ]);
+
         if(Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$req->password])){
-            return redirect()->route("student.student");
+            $user = Auth::user();
+            $tks_id = $user->tks_id;
+            $findStudent = Student::where("_id",$user->tks_sotk)->first();
+            $checkDevice = false;
+            // check Device
+            $logDevice = $req->cookie('tokenLog');
+            if(isset($logDevice)){
+                $logDevice = json_decode($logDevice);
+                
+                $logThisDevice = (isset($logDevice->$tks_id)) ? $logDevice->$tks_id->tokenLog : "";
+                $tokenDecrypt = $this->encrypt_decrypt($logThisDevice, 'decrypt', $findStudent->code);
+
+                $findUserLog = TaiKhoanSmoney_Log::where("log_id_user",$user->tks_id)->get();
+                
+                foreach($findUserLog as $value){
+                    if(Hash::check($tokenDecrypt, $value->log_token))
+                    {
+                        $checkDevice = true;
+                        $idLogData = $value->log_id;
+                    }
+                }
+            }
+            // true -> create new token
+            if($checkDevice == true){
+                unset($logDevice->$tks_id);
+                
+                // create new token
+                $tokenEncrypt = $this->updateLog($idLogData);
+                $tokenLogObject = (object) array("tokenLog" => $tokenEncrypt);
+                $result = (object) array(
+                    $user->tks_id => $tokenLogObject,
+                );
+                $c= (object) $this->merge((array)$logDevice, (array)$result);
+                $c = json_encode($c);
+
+                return redirect()->route('student.student')
+                    ->withCookie(cookie('tokenLog', $c, 43200))
+                    ->withCookie(cookie('phone', $req->phone, 20160))
+                    ->withCookie(cookie('password', $req->password, 20160));
+            }
+            // false -> logout -> send mail
+            if($checkDevice == false){
+                $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $checkDeviceCode = substr(str_shuffle($permitted_chars), 0, 8);
+                $checkDeviceCookie = substr(str_shuffle($permitted_chars), 0, 10);
+
+                $user->tks_key_device = $checkDeviceCode;
+                $user->save();
+                // send mail
+                $body = view('smoney/homepage/formcheckdevice',[
+                    'maso' => $checkDeviceCode,
+                    'user' => $user->tks_id,
+                    'log_ip_address' => \Request::ip(),
+                    'log_device_name' => $this->deviceName(),
+                    'phone' => $req->phone,
+                    'password' => $this->writeString($req->password),
+                    'checkDeviceCookie' => $checkDeviceCookie
+                ])->render();
+                if($this->sendMail($findStudent->email,$body)){
+                    $sendMail = "success";
+                }else{
+                    $sendMail = "fail";
+                }
+                Auth::logout();
+
+                return back()
+                    ->with("error","Phát hiện đăng nhập trên thiết bị mới.<br> Vui lòng xác thực đăng nhập bằng email của bạn")
+                    ->withCookie(cookie('verifiDevice', $checkDeviceCookie, 240));
+            }
         }
         else{
             return back()->with("error","Sai tài khoản hoặc mật khẩu");
         }
     }
-    public function logout()
-    {
-        Auth::logout();
-        session()->flush();
-        return redirect()->route("homepage.homepage_old");
-    }
+    public function successDevice(Request $req,$userid, $key, $log_ip_address, $log_device_name,$phone,$password,$checkDeviceCookie){
+        $verifiDevice = $req->cookie('verifiDevice');
+        if(isset($verifiDevice) && $verifiDevice == $checkDeviceCookie){
+            \Cookie::queue(\Cookie::forget('verifiDevice'));
+            $findAcc = TaiKhoanSmoney::where("tks_id",$userid)->where("tks_key_device",$key)->first();
+            $findStudent = Student::where("_id",$findAcc->tks_sotk)->first();
+            if($findAcc){
+                $findAcc->tks_key_device = null;
+                $findAcc->save();
+                // create token plain text
+                $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $tokenPlainText = substr(str_shuffle($permitted_chars), 0, 20);
+                $tokenEncrypt = $this->writeLog_Verifi_Device($tokenPlainText,$log_device_name,$log_ip_address,$userid);
+
+                $tokenLogObject = (object) array("tokenLog" => $tokenEncrypt);
+                $result = (object) array(
+                    $findAcc->tks_id => $tokenLogObject,
+                );
+                $resultToJSON = json_encode($result);
+                // lấy token hiện tại thêm vào
+                $cookieOldLog = $req->cookie('tokenLog');
+                if(isset($cookieOldLog)){
+                    $a = json_decode($cookieOldLog);
+                    $b = json_decode($resultToJSON);
+                    $c= (object) $this->merge((array)$a, (array)$b);
+                    $c = json_encode($c);
+                }else{
+                    $c = $resultToJSON;
+                }
+
+                $passwordDecrypt = $this->encrypt_decrypt($password, 'decrypt', $findStudent->code);
+                Auth::attempt(['tks_sdt'=>$phone,'password'=>$passwordDecrypt]);
+                return redirect()->route('student.student')
+                    ->withCookie(cookie('tokenLog', $c, 43200))
+                    ->withCookie(cookie('phone', $phone, 20160))
+                    ->withCookie(cookie('password', $passwordDecrypt, 20160));
+            }
+            else{
+                return view('404');
+            }
+        }else{
+            return redirect()->route("homepage.login")->with("error","Vui lòng nhấn xác thực trên đúng thiết bị bạn đang đăng nhập");
+        }
+    }   
     public function preferential()
     {
         $userLogin = Auth::user();
         $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
         if($findStudent) {
             return view('smoney.student.preferential')->with([
-                'name' => $findStudent->hoten
+                'name' => $findStudent->hoten,
+                'avatar' => $findStudent->avatar
             ]);
         }
         else 
@@ -132,7 +400,8 @@ class StudentController extends Controller
         $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
         if($findStudent) {
             return view('smoney.student.student-loan')->with([
-                'name' => $findStudent->hoten
+                'name' => $findStudent->hoten,
+                'avatar' => $findStudent->avatar
             ]);
         }
         else 
@@ -192,7 +461,7 @@ class StudentController extends Controller
         $mail->isHTML(true);
         $mail->setFrom('system@gmail.com', 'Smoney System');
         $mail->addAddress($email, 'User');
-        $mail->Subject = 'The message confirms you have successfully registered!';
+        $mail->Subject = 'THƯ ĐƯỢC GỬI TỰ ĐỘNG TỪ HỆ THỐNG SMONEY. VUI LÒNG KHÔNG TRẢ LỜI THƯ NÀY';
         $mail->Body = $body;
         if($mail->send()){
             return true;
@@ -257,15 +526,35 @@ class StudentController extends Controller
         $student = Student::where("_id",$user->tks_sotk)->first();
         if($student->avatar != "")
             File::delete(public_path($student->avatar));
-        $image = $req->file('file');
-        $picName = time().'.'.$image->getClientOriginalExtension();
-        $image->move(public_path('folder-user/'.$student->code), $picName);
 
-        $student->avatar='folder-user/'.$student->code.'/'.$picName;
+        $data = $req->image;
+        $image_array_1 = explode(";", $data);
+        $image_array_2 = explode(",", $image_array_1[1]);
+        $data = base64_decode($image_array_2[1]);
+        $imageName = time() . '.png';
+        $url = public_path('folder-user/'.$student->code.'/'.$imageName);
+        file_put_contents($url, $data);
+
+        $student->avatar='folder-user/'.$student->code.'/'.$imageName;
         $student->save();
 
         $result = (object) array('status' => 'success','linkImg' => asset($student->avatar));
         return response()->json($result);
+
+
+        // $user = Auth::user();
+        // $student = Student::where("_id",$user->tks_sotk)->first();
+        // if($student->avatar != "")
+        //     File::delete(public_path($student->avatar));
+        // $image = $req->file('file');
+        // $picName = time().'.'.$image->getClientOriginalExtension();
+        // $image->move(public_path('folder-user/'.$student->code), $picName);
+
+        // $student->avatar='folder-user/'.$student->code.'/'.$picName;
+        // $student->save();
+
+        // $result = (object) array('status' => 'success','linkImg' => asset($student->avatar));
+        // return response()->json($result);
     }
     public function updateInformation(Request $req)
     {

@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/student2.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/preferential.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/studentLoan.css') }}">
+<link rel="stylesheet" href="{{ asset('cropperjs/croppie.css') }}">
 <style>
     .banner{
         background: url('{{ asset("img-smoney/img-students/bg-title.png")  }}') no-repeat;
@@ -279,7 +280,29 @@
     </div>
 </div>
 
-
+<!-- crop image -->
+<div id="uploadimageModal" class="modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Chỉnh sửa hình ảnh trước khi tải</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div id="image_demo" style="width:100%; margin-top:30px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success crop_image">Upload Ảnh</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+</div> 
 <!-- back to top -->
 <div class="back_to_top">
     <i class="fas fa-angle-up"></i>
@@ -288,6 +311,7 @@
 
 
 @section('footer-js')
+<script type="text/javascript" src="{{ asset('cropperjs/croppie.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/Smoney/Student/studentLoan.js') }}"></script>
 <script type="text/javascript">
@@ -296,22 +320,46 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $(".hidden").change(function(){
-        var file_data = $('#file').prop('files')[0];
-        var type = file_data.type;
-        var match = ["image/gif", "image/png", "image/jpg","image/jpeg"];
-        if (match.includes(type)) {
-            var form_data = new FormData();
-            form_data.append('file', file_data);
+
+    $image_crop = $('#image_demo').croppie({
+        enableExif: true,
+        viewport: {
+            width:250,
+            height:250,
+            type:'circle' //square
+        },
+        boundary:{
+            width:500,
+            height:350
+        }
+    });
+
+    $('.hidden').on('change', function(){
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            $image_crop.croppie('bind', {
+                url: event.target.result
+            }).then(function(){
+                console.log('jQuery bind complete');
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+        $('#uploadimageModal').modal('show');
+    });
+
+    $('.crop_image').click(function(event){
+        $image_crop.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function(response){
             $.ajax({
-                url: "{!! route('student.changeAvatar') !!}",
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
+                url:"{!! route('student.changeAvatar') !!}",
                 method: "POST",
-                success: function (data) {
+                data:{"image": response},
+                success:function(data)
+                {
                     if(data['status'] == 'success'){
+                        $('#uploadimageModal').modal('hide');
                         $(".image-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
                         $(".image-avatar").css("background-size","cover");
                         $(".info-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
@@ -319,10 +367,37 @@
                     }
                 }
             });
-        }else {
-            alert("Chỉ được upload file ảnh");
-            $('#file').val('');
-        }
-    })
+        })
+    });
+
+        
+    //$(".hidden").change(function(){
+        // var file_data = $('#file').prop('files')[0];
+        // var type = file_data.type;
+        // var match = ["image/gif", "image/png", "image/jpg","image/jpeg"];
+        // if (match.includes(type)) {
+        //     var form_data = new FormData();
+        //     form_data.append('file', file_data);
+        //     $.ajax({
+        //         url: "{!! route('student.changeAvatar') !!}",
+        //         cache: false,
+        //         contentType: false,
+        //         processData: false,
+        //         data: form_data,
+        //         method: "POST",
+        //         success: function (data) {
+        //             if(data['status'] == 'success'){
+        //                 $(".image-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
+        //                 $(".image-avatar").css("background-size","cover");
+        //                 $(".info-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
+        //                 $(".info-avatar").css("background-size","cover");
+        //             }
+        //         }
+        //     });
+        // }else {
+        //     alert("Chỉ được upload file ảnh");
+        //     $('#file').val('');
+        // }
+    // })
 </script>
 @stop

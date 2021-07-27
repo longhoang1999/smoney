@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\SentinelAdmin::class,
         'user' => \App\Http\Middleware\SentinelUser::class,
         'userLogin' => \App\Http\Middleware\UserLoginMiddleware::class,
+        'cookieUserLogged' => \App\Http\Middleware\VerifyCookieLogin::class,
 
     ];
 

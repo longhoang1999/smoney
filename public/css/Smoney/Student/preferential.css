@@ -1,0 +1,107 @@
+.banner{
+    min-height: 20rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 8rem;
+    text-align: center;
+}
+.banner-title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.banner-title-icon{
+    background-color: #2DAAED;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35px;
+}
+.banner-title-icon i{
+    color: #1877D2;
+    font-size: 16px;
+}
+.nammer-title-content{
+    font-size: 22px;
+    color: white;
+    margin-top: .5rem;
+    font-weight: 500;
+}
+.content{
+    margin-bottom: 5rem;
+}
+.content ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+.content ul li{
+    padding: .5rem 1.5rem;
+    font-size: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #D2D4D7;
+    text-align: center;
+    font-weight: 400;
+}
+#selected-item{
+    border-bottom: 1px solid #0B5AC3;
+    color: #0B5AC3;
+    font-weight: bold;
+}
+
+.content-table{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    margin-top: 2rem;
+    color: #222222;
+}
+.content-table th, .content-table td{
+    width: 16.66%;
+}
+.content-table th{
+    text-transform: uppercase;
+    color: #969BA1;
+    font-size: 11px;
+    font-weight: 600;
+}
+.content-table a{
+    display: block;
+    width: 70%;
+    text-align: center;
+    margin: auto;
+    padding: .4rem 0;
+    background-color: #0B5AC3;
+    border-radius: 1rem;
+}
+.content-table tbody tr{
+    box-shadow: 0px 7px 10px rgb(230, 230, 230);
+    font-size: 14px;
+    border-radius: 5px;
+} 
+td.first{
+    border-radius: 5px 0 0 5px;
+}
+td.blue{
+    border-left: 2px solid #2DAAED;
+}
+td.orange{
+    border-left: 2px solid #FFA412;
+}
+td.lightblue{
+    border-left: 2px solid #AAC9F5;
+}
+.content-table tbody tr td{
+    padding: 1rem 0;
+    font-weight: 500;
+}
+table {
+    border-collapse:separate; 
+    border-spacing: 0 1em;
+}
+.footer_content {
+    padding-top: 4em;
+}

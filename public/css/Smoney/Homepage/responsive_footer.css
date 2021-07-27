@@ -1,0 +1,81 @@
+@media(min-width: 1024px) and (max-width:1365px) {
+	.footer_title{
+        justify-content: flex-start;
+        padding-left: 1rem;
+    }
+}
+@media(min-width: 740px) and (max-width:1023px){
+	/* footer */
+    .footer_title{
+        flex-direction: column;
+        line-height: 3em;
+    }
+    .footer_title .footer_image{
+        position: unset;
+        display: flex;
+        justify-content: center;
+    }
+    div#link_contact{
+        padding-top: 0;
+    }
+    #signup_updates{
+        padding-left: 0;
+        padding-top: 2em;
+    }
+    .footer_contact{
+        display: block;
+    }
+    .footer_contact div{
+        float: left;
+    }
+    .copy_right{
+        clear: left;
+    }
+    .products{
+        clear: left;
+        width: 50%;
+        margin: 2rem 0;
+    }
+    .mobie_app{
+        width: 50%;
+        margin: 2rem 0;
+    }
+    .company,.help,.legal{
+        width: 33.33%;
+    }
+}
+/* phone */
+@media(min-width: 320px) and (max-width:739px) {
+	.footer_contact{
+        flex-direction: column;
+    }
+    .footer_title p{
+        font-size: 16px;
+    }
+    .footer_title .footer_image{
+        position: unset;
+        display: flex;
+        flex-direction: column;
+        line-height: 2.5rem;
+    }
+    .footer_title{
+        display: flex;
+        flex-direction: column;
+        line-height: 3rem;
+    }
+    .footer_title .footer_image a{margin-right: 0;}
+    .logo-footer{
+        padding: 0;
+        text-align: center !important;
+    }
+    #link_contact{padding-left: 0;}
+    #signup_updates{
+        padding:1.5rem 0;
+    }
+    .footer_contact{display: none;}
+    .footer{height: 28rem;}
+    .copy_right{
+        width: 85%;
+        font-size: 14px;
+    }
+}

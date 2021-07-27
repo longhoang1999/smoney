@@ -37,7 +37,7 @@
         @if(Session::has('error'))
         <div class="notification-error">
             <ul>
-                <li><span>{{ Session::get('error') }}</span></li>
+                <li><span>{!! Session::get('error') !!}</span></li>
             </ul>
         </div>
         <script type="text/javascript" src="{{ asset('js/Smoney/Homepage/error.js') }}"></script>
@@ -154,13 +154,27 @@
                         </div>
                         <!-- address -->
                         <div class="register-address register-parent">
-                            <label for="input-address" class="register-label">Địa chỉ</label>                    
+                            <label for="input-address" class="register-label">Địa chỉ</label>
+                            <div class="block_select_address">
+                                <select id="select_province">
+                                    <option hidden="" value="">Thành phố / Tỉnh</option>
+                                    @foreach($province_address as $value)
+                                        <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
+                                    @endforeach
+                                </select>
+                                <select id="select_district">
+                                    <option hidden="" value="">Quận / Huyện</option>
+                                </select>
+                                <select id="select_ward">
+                                    <option hidden="" value="">Phường / Xã</option>
+                                </select>
+                            </div>
                             <input type="text" class="register-input" id="input-address" name="address" autocomplete="off">
                         </div>
                         <!-- password -->
                         <div class="register-password register-parent">
                             <label for="input-password" class="register-label">Mật khẩu</label>                    
-                            <input type="password" class="register-input" id="input-password" name="password" required="" autocomplete="off">
+                            <input type="password" class="register-input" id="input-password" name="password" required="" autocomplete="off" minlength="8" maxlength="32">
                             <div class="register-tick">
                                 <i class="fas fa-check"></i>
                             </div>
@@ -168,7 +182,7 @@
                         <!--confirm password -->
                         <div class="register-confirm register-parent">
                             <label for="input-confirm" class="register-label register-label-longtext">Nhập lại mật khẩu</label>                    
-                            <input type="password" class="register-input" id="input-confirm" name="confirm" required="" autocomplete="off">
+                            <input type="password" class="register-input" id="input-confirm" name="confirm" required="" autocomplete="off" minlength="8" maxlength="32">
                             <div class="register-tick">
                                 <i class="fas fa-check"></i>
                             </div>
@@ -212,26 +226,13 @@
             </div>
             <div class="block-rules-title">Điều khoản sử dụng</div>
             <div class="block-rules-content">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Ratione illo odit omnis eaque dolorum totam architecto id aliquid vitae
-                voluptatum perspiciatis dignissimos beatae velit aperiam, labore eos accusamus quaerat culpa?
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Ratione illo odit omnis eaque dolorum totam architecto id aliquid vitae
-                voluptatum perspiciatis dignissimos beatae velit aperiam, labore eos accusamus quaerat culpa?
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Smoney được phép sử dụng các thông tin do người dùng đăng ký để thực hiện tất cả các hoạt động liên quan nhằm kết nối giữa người đi vay và người cho vay.
                 <br><br>
-                Ratione illo odit omnis eaque dolorum totam architecto id aliquid vitae
-                voluptatum perspiciatis dignissimos beatae velit aperiam, labore eos accusamus quaerat culpa?
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Ratione illo
+                Smoney có quyền thay đổi các quy định sử dụng phần mềm mà không cần báo trước và không cần sự chấp thuận của người dùng. Các thay đổi và hiệu lực áp dụng của các thay đổi sẽ được công bố bằng hình thức mà Smoney cho là phù hợp.
                 <br><br>
-                odit omnis eaque dolorum totam architecto id aliquid vitae
-                voluptatum perspiciatis dignissimos beatae velit aperiam, labore eos accusamus quaerat culpa?
-                Ratione illo odit omnis eaque dolorum totam architecto id aliquid vitae
-                voluptatum perspiciatis dignissimos beatae velit aperiam, labore eos accusamus quaerat culpa?
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Ratione illo odit omnis eaque dolorum totam architecto id aliquid vitae
-                voluptatum perspiciatis dignissimos beatae velit aperiam, labore eos accusamus quaerat culpa?
+                Đơn đăng ký này cùng các điều kiện, điều khoản điều kiện tạo nên một hợp đồng pháp lý giữa tôi và Smoney.
+                <br><br>
+                Bằng việc tích vào ô đồng ý đăng ký tài khoản trên Smoney, tôi xác nhận đã nhận, đã đọc, hiểu rõ và đồng ý với các điều khoản và điều kiện trên.”
             </div>
         </div>
     </div>
@@ -381,6 +382,52 @@
                 location.reload();
             }            
         })
+
+        //  select address
+        $("#select_province").change(function() {
+            $.ajax({
+                method: "POST",
+                url: "{!! route('student.findDistrict') !!}",
+                data: {'provinceID': $(this).val()},
+                success: function(data)
+                {
+                    if(data['status'] === "success")
+                    {
+                        let district = data['district_address'];
+                        $("#select_district").empty();
+                        $("#select_district").append('<option hidden="" value="">Quận / Huyện</option>');
+                        district.forEach((item, index) => {
+                            $("#select_district").append(`<option value="${item['districtid']}">${item['type']} ${item['name']}</option>`);
+                        })
+                    }
+                }
+            });
+        })
+        $("#select_district").change(function() {
+            $.ajax({
+                method: "POST",
+                url: "{!! route('student.findWard') !!}",
+                data: {'districtID': $(this).val()},
+                success: function(data)
+                {
+                    if(data['status'] === "success")
+                    {
+                        let ward = data['ward_address'];
+                        $("#select_ward").empty();
+                        $("#select_ward").append('<option hidden="" value="">Phường / Xã</option>');
+                        ward.forEach((item, index) => {
+                            $("#select_ward").append(`<option value="${item['wardid']}">${item['type']} ${item['name']}</option>`);
+                        })
+                    }
+                }
+            });
+        })
+        $("#select_ward").change(function() {
+            let fullAddress = 
+            `${$("#select_ward option:selected").text()} - ${$("#select_district option:selected").text()} - ${$("#select_province option:selected").text()}`;
+            $("#input-address").val(fullAddress);
+        })
     </script>
+
 </body>
 </html>

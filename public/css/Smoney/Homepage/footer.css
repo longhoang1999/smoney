@@ -1,0 +1,155 @@
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+/* footer */
+.footer{
+    width: 100%;
+    height: 33em;
+    background: #f6f8fb;
+    position: relative;
+}
+.footer_title{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 76%;
+    height: 9em;
+    line-height: 9em;
+    text-align: center;
+    background: #0B5AC3;
+    display: flex;
+    border: 1px solid #0B5AC3;
+    border-radius: 2px;
+    top: -15%;
+    justify-content: center;
+}
+.footer_title p{
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    color: white;
+}
+.footer_title p span{
+    color: #fac61b;
+}
+.footer_title .footer_image{
+    position: absolute;
+    right: 2em;
+}
+.footer_title .footer_image a{
+    margin-right: .5em;
+}
+.footer_title .footer_image a:last-child{
+    margin-right: 0;
+}
+.footer_content{
+    width: 76%;
+    margin: auto;
+    margin-top: 6em;
+}
+#link_contact ul{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 60%;
+    margin: auto;
+}
+#link_contact ul li{
+    width: 33%;
+}
+#link_contact ul li a{
+    display: block;
+    width: 66%;
+    height: 2.5em;
+    line-height: 2.5em;
+    background: #F2F5F9;
+    border-radius: 3px;
+}
+#link_contact ul li a:hover{
+    background: #cdced0;
+}
+#signup_updates{
+   padding-left: 2.5em;
+}
+#signup_updates form label{
+    color: #666666;
+    font-size: 14px;
+}
+#signup_updates form{
+    position: relative;
+}
+div#link_contact {
+    padding-top: 1.2em;
+}
+#inputEmail{
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 7px;
+    width: 100%;
+    height: 2.5em;
+    line-height: 2.5em;
+    padding-left: 1em;
+    padding-right: 3em;
+    color: #666666;
+}
+#inputEmail:focus,#inputEmail:hover,#inputEmail:active{
+    border: 1px solid #bababa;
+    outline: none;
+}
+#btn_submit_signup{
+    position: absolute;
+    bottom: 4px;
+    right: 5px;
+    border-radius: 4px;
+    background: #1F3FCC;
+    color: white;
+    border: none;
+    height: 2em;
+    line-height: 2em;
+    width: 2em; 
+}
+.footer_contact{
+    display: flex;
+    justify-content: center;
+    width: 76%;
+    margin: auto;
+    margin-top: 3em;
+}
+.company_title,.help_title,.legal_title,.products_title,.mobie_app_title{
+    font-weight: 600;
+    color: #666666;
+}
+.company_detail li a,.help_detail li a,.legal_detail li a,.products_detail li a,.mobie_app_detail li a{
+    color: #999999;
+}
+.mobie_app_detail li a{
+    margin-bottom: .5em;
+    display: block;
+}
+.footer_contact_item{
+    width: 20%;
+}
+.footer_contact_item ul li a:hover{
+    text-decoration: underline;
+}
+.copy_right{margin: auto;width: 76%;margin-top: 3em;}
+.copy_right p{
+    color: #999999;
+    font-size: 14px;
+    margin: 0;
+}
