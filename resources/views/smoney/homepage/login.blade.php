@@ -49,7 +49,9 @@
         </div>
         <div class="main-body main-content-item">
             <div class="block-logo">
-                <img src="{{ asset('img-smoney/login/logo-login-page.svg') }}" alt="">
+                <a href="{{ route('homepage.homepage_old') }}">
+                    <img src="{{ asset('img-smoney/login/logo-login-page.svg') }}" alt="">
+                </a>
             </div>
             <div class="block-main">
                 <!-- forgot pass -->
@@ -113,12 +115,22 @@
                         </span>
                         <div class="error-responsive-phone"></div>
                         <!-- btn submit -->
-                        <button class="btn-submit" type="submit">
-                            <span>Đăng nhập</span>
-                            <div class="btn-icon">
-                                <i class="fas fa-long-arrow-alt-right"></i>
-                            </div>
-                        </button>
+                        <div class="block-btn-submit">
+                            <button class="btn-submit" type="submit">
+                                <span>Đăng nhập</span>
+                                <div class="btn-icon">
+                                    <i class="fas fa-long-arrow-alt-right"></i>
+                                </div>
+                            </button>
+                            @if(Session::has('action') && Session::get('action')=="modalOpen")
+                                <button class="btn-submit btn-verifyfi" type="button" data-toggle="modal" data-target="#verifiDevice">
+                                    <span>Xác thực</span>
+                                    <div class="btn-icon">
+                                        <i class="fas fa-laptop-house"></i>
+                                    </div>
+                                </button>
+                            @endif
+                        </div>
                     </form>
                     <div class="tab-register">
                         <span>Đăng ký tài khoản</span>
@@ -310,11 +322,50 @@
         </div>
     </div>
 
+    @if(Session::has('action') && Session::get('action')=="modalOpen")
+    <!-- modal verifi device -->
+    <div class="modal fade" id="verifiDevice" tabindex="-1" role="dialog" aria-labelledby="verifiDeviceLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verifiDeviceLabel">Thông báo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('student.successDevice') }}" method="post">
+                    <div class="modal-body">
+                        <h4 class="text-danger">Chúng tôi nhận thấy bạn đăng nhập trên một thiết bị lạ: </h4>
+                        <span>Vui lòng nhập mã xác nhận được gửi đến email của bạn</span>
+                            @csrf
+                            <input type="text" class="form-control" placeholder="mã xác thực" name="key">
+                            <input type="hidden" name="idUser" value="{{ Session::get('userID') }}">
+                            <input type="hidden" name="phone" value="{{ Session::get('phone') }}">
+                            <input type="hidden" name="passwordEncrypt" value="{{ Session::get('passwordEncrypt') }}">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info" type="submit">Xác thực</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!-- /modal verifi device -->
     <!-- js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('js/Smoney/Homepage/login.js') }}"></script>
     <script type="text/javascript">
+        @if(Session::has('action') && Session::get('action')=="modalOpen")
+            $("#verifiDevice").modal("show");
+        @endif
+        @if(isset($mode) && $mode == 'register')
+            autoClickRegister();
+        @endif
+
+
+
         var sdt,email;
         $.ajaxSetup({
             headers: {

@@ -1,3 +1,37 @@
+if ($(window).width() > 1049) {
+    function autoClickRegister() {
+        $(".tab-register").click(function(){
+            $(".block-login").css("transform","translateX(-120%)");
+            $(".block-register").css("transform","translateX(0)");
+            $(".block-logo img").css("width","35%");
+            $(".main-body").css("width","35%");
+        })
+        $(".tab-register").click();
+    }
+}
+if (($(window).width() > 739) && ($(window).width() < 1050))  {
+    function autoClickRegister() {
+        $(".tab-register").click(function(){
+            $(".block-login").css("transform","translateX(-120%)");
+            $(".block-register").css("transform","translateX(0)");
+            $(".block-logo img").css("width","35%");
+            $(".main-body").css("width","50%");
+        })
+        $(".tab-register").click();
+    }
+}
+if (($(window).width() > 319) && ($(window).width() < 740))  {
+    function autoClickRegister() {
+        $(".tab-register").click(function(){
+            $(".block-login").css("transform","translateX(-120%)");
+            $(".block-register").css("transform","translateX(0)");
+            $(".block-logo img").css("width","35%");
+            $(".main-body").css("width","85%");
+        })
+        $(".tab-register").click();
+    }
+}
+
 $(document).ready(function(){
     $(".enter-input").focus(function(){
         let title = $(this).parent().find(".enter-title");
@@ -188,6 +222,7 @@ $(document).ready(function(){
             $(".block-logo img").css("width","50%");
             $(".main-body").css("width","60%");
         })
+
     }
 
 

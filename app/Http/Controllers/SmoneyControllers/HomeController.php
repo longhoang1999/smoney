@@ -24,12 +24,15 @@ class HomeController extends Controller
         }
     }
 
-
     public function homePage()
     {
         return view('smoney.homepage.index');
     }
 
+    public function changeLanguage($language){
+        \Session::put('website_language', $language);
+        return redirect()->back();
+    }
     public function homePage_old(Request $req)
     {
         if(Auth::check()){
@@ -38,7 +41,7 @@ class HomeController extends Controller
             return view('smoney.homepage.homepage',[
                 'status' => 'userLogged',
                 'name' => $findUser->hoten,
-                'image' => $findUser->image
+                'image' => $findUser->avatar
             ]);   
         }else{
             return view('smoney.homepage.homepage');
@@ -50,6 +53,12 @@ class HomeController extends Controller
         $province_address = DB::table('province_address')->get();
         return view('smoney.homepage.login',['province_address' => $province_address]);
     }
+    public function register()
+    {
+        $province_address = DB::table('province_address')->get();
+        return view('smoney.homepage.login',['province_address' => $province_address, 'mode'=> 'register']);
+    }
+
     public function logout()
     {
         \Cookie::queue(\Cookie::forget('phone'));
@@ -79,4 +88,37 @@ class HomeController extends Controller
         return response()->json($result);
     }
     
+    public function jobInformation(){
+        $userLogin = Auth::user();
+        $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+        if($findStudent) {
+            return view('smoney.student.jobinformation')->with([
+                'name' => $findStudent->hoten,
+                'avatar' => $findStudent->avatar
+            ]);
+        }
+        else 
+            return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+    }
+    public function marketplace(){
+        $userLogin = Auth::user();
+        $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+        if($findStudent) {
+            return view('smoney.student.marketplace')->with([
+                'name' => $findStudent->hoten,
+                'avatar' => $findStudent->avatar
+            ]);
+        }
+        else 
+            return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+    }
+    
+    public function loadAllCity(Request $req){
+        $province_address = DB::table('province_address')->get();
+        $result = (object) array(
+            'status' => 'success',
+            'province_address' => $province_address,
+        );
+        return response()->json($result);
+    }
 }

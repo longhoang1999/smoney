@@ -42,24 +42,24 @@
 		</div>
 		<div class="header-top-right">
 			<a href="#" class="download-app">
-				<span class="mr-1">Tải App </span>
+				<span class="mr-1">@lang('smoney/homepage.download_App') </span>
 				<i class="fas fa-download"></i>
 			</a>
 			<div class="multi-language">
 				<div class="multi-language-select">
-					<span class="mr-1">Tiếng Việt</span>
+					<span class="mr-1">@lang('smoney/homepage.language')</span>
 					<i class="fas fa-sort-down"></i>
 				</div>
 				<div class="multi-language-choose">
-					<a href="#">Tiếng Việt</a>
-					<a href="#">Tiếng Anh</a>
+					<a href="{{ route('user.change-language',['vn']) }}">@lang('smoney/homepage.vietnamese')</a>
+					<a href="{{ route('user.change-language',['eng']) }}">@lang('smoney/homepage.english')</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="header-buttom">
 		<div class="header-buttom-left">
-			<a href="#" id="header_logo">
+			<a href="{{ route('homepage.homepage_old') }}" id="header_logo">
 				<img src="{{ asset('img-smoney/home-page/Group 484.png') }}" alt="">
 			</a>
 		</div>
@@ -69,24 +69,24 @@
 			</a>
 			<ul id="header_menu">
 				<li>
-					<a href="#" id="link_introduce">Giới thiệu</a>
+					<a href="#" id="link_introduce">@lang('smoney/homepage.introduce')</a>
 				</li>
 				<li class="menu_service">
-					<span id="link_service">Dịch vụ <i class="fas fa-sort-down"></i></span>
+					<span id="link_service">@lang('smoney/homepage.service') <i class="fas fa-sort-down"></i></span>
 					<div class="more_service">
-						<a href="#">Hỗ trợ vay vốn</a>
-						<a href="#">Tư vấn tài chính</a>
-						<a href="#">Tìm kiếm việc làm</a>
+						<a href="#">@lang('smoney/homepage.loan_Support')</a>
+						<a href="#">@lang('smoney/homepage.finance_Support')</a>
+						<a href="#">@lang('smoney/homepage.job_Seeking')</a>
 					</div>
 				</li>
 				<li>
-					<a href="#" id="link_knowledge">Kiến thức</a>
+					<a href="#" id="link_knowledge">@lang('smoney/homepage.knowledge')</a>
 				</li>
 				<li>
-					<a href="#" id="link_marketplace">Marketplace</a>
+					<a href="{{ route('student.marketplace') }}" id="link_marketplace">Marketplace</a>
 				</li>
 			</ul>
-			<a href="#" id="icon_search">
+			<a href="#" id="icon_search" data-toggle="modal" data-target="#modalSearch">
 				<i class="fas fa-search"></i>
 			</a>
 			@if(isset($status) && $status == 'userLogged')
@@ -107,13 +107,13 @@
 						</span>
 					</div>
 					<div class="user_logged_more">
-						<a href="{{ route('student.student') }}" class="user_logged_more_link">Trang cá nhân</a>
-						<a href="{{ route('student.logout') }}" class="user_logged_more_link">Đăng xuất</a>
+						<a href="{{ route('student.student') }}" class="user_logged_more_link">@lang('smoney/homepage.personal_Page')</a>
+						<a href="{{ route('student.logout') }}" class="user_logged_more_link">@lang('smoney/homepage.logout')</a>
 					</div>
 				</div>
 			@else
 				<a href="{{ route('homepage.login') }}" id="header_login">
-					Đăng nhập
+					@lang('smoney/homepage.login')
 					<i class="fas fa-lock"></i>
 				</a>
 			@endif
@@ -130,6 +130,32 @@
 <!-- nav responsive -->
 <div class="responsive-header-icon-content">
 	<ul>
+		<li class="li_res_link_login">
+			@if(isset($status) && $status == 'userLogged')
+				<a href="#" id="res_link_login">
+					@if($image)
+						<div class="res-block-avatar">
+							<img src="{{ asset($image) }}" alt="">
+						</div>
+					@else
+						<div class="res-block-avatar">
+							<img src="{{ asset('img-smoney/img-students/avatar-default.png') }}" alt="">
+						</div>
+					@endif
+					<span>{{ $name }}</span>
+					<i class="fas fa-sort-down"></i>
+				</a>
+				<div class="res_more_login">
+					<a href="{{ route('student.student') }}">@lang('smoney/homepage.personal_Page')</a>
+					<a href="{{ route('student.logout') }}">@lang('smoney/homepage.logout')</a>
+				</div>
+			@else
+				<a href="{{ route('homepage.login') }}" id="res_link_login">
+					Đăng nhập
+					<i class="fas fa-lock"></i>
+				</a>
+			@endif
+		</li>
 		<li>
 			<a href="#" id="res_link_introduce">Giới thiệu</a>
 		</li>
@@ -138,36 +164,22 @@
 				Dịch vụ <i class="fas fa-sort-down"></i>
 			</a>
 			<div class="res_more_service">
-				<a href="#">Example 1</a>
-				<a href="#">Example 2</a>
-				<a href="#">Example 3</a>
-				<a href="#">Example 4</a>
+				<a href="#">@lang('smoney/homepage.loan_Support')</a>
+				<a href="#">@lang('smoney/homepage.finance_Support')</a>
+				<a href="#">@lang('smoney/homepage.job_Seeking')</a>
 			</div>
 		</li>
 		<li>
 			<a href="#" id="res_link_knowledge">Kiến thức</a>
 		</li>
 		<li>
-			<a href="#" id="res_link_marketplace">Marketplace</a>
+			<a href="{{ route('student.marketplace') }}" id="res_link_marketplace">Marketplace</a>
 		</li>
 		<li>
-			<a href="#" id="res_link_search">
+			<a href="#" id="res_link_search" data-toggle="modal" data-target="#modalSearch">
 				Tìm kiếm
 				<i class="fas fa-search"></i>
 			</a>
-		</li>
-		<li>
-			@if(isset($status) && $status == 'userLogged')
-				<a href="{{ route('homepage.login') }}" id="res_link_login">
-					{{ $name }}
-					<i class="fas fa-lock"></i>
-				</a>
-			@else
-				<a href="{{ route('homepage.login') }}" id="res_link_login">
-					Đăng nhập
-					<i class="fas fa-lock"></i>
-				</a>
-			@endif
 		</li>
 	</ul>
 </div>
@@ -178,12 +190,12 @@
 	<img src="{{ asset('img-smoney/home-page/Union_3.jpg') }}" alt="" class="for-tablet">
 
 	<div class="introduce_content profile wow fadeInLeft" data-wow-duration="3s">
-		<h4>Giải pháp tài chính tối ưu cho sinh viên</h4>
+		<h4>@lang('smoney/homepage.solution')</h4>
 		<span>
 			SMoney mang đến dịch vụ tư vấn và các giải pháp tài chính đồng bộ, hỗ trợ các bạn sinh viên tháo gỡ những khó khăn tài chính điển hình trong cuộc sống (học phí, sinh hoạt phí, tiếp cận các khoản vay và dịch vụ tài chính khác, …), qua đó nâng cao hiệu quả học tập, cải thiện chất lượng cuộc sống.
 		</span>
 		<div class="introduce_footer">
-			<div class="create_account">Tạo tài khoản</div>
+			<a href="{{ route('homepage.getRegister') }}" class="create_account">@lang('smoney/homepage.create_Account')</a>
 			<div class="introduce_footer_icon">
 				<i class="fab fa-apple"></i>
 				<i class="fab fa-google-play"></i>
@@ -225,7 +237,7 @@
 		<ul>
 			<li class="block_one">
 				<img src="{{ asset('img-smoney/home-page/Group 10.png') }}" alt="">
-				<span>
+				<span class="block-span">
 					<p class="m-0 font-weight-bold block_title">Đơn giản - thuận tiện</p>
 					<span class="font-italic">
 						Quy trình vay được tối ưu - đồng bộ giúp cho việc tiếp cận khác khoản vay trở nên đơn giản, nhanh chóng. 
@@ -234,7 +246,7 @@
 			</li>
 			<li class="block_two">
 				<img src="{{ asset('img-smoney/home-page/Group 11.png') }}" alt="">
-				<span>
+				<span class="block-span">
 					<p class="m-0 font-weight-bold block_title">Lãi suất thấp</p>
 					<span class="font-italic">
 						Nhờ quy trình hoạt động đơn giản, mức lãi suất đưa ra được đưa ra ở mức ưu đãi hơn.
@@ -243,7 +255,7 @@
 			</li>
 			<li class="block_three">
 				<img src="{{ asset('img-smoney/home-page/Group 12.png') }}" alt="">
-				<span>
+				<span class="block-span">
 					<p class="m-0 font-weight-bold block_title">Hỗ trợ quản lý tài chính</p>
 					<span class="font-italic">
 						Người dùng được phép sử dụng miễn phí công cụ quản lý tài chính: lập kế hoạch tiết kiệm - trả nợ, quản lý dòng tiền, v.v.
@@ -252,7 +264,7 @@
 			</li>
 			<li class="block_four">
 				<img src="{{ asset('img-smoney/home-page/Group 13.png') }}" alt="">
-				<span>
+				<span class="block-span">
 					<p class="m-0 font-weight-bold block_title">Kiến thức - Việc làm - Dịch vụ</p>
 					<span class="font-italic">
 						Theo dõi tin tức, nâng cao kiến thức, tìm kiếm khóa học - việc làm - phòng trọ thông qua các nền tảng liên kết của Smoney.
@@ -264,23 +276,35 @@
 	<div class="salient_features_footer">
 		<ul>
 			<li>
-				<h4>300K+</h4>
+				<h4>
+					<span id="text-member"></span>
+					K+
+				</h4>
 				Active members
 			</li>
 			<li>
-				<h4>50+</h4>
+				<h4>
+					<span id="text-banks"></span>
+					+
+				</h4>
 				Banks
 			</li>
 			<li>
-				<h4>200+</h4>
+				<h4>
+					<span id="text-university"></span>
+					+</h4>
 				Universities
 			</li>
 			<li>
-				<h4>$200M+</h4>
+				<h4>$
+					<span id="text-process"></span>
+					M+</h4>
 				Processing
 			</li>
 			<li>
-				<h4>2000+</h4>
+				<h4>
+					<span id="text-job"></span>
+					+</h4>
 				Jobs
 			</li>
 		</ul>
@@ -468,15 +492,57 @@
 <div class="back_to_top" id="backtotop_btn">
 	<i class="fas fa-angle-up"></i>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="modalSearchLabel" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h5 class="modal-title" id="modalSearchLabel">Tìm kiếm</h5>
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          			<span aria-hidden="true">&times;</span>
+        		</button>
+      		</div>
+      		<div class="modal-body">
+        		<form action="" method="post">
+        			@csrf
+        			<div class="form-group">
+        				<label for="input-search">Từ khóa</label>
+        				<input type="text" name="keyword" id="input-search" class="form-control" placeholder="Từ khóa">
+        			</div>
+        		</form>
+      		</div>
+      		<div class="modal-footer">
+        		<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        		<button type="button" class="btn btn-primary">Tìm kiếm</button>
+      		</div>
+		</div>
+  	</div>
+</div>
 @stop
 
 
 
 @section('footer-js')
+<script src="{{ asset('js/headroom.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/Smoney/Homepage/index.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/frontend/jquery.circliful.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendors/wow/js/wow.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendors/owl_carousel/js/owl.carousel.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/frontend/carousel.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/frontend/index.js') }}"></script>
+
+
+<script>
+	window.addEventListener("scroll", function() {
+		var numberRunElement = document.querySelector(".img_feature");
+		if (window.scrollY > (parseFloat(numberRunElement.offsetTop) )) {
+			animateValue("text-member", 0, 300, 4000);
+			animateValue("text-banks", 0, 50, 4000);
+			animateValue("text-university", 0, 200, 4000);
+			animateValue("text-process", 0, 200, 4000);
+			animateValue("text-job", 0, 2000, 500);
+		}
+	});
+</script>
 @stop

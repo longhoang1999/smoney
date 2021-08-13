@@ -65,20 +65,26 @@ $(document).ready(function(){
     window.addEventListener("scroll", function() {
     	if (window.scrollY > 0) {
             $('.come-back').slideUp('fast');
-            $(".header").css("top","0")
         }
         else{
             $('.come-back').slideDown('fast');
-            $(".header").css("top","40px");
         }
     });
+    // cuộn chuột xuống
+    $(window).bind('mousewheel', function(event) {
+		if (event.originalEvent.wheelDelta < 0) {
+		    $(".more-service").hide();
+		    $(".information-more").hide();
+		    $(".more-notification").hide();
+		}
+	});
+
     $(".add-file-btn").click(function(){
         $(".add-file-input").click();
     })
 	$(".back_to_top").click(function(){
     	$("html, body").animate({scrollTop: 0}, 1000);
     })
-
 
     // show - hide table
     $(".btn-send-loan-request").click(function(){
@@ -95,3 +101,20 @@ function scrollFunction() {
 	    mybutton.style.display = "none";
 	}
 }
+
+
+(function() {
+	let header = document.querySelector("#header");
+	let headeroom = new Headroom(header);
+	headeroom.init();
+    // var header = new Headroom(document.querySelector("#header"), {
+    //     tolerance: 5,
+    //     offset : 205,
+    //     classes: {
+    //       initial: "animated",
+    //       pinned: "slideDown",
+    //       unpinned: "slideUp"
+    //     }
+    // });
+    // header.init();
+}());

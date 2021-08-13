@@ -1185,5 +1185,3 @@ mix.combine(
     ],
     destJs + 'admin.js'
 );
-
-

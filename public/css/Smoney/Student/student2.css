@@ -31,19 +31,7 @@ a:hover{
 .link-homepage{
     font-size: 14px;
 }
-.header {
-    width: 100%;
-    position: fixed;
-    background-color: white;
-    z-index: 1000;
-    transition: all 0.2s;
-    /* height: 5rem;
-    line-height: 5rem;
-    display: flex;
-    padding: 0 10rem;
-    top: 40px;
-    /* justify-content: space-around; */
-}
+
 #header-logo{
     display: flex;
 }

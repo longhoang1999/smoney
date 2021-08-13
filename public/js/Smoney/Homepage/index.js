@@ -82,20 +82,58 @@ $(document).ready(function(){
 	});
 
 
-	window.addEventListener("scroll", function() {
-		var elementTarget = document.getElementById("section_definition");
-		if (window.scrollY > (parseFloat(elementTarget.offsetTop) - 550)) {
-			$(".header-top").slideUp(200);
-			$(".header").css("height","4rem");
-			$(".responsive-header-icon-content").css("top","1rem");
+	$("#res_link_login").click(function(){
+		if ($('.res_more_login').is(':visible'))
+		{
+			$(".res_more_login").slideUp("fast");
 		}
-		var elementTarget_2 = document.getElementById("header");
-		if (window.scrollY <= (elementTarget_2.offsetTop) + 20) {
-			$(".header-top").slideDown(200);
-			$(".header").css("height","6rem");
-			$(".responsive-header-icon-content").css("top","3rem");
+		else
+		{
+			$(".res_more_login").slideDown("fast");
 		}
 	});
+	$(document).click(function (e)
+	{
+	    var container = $(".li_res_link_login");
+	    //click ra ngoài đối tượng
+	    if (!container.is(e.target) && container.has(e.target).length === 0)
+	    {
+	        $(".res_more_login").slideUp("fast");
+	    }
+	});
+
+
+	// window.addEventListener("scroll", function() {
+	// 	var elementTarget = document.getElementById("section_definition");
+	// 	if (window.scrollY > (parseFloat(elementTarget.offsetTop) - 550)) {
+	// 		$(".header-top").slideUp(200);
+	// 		$(".header").css("height","4rem");
+	// 		$(".responsive-header-icon-content").css("top","1rem");
+	// 	}
+	// 	var elementTarget_2 = document.getElementById("header");
+	// 	if (window.scrollY <= (elementTarget_2.offsetTop) + 20) {
+	// 		$(".header-top").slideDown(200);
+	// 		$(".header").css("height","6rem");
+	// 		$(".responsive-header-icon-content").css("top","3rem");
+	// 	}
+	// });
+
+
+	$(window).bind('mousewheel', function(event) {
+		if (event.originalEvent.wheelDelta < 0) {
+		    $(".responsive-header-icon-content").hide();
+		}
+	});
+
+	// .... Cuộn chuột lên xuống
+	// $(window).bind('mousewheel', function(event) {
+	// 	if (event.originalEvent.wheelDelta >= 0) {
+	// 	    console.log('Scroll up');
+	// 	}
+	// 	else {
+	// 	    console.log('Scroll down');
+	// 	}
+	// });
 
 	$(".responsive-header").click(function(){
 		if ($('.responsive-header-icon-content').is(':visible'))
@@ -151,3 +189,42 @@ function scrollFunction() {
 	    mybutton.style.display = "none";
 	}
 }
+
+var elementOb = [];
+function animateValue(id, start, end, duration) {
+	if(elementOb.includes(id) == false)
+    {
+    	if (start === end) return;
+	    var range = end - start;
+	    var current = start;
+	    var increment = end > start? 1 : -1;
+	    var stepTime = Math.abs(Math.floor(duration / range));
+	    var obj = document.getElementById(id);
+	    var timer = setInterval(function() {
+	        current += increment;
+	        obj.innerHTML = current;
+	        if (current == end) {
+	            clearInterval(timer);
+	        }
+	    }, stepTime);
+
+	    elementOb.push(id);
+    }
+}
+
+(function() {
+	let header = document.querySelector("#header");
+	let headeroom = new Headroom(header);
+	headeroom.init();
+    // var header = new Headroom(document.querySelector("#header"), {
+    //     tolerance: 5,
+    //     offset : 205,
+    //     classes: {
+    //       initial: "animated",
+    //       pinned: "slideDown",
+    //       unpinned: "slideUp"
+    //     }
+    // });
+    // header.init();
+}());
+

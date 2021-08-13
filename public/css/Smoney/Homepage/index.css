@@ -15,14 +15,14 @@ a,a:hover{
 .responsive-header{
     display: none;
     width: 48px;
-    height: 42px;
+    height: 40px;
     background: white;
     justify-content: space-evenly;
     align-items: center;
-    box-shadow: 0 0 5px #a7a5a5;
     border-radius: 5px;
     padding-top: 5px;
     cursor: pointer;
+    border: 1px solid rgba(0,0,0,.1);
 }
 .responsive-header-icon i {
     font-size: 20px;
@@ -38,12 +38,33 @@ a,a:hover{
     background-color: white;
     border-top: 1px solid lightgray;
     top: 3rem;
-    
 }
-.li_res_link_service{
+.responsive-header-icon-content ul{
+    box-shadow: 0px 7px 12px #989595;
+}
+#res_link_login{
+    display: flex;
+    align-items: center;
+}
+#res_link_login div, #res_link_login span, #res_link_login i{
+    margin-right: 5px;
+}
+.res-block-avatar{
+    width: 45px;
+    height: 45px;
+    border-radius: 45px;
+    line-height: 0 !important;
+    overflow: hidden;
+}
+.res-block-avatar img{
+    width: 100%;
+    line-height: 0 !important;
+}
+
+.li_res_link_service, .li_res_link_login{
     position: relative;
 }
-.res_more_service{
+.res_more_service, .res_more_login{
     position: absolute;
     left: 20%;
     top: 75%;
@@ -53,19 +74,24 @@ a,a:hover{
 .responsive-header-icon-content ul li a{
     display: block;
     padding: 0 2em;
-    height: 2.5rem;
-    line-height: 2.5rem;
+    height: 4.5rem;
+    line-height: 4.5rem;
     width: 100%;
+    font-size: 18px;
     color: #666666;
 }
 .responsive-header-icon-content ul li a i{
-    font-size: 12px;
+    font-size: 18px;
 }
 .responsive-header-icon-content ul li a:hover{
     background-color: rgb(190, 192, 194);
 }
-.res_more_service{
+.res_more_service, .res_more_login{
     display: none;
+}
+.res_more_login {
+    top: 4rem;
+    z-index: 2;
 }
 .header{
     position: fixed;
@@ -87,6 +113,16 @@ a,a:hover{
     background: white;
 
     transition: all .4s;    
+}
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+.headroom--pinned {
+    transform: translate(-50%, 0%) !important;
+}
+.headroom--unpinned {
+    transform: translate(-50% ,-100%) !important;
 }
 .header-top{
     flex: 1;
@@ -168,7 +204,7 @@ li.menu_service {
     top: 150%;
 }
 .more_service a{
-    padding: .5rem 1rem !important;
+    padding: .8rem 1rem !important;
 }
 #header_logo img{
     width: 80%;
@@ -234,20 +270,20 @@ li.menu_service {
     margin-right: 0;
 }
 
-.more_service,.res_more_service {
+.more_service,.res_more_service, .res_more_login {
     border-radius: 5px;
     overflow: hidden;
     background: white;
     border: 1px solid #2070cb;
     box-shadow: 3px 3px 4px 0px #2070cb;
 }
-.more_service a,.res_more_service a{
+.more_service a,.res_more_service a, .res_more_login a{
     margin: 0 !important;
     padding: .5rem .4rem;
     text-align: center;
     border-radius: 0 !important;
 }
-.more_service a:hover,.res_more_service a:hover{
+.more_service a:hover,.res_more_service a:hover, .res_more_login a:hover{
     background: #d4d4d4;
 }
 .banner_introduce{
@@ -283,7 +319,7 @@ li.menu_service {
     display: block;
     text-align: justify;
     width: 100%;
-    font-size: 14px;
+    font-size: 16px;
 }
 .introduce_footer{display: flex;
     margin-top: 2rem;
@@ -293,7 +329,7 @@ li.menu_service {
     border-radius: 2rem;
     padding: 0.4rem 1rem;
     cursor: pointer;
-    font-weight: 600;
+    color: black;
 }
 .create_account:hover,.try_it_now:hover,.register_now_btn:hover{
     color: white;
@@ -340,7 +376,7 @@ li.menu_service {
     color: #0B5AC3;
     text-align: justify;
     width: 100%;
-    font-size: 14px;
+    font-size: 16px;
 }
 .definition_content .content_two{
     display: block;
@@ -454,10 +490,11 @@ background: linear-gradient(180deg, rgba(112,125,223,1) 0%, rgba(107,147,232,1) 
 }
 .salient_features ul li img{
     width: 4rem;
+    height: 4rem;
     margin-right: 1.5rem;
 }
 .salient_features ul li span{
-    font-size: 14px;
+    font-size: 16px;
     color: white;
 }
 #header_login:hover{
@@ -493,7 +530,7 @@ background: linear-gradient(180deg, rgba(112,125,223,1) 0%, rgba(107,147,232,1) 
 }
 .secction_using{
     width: 100%;
-    height: 50rem;
+    height: 55rem;
     margin-top: 57rem;
 }
 .secction_using_title{
@@ -568,7 +605,7 @@ background: linear-gradient(180deg, rgba(112,125,223,1) 0%, rgba(107,147,232,1) 
     text-align: justify;
     margin-bottom: 2rem;
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     color: rgba(102, 102, 102, 1);
 }
 .using_content_right{
@@ -603,7 +640,6 @@ background: linear-gradient(180deg, rgba(112,125,223,1) 0%, rgba(107,147,232,1) 
     border-radius: 2rem;
     padding: .4rem 1rem;
     cursor: pointer;
-    font-weight: 600;
     text-align: center;
     width: 28%;
     margin: auto;
@@ -655,10 +691,11 @@ background: linear-gradient(180deg, rgba(112,125,223,1) 0%, rgba(107,147,232,1) 
     font-weight: 600;
     color: #0B5AC3;
     font-size: 20px;
+    margin-bottom: .5rem;
 }
 .service_content_block span {
     color: #666666;
-    font-size: 14px;
+    font-size: 16px;
 }
 .service_content_more{
     background: #0B5AC3;
@@ -790,7 +827,7 @@ background: linear-gradient(180deg, rgba(112,125,223,1) 0%, rgba(107,147,232,1) 
     background-color: #c0f7b5;
 }
 .user_logged_more a{
-    padding: 5px 10px;
+    padding: .8rem 1rem;
     display: block;
     font-size: 14px;
     color: #098618;

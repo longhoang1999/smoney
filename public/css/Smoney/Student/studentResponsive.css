@@ -33,9 +33,6 @@
   .icon-bell{
     margin-left: 1rem;
   }
-  .menu-nav li {
-    margin-bottom: 1rem;
-  }
   
 }
 
@@ -101,12 +98,6 @@
   #navbarSupportedContent{
     border-top: 1px solid #e0dcdc;
   }
-  .more-service{
-    z-index: 12;
-    top: 110%;
-    right: -70%;
-    width: 140px;
-  }
   .more-notification{
     left: -200px;
   }
@@ -127,11 +118,6 @@
   }
 }
 @media (min-width: 600px) and (max-width: 990px){
-  .more-service{
-    width: 200px;
-    right: -200%;
-    top: 100%;
-  }
   .last-content-top-left{
     padding-top: 14rem;
   }
@@ -140,9 +126,6 @@
 @media (min-width: 991px) and (max-width: 1200px){
   .menu-nav li span, .menu-nav li #nav-link{
     padding: 0 .7em;
-  }
-  .more-service{
-    width: 110%;
   }
 }
 

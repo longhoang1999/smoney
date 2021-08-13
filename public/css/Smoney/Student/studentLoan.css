@@ -1,6 +1,6 @@
 .banner{
     padding: 0;
-    margin-top: 5rem;
+    margin-top: 8rem;
     position: relative;
     min-height: 11rem;
 }
@@ -79,12 +79,17 @@
 .block-item{
     margin-bottom: 1rem;
     display: flex;
+    align-items: center;
 }
 .block-item-title{
     width: 40%;
+    /*color: #7e7e7e;*/
+    color: #ffffff;
 }
 .block-item-content{
     width: 60%;
+    display: flex;
+    align-items: center;
 }
 .infomation-content-left,.infomation-content-rigit{
     width: 50%;
@@ -96,20 +101,33 @@
 }
 .block-item-content input{
     background: transparent;
+    /*color: #4f4840;*/
     color: white;
-
+    display: none;
+}
+.block-item-content p{
+    margin: 0;
+    font-size: 14px;
+    /*color: #4f4840;*/
+    color: #ffffff;
+    font-weight: 500;
 }
 .block-title{
-    font-weight: bold;
+    /*color: #222222;*/
+    color: #ffffff;
+    font-weight: 500;
     margin-top: 1.5rem;
     font-size: 18px;
-
+}
+.div-block{
+    padding: .5rem 1rem;
+    background: transparent;
+    border-radius: 5px;
 }
 .line{
     width: 100%;
     height: 1px;
     background: lightgray;
-    margin-top: 5rem;
 }
 .infomation-content span,
 .block-infomation-university span,
@@ -127,12 +145,14 @@
     margin-left: 1.5rem;
     cursor: pointer;
 }
-select#selecct-gender {
+.block-item-content select {
+    display: none;
     width: 80%;
     border-radius: 3px;
     font-size: 14px;
     color: #666666;
     padding: .2rem 0.4rem;
+    margin-bottom: 6px;
 }
 input[type="date"]::-webkit-calendar-picker-indicator{
     filter: invert(1);
@@ -160,4 +180,28 @@ span.error{
 span.success{
     background-color: #c0f7b5;
     color: #108a1e;
+}
+.number {
+    width: 40px;
+    height: 40px;
+    background: #166bd4;
+    font-weight: bold;
+    border-radius: 40px;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 25px;
+}
+.btn-plus {
+    width: 30px;
+    height: 30px;
+    background: #166bd4;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-left: 5px;
+    border: 2px solid white;
+    cursor: pointer;
 }

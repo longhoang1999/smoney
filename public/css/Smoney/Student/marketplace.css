@@ -1,0 +1,95 @@
+.content{
+	margin-bottom: 0;
+	background-color: #0B5AC3;
+	position: relative;
+	min-height: 150rem;
+}
+.content-banner{
+	width: 100%;
+	position: absolute;
+	top: 0;
+	z-index: 2;
+}
+.content-banner-image,.hot-deals-image{
+	position: relative;
+}
+.content-banner-image img, .hot-deals-image img{
+	width: 100%;
+	position: absolute;	
+}
+.content-banner-title {
+	position: absolute;
+	top: 10rem;
+	width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content-banner-title-icon {
+    background-color: #2DAAED;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35px;
+}
+.content-banner-title-icon i{
+	color: white;
+}
+.content-nammer-title-content {
+    font-size: 25px;
+    color: white;
+    margin-top: .5rem;
+    font-weight: 500;
+}
+.hot-deals{
+	padding-top: 18rem;
+}
+.hot-deals-title{
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 4rem;
+	font-size: 25px;
+    color: white;
+    font-weight: 500;
+}	
+.hot-deals-content{
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 10rem;
+}
+.discount-title, .new-price{
+	font-size: 16px;
+}
+.discount-avatar img{
+	width: 160px;
+    height: 110px;
+    border-radius: 5px;
+}
+.block-knowledge{
+	margin-top: 50rem;
+}
+.block-knowledge-title, .block-entertain-title{
+	width: 100%;
+	color: white;
+	font-size: 25px;
+	font-weight: 500;
+	text-align: center;
+}
+.block-knowledge-content, .block-entertain-content{
+	margin-top: 3rem;
+}
+.knowledge-avatar img{
+	width: 100%;
+	height: 110px;
+    border-radius: 5px;
+}
+.line{
+	background-color: #FFFFFF;
+	height: 1px;
+	width: 85%;
+	margin: 2rem auto;
+}

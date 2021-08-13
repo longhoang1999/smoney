@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'user' => \App\Http\Middleware\SentinelUser::class,
         'userLogin' => \App\Http\Middleware\UserLoginMiddleware::class,
         'cookieUserLogged' => \App\Http\Middleware\VerifyCookieLogin::class,
+        'language' => \App\Http\Middleware\ChangeLanguageMiddleware::class,
 
     ];
 
@@ -83,5 +84,6 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+
     ];
 }

@@ -39,17 +39,32 @@ a:hover {
 }
 .header {
     width: 100%;
-    position: fixed;
     background-color: white;
-    z-index: 1000;
     transition: all 0.2s;
-    /* height: 5rem;
-    line-height: 5rem;
-    display: flex;
-    padding: 0 10rem;
-    top: 40px;
-    /* justify-content: space-around; */
+    border-bottom: 1px solid #0f60c0;
 }
+
+
+/*headroom*/
+.headroom {
+    will-change: transform;
+    transition: transform 200ms linear;
+}
+.headroom--pinned {
+    transform: translateY(0%) !important;
+}
+.headroom--unpinned {
+    transform: translateY(-100%) !important;
+}
+div#header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+/*headroom*/
+
+
 .navbar {
     padding: 0.5rem 0 !important;
 }
@@ -110,9 +125,7 @@ li.menu-service {
     font-family: Averta Std CY;
     display: block;
     height: 100%;
-    line-height: 100%;
     margin: 0;
-    padding: 0.5em 0.4em;
     text-align: center;
     border-radius: 0;
 }
@@ -122,6 +135,15 @@ li.menu-service {
 .menu-nav {
     display: flex;
     margin: 0 1rem;
+    width: 55%;
+}
+.menu-nav .menu-service{
+    height: 4.5rem;
+    line-height: 4.5rem;
+}
+.menu-service ul li{
+    height: 3.5rem;
+    line-height: 3.5rem;
 }
 .menu-nav li span,
 .menu-nav li #nav-link {
@@ -184,6 +206,9 @@ li.menu-service {
     font-weight: 600;
     line-height: 2rem;
 }
+.item-information{
+    padding: .8rem 1rem;
+}
 .item-notification:hover,
 .item-information:hover {
     color: white;
@@ -203,7 +228,7 @@ li.menu-service {
 }
 .information-more {
     left: auto;
-    width: 100%;
+    mix-width: 140px;
     border-left: 2px solid #098618;
     background-color: #c0f7b5;
 }
@@ -372,6 +397,8 @@ li.menu-service {
     font-weight: 600;
     text-align: center;
     margin: auto;
+    display: block;
+    color: black;
 }
 .btn-see-all-discount,
 .btn-see-all-knowledge {
@@ -665,7 +692,7 @@ li.menu-service {
 }
 .last-content-top-left,
 .last-content-top-right {
-    padding-top: 9rem;
+    padding-top: 15rem;
     width: 45%;
 }
 .last-content-top-left-title,

@@ -40,7 +40,7 @@
 
 <!-- information user -->
 <div class="information">
-    <div class="row" style="margin-top: 5rem;">
+    <div class="row" style="margin-top: 7.5rem;">
         <div class="col-12 text-center my-5">
             <div class="main-avatar" 
                 @if($avatar == "")
@@ -221,7 +221,7 @@
                             <!-- <a href="#" class="contact-credit">Liên hệ tư vấn 
                                 <span>(2)</span>
                             </a> -->
-                            <a href="#" class="btn btn-block btn-sm btn-warning">Đăng kí vay</a>
+                            <a href="{{ route('student.applyLoan') }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
                             <a href="#" class="btn btn-block btn-sm btn-danger">Liên hệ tư vấn</a>
                         </td>
                     </tr>
@@ -255,7 +255,7 @@
                             <span class="font-weight-bold">70%</span>
                         </td>
                         <td class="table-content">
-                            <a href="#" class="btn btn-block btn-sm btn-warning">Đăng kí vay</a>
+                            <a href="{{ route('student.applyLoan') }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
                             <a href="#" class="btn btn-block btn-sm btn-danger">Liên hệ tư vấn</a>
                         </td>
                     </tr>
@@ -504,9 +504,9 @@
             <i class="fas fa-chevron-right"></i>
         </div>
     </div>
-    <div class="btn-see-all-loan">
+    <a href="{{ route('student.studentLoan') }}" class="btn-see-all-loan">
         Xem tất cả các khoản vay
-    </div>
+    </a>
 </div>
 <!-- job -->
 <div class="job-block">
@@ -623,9 +623,9 @@
              <!-- /job-content  -->
         </div>
     </div>
-    <div class="btn-see-all-job">
+    <a href="{{ route('student.jobInformation') }}" class="btn-see-all-job">
         Xem tất cả việc làm
-    </div>
+    </a>
 </div>
 <!-- last content -->
 <div class="last-content">
@@ -685,9 +685,9 @@
                         </div> 
                     </a>
                     <!-- /last-content-top-left-content -->
-                    <div class="btn-see-all-discount">
+                    <a href="{{ route('student.marketplace') }}" class="btn-see-all-discount">
                         Xem tất cả
-                    </div>
+                    </a>
                 </div>
                 <div class="last-content-top-right col-xs-12 col-sm-12 col-md-12 col-lg-6 wow fadeInRight" data-wow-duration="3s">
                     <p class="last-content-top-right-title">Kiến thức hữu ích</p>
@@ -736,9 +736,9 @@
                         </div> 
                     </a>
                     <!-- /last-content-top-right-content -->
-                    <div class="btn-see-all-knowledge">
+                    <a href="{{ route('student.marketplace') }}" class="btn-see-all-knowledge">
                         Xem tất cả
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

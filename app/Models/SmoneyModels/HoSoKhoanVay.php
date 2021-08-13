@@ -3,10 +3,12 @@
 namespace App\Models\SmoneyModels;
 
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class HoSoKhoanVay extends Model
+class HoSoKhoanVay extends Eloquent
 {
-    protected $table = "hosokhoanvay";
-    protected $primaryKey = "hsk_id";
+    protected $connection='mongodb';
+    protected $collection='Hosokhoanvay';
     public $timestamps = false;
 }

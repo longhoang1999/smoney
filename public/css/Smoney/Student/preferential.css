@@ -3,7 +3,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 8rem;
+    padding-top: 10rem;
     text-align: center;
 }
 .banner-title{
@@ -75,6 +75,7 @@
     margin: auto;
     padding: .4rem 0;
     background-color: #0B5AC3;
+    border: 1px solid #0B5AC3;
     border-radius: 1rem;
 }
 .content-table tbody tr{

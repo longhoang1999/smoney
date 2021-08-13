@@ -80,24 +80,6 @@ class StudentController extends Controller
         $tokenEncrypt = $this->encrypt_decrypt($string, 'encrypt', $code);
         return $tokenEncrypt;
     }
-    public function writeLog_Verifi_Device($tokenPlainText,$deviceName,$idAddress,$log_id_user){
-        // find code user login
-        $findAcc = TaiKhoanSmoney::where("tks_id",$log_id_user)->first();
-        $findStudent = Student::where("_id",$findAcc->tks_sotk)->first();
-        $code = $findStudent->code;
-
-        // create token encrypt -> send this to cokie
-        $tokenEncrypt = $this->encrypt_decrypt($tokenPlainText, 'encrypt', $code);
-
-        $newLogUser = new TaiKhoanSmoney_Log();
-        $newLogUser->log_id_user = $log_id_user;
-        $newLogUser->log_token = Hash::make($tokenPlainText);
-        $newLogUser->log_ip_address = $idAddress;
-        $newLogUser->log_device_name = $deviceName;
-        $newLogUser->save();
-
-        return $tokenEncrypt;
-    }
     public function updateLog($idLog){
         // find code user login
         $user = Auth::user();
@@ -234,11 +216,11 @@ class StudentController extends Controller
                 }else{
                     $c = $resultToJSON;
                 }
-
+                $passwordEncrypt = $this->writeString($req->password);
                 return redirect()->route('student.student')
                     ->withCookie(cookie('tokenLog', $c, 43200))
                     ->withCookie(cookie('phone', $req->phone, 20160))
-                    ->withCookie(cookie('password', $req->password, 20160));
+                    ->withCookie(cookie('password', $passwordEncrypt, 20160));
             }
             else{
                 return back()->with("error","Đăng nhập thất bại");
@@ -297,87 +279,84 @@ class StudentController extends Controller
                 $c= (object) $this->merge((array)$logDevice, (array)$result);
                 $c = json_encode($c);
 
+                $passwordEncrypt = $this->writeString($req->password);
                 return redirect()->route('student.student')
                     ->withCookie(cookie('tokenLog', $c, 43200))
                     ->withCookie(cookie('phone', $req->phone, 20160))
-                    ->withCookie(cookie('password', $req->password, 20160));
+                    ->withCookie(cookie('password', $passwordEncrypt, 20160));
             }
             // false -> logout -> send mail
             if($checkDevice == false){
                 $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $checkDeviceCode = substr(str_shuffle($permitted_chars), 0, 8);
-                $checkDeviceCookie = substr(str_shuffle($permitted_chars), 0, 10);
 
                 $user->tks_key_device = $checkDeviceCode;
                 $user->save();
                 // send mail
                 $body = view('smoney/homepage/formcheckdevice',[
                     'maso' => $checkDeviceCode,
-                    'user' => $user->tks_id,
-                    'log_ip_address' => \Request::ip(),
-                    'log_device_name' => $this->deviceName(),
-                    'phone' => $req->phone,
-                    'password' => $this->writeString($req->password),
-                    'checkDeviceCookie' => $checkDeviceCookie
                 ])->render();
                 if($this->sendMail($findStudent->email,$body)){
                     $sendMail = "success";
                 }else{
                     $sendMail = "fail";
                 }
-                Auth::logout();
 
+                $passwordEncrypt = $this->writeString($req->password);
+                Auth::logout();
                 return back()
-                    ->with("error","Phát hiện đăng nhập trên thiết bị mới.<br> Vui lòng xác thực đăng nhập bằng email của bạn")
-                    ->withCookie(cookie('verifiDevice', $checkDeviceCookie, 240));
+                    ->with("action","modalOpen")
+                    ->with("userID",$tks_id)
+                    ->with("phone",$req->phone)
+                    ->with("passwordEncrypt", $passwordEncrypt);
             }
         }
         else{
             return back()->with("error","Sai tài khoản hoặc mật khẩu");
         }
     }
-    public function successDevice(Request $req,$userid, $key, $log_ip_address, $log_device_name,$phone,$password,$checkDeviceCookie){
-        $verifiDevice = $req->cookie('verifiDevice');
-        if(isset($verifiDevice) && $verifiDevice == $checkDeviceCookie){
-            \Cookie::queue(\Cookie::forget('verifiDevice'));
-            $findAcc = TaiKhoanSmoney::where("tks_id",$userid)->where("tks_key_device",$key)->first();
+    public function successDevice(Request $req){
+        $findAcc = TaiKhoanSmoney::where("tks_id",$req->idUser)->where("tks_key_device",$req->key)->first();
+        if($findAcc){
+            $findAcc->tks_key_device = null;
+            $findAcc->save();
+
+            // create token plain text
             $findStudent = Student::where("_id",$findAcc->tks_sotk)->first();
-            if($findAcc){
-                $findAcc->tks_key_device = null;
-                $findAcc->save();
-                // create token plain text
-                $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                $tokenPlainText = substr(str_shuffle($permitted_chars), 0, 20);
-                $tokenEncrypt = $this->writeLog_Verifi_Device($tokenPlainText,$log_device_name,$log_ip_address,$userid);
+            $passwordDecrypt = $this->encrypt_decrypt($req->passwordEncrypt, 'decrypt', $findStudent->code);
+            Auth::attempt(['tks_sdt'=>$req->phone,'password'=>$passwordDecrypt]);
 
-                $tokenLogObject = (object) array("tokenLog" => $tokenEncrypt);
-                $result = (object) array(
-                    $findAcc->tks_id => $tokenLogObject,
-                );
-                $resultToJSON = json_encode($result);
-                // lấy token hiện tại thêm vào
-                $cookieOldLog = $req->cookie('tokenLog');
-                if(isset($cookieOldLog)){
-                    $a = json_decode($cookieOldLog);
-                    $b = json_decode($resultToJSON);
-                    $c= (object) $this->merge((array)$a, (array)$b);
-                    $c = json_encode($c);
-                }else{
-                    $c = $resultToJSON;
-                }
+            $user = Auth::user();
+            $tokenEncrypt = $this->writeLog();
 
-                $passwordDecrypt = $this->encrypt_decrypt($password, 'decrypt', $findStudent->code);
-                Auth::attempt(['tks_sdt'=>$phone,'password'=>$passwordDecrypt]);
-                return redirect()->route('student.student')
-                    ->withCookie(cookie('tokenLog', $c, 43200))
-                    ->withCookie(cookie('phone', $phone, 20160))
-                    ->withCookie(cookie('password', $passwordDecrypt, 20160));
+            $tokenLogObject = (object) array("tokenLog" => $tokenEncrypt);
+            $result = (object) array(
+                $user->tks_id => $tokenLogObject,
+            );
+            $resultToJSON = json_encode($result);
+            // lấy token hiện tại thêm vào
+            $cookieOldLog = $req->cookie('tokenLog');
+            if(isset($cookieOldLog)){
+                $a = json_decode($cookieOldLog);
+                $b = json_decode($resultToJSON);
+                $c= (object) $this->merge((array)$a, (array)$b);
+                $c = json_encode($c);
+            }else{
+                $c = $resultToJSON;
             }
-            else{
-                return view('404');
-            }
+
+            
+            return redirect()->route('student.student')
+                ->withCookie(cookie('tokenLog', $c, 43200))
+                ->withCookie(cookie('phone', $req->phone, 20160))
+                ->withCookie(cookie('password', $req->passwordEncrypt, 20160));
         }else{
-            return redirect()->route("homepage.login")->with("error","Vui lòng nhấn xác thực trên đúng thiết bị bạn đang đăng nhập");
+            return back()
+                ->with("error","Bạn nhập sai mã, vui lòng xem lại trong Email của bạn")
+                ->with("action","modalOpen")
+                ->with("userID",$req->idUser)
+                ->with("phone",$req->phone)
+                ->with("passwordEncrypt", $req->passwordEncrypt);
         }
     }   
     public function preferential()
@@ -507,6 +486,7 @@ class StudentController extends Controller
 
     public function studentInformation()
     {
+        $province_address = DB::table('province_address')->get();
         $userLogged = Auth::user();
         $findInfor = Student::where("_id",$userLogged->tks_sotk)->first();
         return view('smoney/student/information',[
@@ -519,6 +499,7 @@ class StudentController extends Controller
             'address' => $findInfor->diachi,
             'gender' => $findInfor->gioitinh,
             'sotk' => $findInfor->stk,
+            'province_address' => $province_address
         ]);
     }
     public function changeAvatar(Request $req){
