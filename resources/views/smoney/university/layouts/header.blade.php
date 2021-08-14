@@ -26,12 +26,13 @@
 
                         <div class="tag-page-none header-logo-item-none">
                             <img src="{{ asset('img-smoney/img-students/tag-logo.svg') }}" alt="">
-                            <span>STUDENT</span>
+                            <span>UNIVERSITY</span>
                         </div>
                     </div>
                     <div class="tag-page header-logo-item position">
-                        <img src="{{ asset('img-smoney/img-students/tag-logo.svg') }}" alt="">
-                        <span>STUDENT</span>
+                        <div class='img'>
+                            <span>UNIVERSITY</span>
+                        </div>
                     </div>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -43,7 +44,10 @@
                     <!-- menu nav -->
                     <ul class="menu-nav navbar-nav">
                         <li class="menu-service nav-item">
-                            <span class="link-service">Khoản vay <i class="fas fa-sort-down"></i></span>
+                            <a href="#" id="nav-link">Thông tin chung</a>
+                        </li>
+                        <li class="menu-service nav-item">
+                            <span class="link-service">Thông tin khoản vay<i class="fas fa-sort-down"></i></span>
                             <ul class="more-service">
                                 <li>
                                     <a href="#">Example 1</a>
@@ -57,21 +61,10 @@
                             </ul>
                         </li>
                         <li class="menu-service nav-item">
-                            <span class="link-service">Việc làm <i class="fas fa-sort-down"></i></span>
-                            <ul class="more-service">
-                                <li>
-                                    <a href="#">Example 1</a>
-                                </li>
-                                <li>
-                                    <a href="#">Example 2</a>
-                                </li>
-                                <li>
-                                    <a href="#">Example 3</a>
-                                </li>
-                            </ul>
+                            <a href="#" id="nav-link">Lịch sử khoản vay</a>
                         </li>
                         <li class="menu-service nav-item">
-                            <a href="{{ route('student.marketplace') }}" id="nav-link">Marketplace</a>
+                            <a href="#" id="nav-link">Thông tin việc làm</a>
                         </li>
                     </ul>
                     <div class="navbar-nav ml-lg-auto mr-lg-0 personal-info-nav">
@@ -95,14 +88,14 @@
                             <div class="information-user">
                                 <div class="info-avatar" 
                                     @if($avatar == "")
-                                        style="background: url('{{ asset('img-smoney/img-students/avatar-default.png')}}')"
+                                        style="background: url('{{ asset('img-smoney/university/univesity-logo-small.png')}}')"
                                     @else
                                         style="background: url('{{ asset($avatar)  }}') no-repeat;" 
                                     @endif
                                 >
                                 </div>
                                 <span class="name-user">
-                                    <span>{{ $name }} </span>
+                                    <span>Trường ĐHQG HN</span>
                                     <i class="fas fa-sort-down"></i>
                                 </span>
                             </div>

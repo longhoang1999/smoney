@@ -95,6 +95,7 @@
 .summary-background {
     background-color: white;
     border-radius: 3px;
+    height: 100%;
 }
 
 .summary-items {
@@ -173,10 +174,10 @@
     color: #f8a20e;
 }
 
-.dash-chart-container {
+/* .dash-chart-container {
     margin-left: -0.5rem;
     margin-right: -0.5rem;
-}
+} */
 
 .chart-container {
     height: 450px;
@@ -236,6 +237,12 @@ td.lightblue {
     padding: 1rem 0;
     font-weight: 500;
 }
+
+.chart-container .summary-title-overal {
+    color: black !important;
+    font-weight: 500 !important;
+}
+
 table {
     border-collapse: separate;
     border-spacing: 0 1em;

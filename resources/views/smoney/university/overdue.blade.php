@@ -1,10 +1,10 @@
-@extends('smoney/university/layouts/index')
+@extends('smoney/student/layouts/index')
 @section('title')
     Trang Trường
 @parent
 @stop
 @section('header_styles')
-<link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/University/university.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/student.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/University/dashboard.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
 integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" 
@@ -20,11 +20,12 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
       background-image: url('{{asset("img-smoney/university/university_logo.png")}}');
         background-repeat: no-repeat;
         background-size: contain;
+        /* background-position: center; */
     }
 </style>
 @stop
 @section('content')
-@include('smoney/university/layouts/header')
+@include('smoney/student/layouts/header')
 <!-- student - block - title -->
 <div class="banner">
    <div class='container'>
