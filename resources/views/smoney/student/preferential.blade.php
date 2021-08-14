@@ -10,7 +10,8 @@
     .banner{
         background-image: url('{{asset("img-smoney/img-students/student-header-2.png")}}');
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: cover;
+        background-position: bottom;
     }
 </style>
 @stop

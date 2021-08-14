@@ -74,6 +74,9 @@
             Route::get('load-timeline', 'SmoneyControllers\LoanController@loadTimeline')->name('student.loadTimeline');
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
             Route::get('student.deleteImgPoint', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
+            
+            //==============================================================================
+            Route::get('school-dashboard', 'SmoneyControllers\UniversityController@schoolDashboard')->name('schhool.schoolDashboard');
 
         }
     );
