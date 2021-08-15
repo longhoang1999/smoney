@@ -77,6 +77,16 @@
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
             Route::get('delete-img-point', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
 
+            
+            //==============================================================================
+            Route::get('school-dashboard', 'SmoneyControllers\UniversityController@schoolDashboard')->name('schhool.schoolDashboard');
+            Route::get('school-workinfor', 'SmoneyControllers\UniversityController@workinfor')->name('schhool.workinfor');
+            Route::get('school-overdue', 'SmoneyControllers\UniversityController@overdue')->name('schhool.overdue');
+            Route::get('school-paid', 'SmoneyControllers\UniversityController@paid')->name('schhool.paid');
+            Route::get('school-unpaid', 'SmoneyControllers\UniversityController@unpaid')->name('schhool.unpaid');
+            Route::get('school-pending', 'SmoneyControllers\UniversityController@pending')->name('schhool.pending'); 
+
+
         }
     );
 ?>

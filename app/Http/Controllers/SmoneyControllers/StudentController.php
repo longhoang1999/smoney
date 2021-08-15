@@ -140,6 +140,7 @@ class StudentController extends Controller
         else 
             return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
     }
+    
     public function postRegister(Request $req)
     {
         $this->validate($req,[

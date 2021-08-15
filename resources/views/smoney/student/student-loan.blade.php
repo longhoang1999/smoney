@@ -13,6 +13,7 @@
         background: url('{{ asset("img-smoney/img-students/bg-title.png")  }}');
         background-repeat: no-repeat;
         background-size: cover;
+        
     }
     .loan-nearly-slide{
         background: url('{{ asset("img-smoney/img-students/hoavan-2.png")  }}');

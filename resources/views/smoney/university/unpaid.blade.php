@@ -32,35 +32,40 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- student - block - title -->
 <div class="banner-2">
     <div class="block-banner-title">
-        Thông tin việc làm
+        Khoản vay chưa thanh toán
     </div>
 </div>
 
 <!-- student - block - content -->
 <div class="content">
     <div class="content-title">
-       <h1>Danh sách sinh viên đăng ký</h1>
+       <h1>Các khoản vay chưa thanh toán</h1>
     </div>
     <!-- table -->
     <table class="content-table">
         <thead>
             <tr>
-                <th>Tiêu đề</th>
-                <th>Người gửi</th>
-                <th>Ngày gửi yêu cầu</th>
-                <th>Lần sửa gần nhất</th>
+                <th>Họ tên</th>
+                <th>Mã sinh viên</th>
+                <th>Khoản vay</th>
+                <th>Phải trả</th>
+                <th>Kì hạn</th>
+                <th>Trạng thái</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
@@ -69,12 +74,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             </tr>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
@@ -83,12 +91,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             </tr>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
@@ -97,12 +108,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             </tr>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
@@ -111,12 +125,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             </tr>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
@@ -125,12 +142,15 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             </tr>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
@@ -139,18 +159,21 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             </tr>
             <tr>
                 <td class="first blue">
-                    Đơn xin việc gia sư
+                    Bùi Hữu Dũng
                 </td>
-                <td>Bùi Hữu Dũng</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01-01-2021 07:00:00</td>
-                <td>01/01/2021</td>
+                <td>123456</td>
+                <td>5,000,000 VNĐ</td>
+                <td>5,000,000 VNĐ</td>
+                <td>12 tháng</td>
+                <td><div class='tag tag-orange'>
+                        Đã chưa thanh toán
+                    </div></td>
                 <td>
                     <a href=#><div class='tag tag-border-blue'>
                         Chi tiết
                     </div></a>
                 </td>
-            </tr>          
+            </tr>    
          </tbody>
     </table>
     <!-- paging -->
