@@ -87,7 +87,11 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "option1"},
+        data:{
+            "page": "option1",
+            "pagepresent" : "vieclam4",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -95,6 +99,14 @@
         }
     });
   })
+  function createObject(){
+    var wage = $("input[type=range]").val();
+    var objectToSave = {
+      maHS: maHS,
+      wage: wage,
+    }
+    return objectToSave;
+  }
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

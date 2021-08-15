@@ -590,35 +590,35 @@
     });
 
         
-    //$(".hidden").change(function(){
-        // var file_data = $('#file').prop('files')[0];
-        // var type = file_data.type;
-        // var match = ["image/gif", "image/png", "image/jpg","image/jpeg"];
-        // if (match.includes(type)) {
-        //     var form_data = new FormData();
-        //     form_data.append('file', file_data);
-        //     $.ajax({
-        //         url: "{!! route('student.changeAvatar') !!}",
-        //         cache: false,
-        //         contentType: false,
-        //         processData: false,
-        //         data: form_data,
-        //         method: "POST",
-        //         success: function (data) {
-        //             if(data['status'] == 'success'){
-        //                 $(".image-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
-        //                 $(".image-avatar").css("background-size","cover");
-        //                 $(".info-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
-        //                 $(".info-avatar").css("background-size","cover");
-        //             }
-        //         }
-        //     });
-        // }else {
-        //     alert("Chỉ được upload file ảnh");
-        //     $('#file').val('');
-        // }
+    // $(".hidden").change(function(){
+    //     var file_data = $('#file').prop('files')[0];
+    //     var type = file_data.type;
+    //     var match = ["image/gif", "image/png", "image/jpg","image/jpeg"];
+    //     if (match.includes(type)) {
+    //         var form_data = new FormData();
+    //         form_data.append('file', file_data);
+    //         $.ajax({
+    //             url: "{!! route('student.changeAvatar') !!}",
+    //             cache: false,
+    //             contentType: false,
+    //             processData: false,
+    //             data: form_data,
+    //             method: "POST",
+    //             success: function (data) {
+    //                 if(data['status'] == 'success'){
+    //                     $(".image-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
+    //                     $(".image-avatar").css("background-size","cover");
+    //                     $(".info-avatar").css("background",`url(${data['linkImg']}) no-repeat`);
+    //                     $(".info-avatar").css("background-size","cover");
+    //                 }
+    //             }
+    //         });
+    //     }else {
+    //         alert("Chỉ được upload file ảnh");
+    //         $('#file').val('');
+    //     }
     // })
-    // 
+    
 
 
 

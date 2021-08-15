@@ -22,6 +22,12 @@
       background: url('{{ asset("img-smoney/home-page/tick.png")  }}') no-repeat;
       background-size: cover;
     }
+    .headroom--pinned{
+        transform: translateY(-100%) !important;
+    }
+    .headroom--top{
+        transform: translateY(0%) !important;
+    }
 </style>
 @stop
 @section('content')
@@ -123,7 +129,7 @@
 <script type="text/javascript" src="{{ asset('js/frontend/index.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
-    var maHS = null;
+    var maHS = null, sent = null;
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -174,6 +180,48 @@
         // add input hidden
         $(this).parent().parent().find("input[type='hidden']").val($(this).data("value"))
       }
+    })
+
+    window.addEventListener("scroll", function() {
+        var elementTarget = document.getElementById("header");
+        if (window.scrollY > 0) {
+            $(".block-top-info").slideUp();
+        }else{
+            $(".block-top-info").slideDown();
+        }
+    });
+    // ngăn tải lại trang
+    window.addEventListener('beforeunload', function (e) {
+        e.preventDefault(); 
+        if(sent == null){
+            if(maHS == null)
+                delete e['returnValue'];
+            else
+                e.returnValue = '';
+        }else{
+            delete e['returnValue'];
+        }
+    });
+
+    $(".save-file").click(function() {
+        if(maHS != null){
+            $.ajax({
+                url:"{!! route('student.loadTimeline') !!}",
+                method: "GET",
+                data:{
+                    "pagepresent" : "savedRequest",
+                    "data" : maHS
+                },
+                success:function(data)
+                {
+                  alert("Thông tin của bạn đã được lưu!");
+                  sent = "true";
+                  location.replace("{{ route('student.student') }}");
+                }
+            });
+        }else{
+            alert("Bạn chưa hoàn thành thông tin!");
+        }
     })
 </script>
 @stop
