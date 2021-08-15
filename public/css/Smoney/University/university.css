@@ -320,6 +320,31 @@ li.menu-service {
 .block-dashboard {
     width: 20rem;
 }
+
+.banner-2 {
+    padding: 0;
+    margin-top: 8rem;
+    position: relative;
+    min-height: 11rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.block-banner-title {
+    border-left: 1px solid white;
+    color: white;
+    padding: 0 1.5rem;
+    font-weight: bold;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 28px;
+    position: absolute;
+    top: 50%;
+    left: 10rem;
+    transform: translateY(-50%);
+}
+
 .loan-request {
     background: rgb(120, 124, 224);
     background: linear-gradient(-90deg, rgba(120, 124, 224, 1) 0%, rgba(106, 171, 243, 1) 100%);
