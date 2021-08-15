@@ -6,7 +6,7 @@
     <div class="question question-two">Tình trạng việc làm của bạn</div>
     <div class="block-square">
       <ul>
-        <li class="square-item square-select" data-value="1">
+        <li class="square-item" data-value="1">
           <span>Đang làm thuê</span>
           <i class="fas fa-briefcase"></i>
         </li>

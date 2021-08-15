@@ -14,7 +14,7 @@
         </p>
     </div>
     <div class="block-btn">
-      <button class="btn btn-sm btn-info">Gửi yêu cầu</button>
+      <button class="btn btn-sm btn-info btn-send-request">Gửi yêu cầu</button>
     </div>
   </div>
 </div>
@@ -30,7 +30,7 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Điều khoản sử dụng!</h5>
@@ -48,7 +48,56 @@
   </div>
 </div>
 
+<!-- Modal Done -->
+<div class="modal fade" id="doneModal" tabindex="-1" role="dialog" aria-labelledby="doneModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="doneModalLabel">Thông báo nhận yêu cầu thành công!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-info">Chúng tôi đã nhận thành công hồ sơ của bạn! Chúng tôi sẽ gửi cho bạn yêu cầu sớm nhất</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script type="text/javascript">
+  $(".btn-send-request").click(function() {
+    if ($('#rules-checkbox').is(':checked')) {
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "pagepresent" : "done",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            if(data['response'] == "success"){
+              $("#doneModal").modal("show");
+              maHS = null;
+            }
+          }
+      });
+    }else{
+      alert("Bạn chưa đồng ý với điều khoản!");
+    }
+  })
+  function createObject(){
+    var objectToSave = {
+      maHS: maHS
+    }
+    return objectToSave;
+  }
+
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
@@ -62,4 +111,8 @@
     });
   })
 
+  $('#doneModal').on('hidden.bs.modal', function (e) {
+    location.replace("{{ route('student.student') }}");
+  })
+  
 </script>

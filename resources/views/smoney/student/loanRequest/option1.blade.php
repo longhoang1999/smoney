@@ -6,15 +6,16 @@
     <div class="question question-two">Bạn có tham gia câu lạc bộ, đoàn thể nào của trường không</div>
     <div class="block-square">
       <ul>
-        <li class="square-item square-select">
+        <li class="square-item" data-value="1">
           <span>Có</span>
           <i class="fas fa-users"></i>
         </li>
-        <li class="square-item">
+        <li class="square-item" data-value="2">
           <span>Không</span>
           <i class="fas fa-user"></i>
         </li>
       </ul>
+      <input type="hidden" class="club">
     </div>
     <!-- /question -->
   </div>
@@ -39,7 +40,11 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "option2"},
+        data:{
+            "page": "option2",
+            "pagepresent" : "option1",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -47,6 +52,14 @@
         }
     });
   })
+  function createObject(){
+    var club = $(".club").val();
+    var objectToSave = {
+      maHS: maHS,
+      club: club,
+    }
+    return objectToSave;
+  }
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

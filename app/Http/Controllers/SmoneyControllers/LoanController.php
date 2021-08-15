@@ -222,6 +222,136 @@ class LoanController extends Controller
                     $idHS = $findHS->_id;
                     break;
                 }
+                case 'vieclam1': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    if($req->data['employmentStatus'] == "2")
+                    {
+                        $req->page = "option1";
+                    }
+                    $findHS->employmentStatus = $req->data['employmentStatus'];
+                    $findHS->pagepresent = "vieclam1";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'vieclam2': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->timeWork = $req->data['timeWork'];
+                    $findHS->pagepresent = "vieclam2";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'vieclam3': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->nameCompany = $req->data['nameCompany'];
+                    $findHS->addressCompany = $req->data['addressCompany'];
+
+                    $findHS->pagepresent = "vieclam3";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'vieclam4': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->wage = $req->data['wage'];
+                    
+                    $findHS->pagepresent = "vieclam4";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'option1': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->club = $req->data['club'];
+                    if($req->data['club'] == "2"){
+                        $req->page = "option3";
+                    }
+                    $findHS->pagepresent = "option1";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'option2': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->nameClub = $req->data['nameClub'];
+
+                    $findHS->pagepresent = "option2";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'option3': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->yourParents = $req->data['yourParents'];
+                    if($req->data['yourParents'] == "2"){
+                        $req->page = "otherpage1";
+                    }
+                    $findHS->pagepresent = "option3";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'option4': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->yourParentsInfo = $req->data['yourParentsInfo'];
+                    $findHS->pagepresent = "option4";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'otherpage1': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->pageObject = $req->data['pageObject'];
+                    $findHS->pagepresent = "otherpage1";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'tag1': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->contentTag = $req->data['contentTag'];
+                    $findHS->pagepresent = "tag1";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'notification1': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->portal = $req->data['portal'];
+                    $findHS->pagepresent = "notification1";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'vote1': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->opinion = $req->data['opinion'];
+                    $findHS->star_votes = $req->data['star_votes'];
+                    $findHS->pagepresent = "vote1";
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
+                case 'done': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->hsk_send_status = "true";
+
+                    $findHS->pagepresent = "done";
+                    $findHS->save();
+
+                    $result = (object) array('response' => 'success');
+                    return response()->json($result);
+                }
+                case 'savedRequest': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data)->first();
+                    $findHS->hsk_send_status = "saved";
+                    $findHS->save();
+
+                    $result = (object) array('response' => 'success');
+                    return response()->json($result);
+                }
+                
             }
         }
 

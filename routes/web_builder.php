@@ -70,10 +70,13 @@
             Route::get('student-information','SmoneyControllers\StudentController@studentInformation')->name('student.information');
             Route::post('student-changeavatar','SmoneyControllers\StudentController@changeAvatar')->name('student.changeAvatar');
             Route::post('student-update-information','SmoneyControllers\StudentController@updateInformation')->name('student.updateInformation');
+
+            
             Route::get('loan-request','SmoneyControllers\LoanController@loanRequest')->name('student.loanRequest');
             Route::get('load-timeline', 'SmoneyControllers\LoanController@loadTimeline')->name('student.loadTimeline');
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
-            Route::get('student.deleteImgPoint', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
+            Route::get('delete-img-point', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
+
             
             //==============================================================================
             Route::get('school-dashboard', 'SmoneyControllers\UniversityController@schoolDashboard')->name('schhool.schoolDashboard');
@@ -81,7 +84,8 @@
             Route::get('school-overdue', 'SmoneyControllers\UniversityController@overdue')->name('schhool.overdue');
             Route::get('school-paid', 'SmoneyControllers\UniversityController@paid')->name('schhool.paid');
             Route::get('school-unpaid', 'SmoneyControllers\UniversityController@unpaid')->name('schhool.unpaid');
-            Route::get('school-pending', 'SmoneyControllers\UniversityController@pending')->name('schhool.pending');
+            Route::get('school-pending', 'SmoneyControllers\UniversityController@pending')->name('schhool.pending'); 
+
 
         }
     );

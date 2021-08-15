@@ -6,19 +6,20 @@
     <div class="question question-two">Lựa chọn cổng thông tin mà chúng tôi có thể thông báo đến bạn</div>
     <div class="block-square">
       <ul>
-        <li class="square-item square-select">
+        <li class="square-item" data-value="1">
           <span>Email</span>
           <i class="fas fa-envelope-open-text"></i>
         </li>
-        <li class="square-item">
+        <li class="square-item" data-value="2">
           <span>Số điện thoại</span>
           <i class="fas fa-phone"></i>
         </li>
-        <li class="square-item">
+        <li class="square-item" data-value="3">
           <span>Cả hai</span>
           <i class="fas fa-file-signature"></i>
         </li>
       </ul>
+      <input type="hidden" class="portal">
     </div>
   </div>
 </div>
@@ -41,7 +42,11 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "vote1"},
+        data:{
+            "page": "vote1",
+            "pagepresent" : "notification1",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -49,6 +54,15 @@
         }
     });
   })
+  
+  function createObject(){
+    var objectToSave = {
+      maHS: maHS,
+      portal: $(".portal").val(),
+    }
+    return objectToSave;
+  }
+
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

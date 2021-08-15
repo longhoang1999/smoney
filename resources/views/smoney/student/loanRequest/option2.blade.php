@@ -33,7 +33,11 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "option3"},
+        data:{
+            "page": "option3",
+            "pagepresent" : "option2",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -41,6 +45,18 @@
         }
     });
   })
+  function createObject(){
+    let arNameClub = [];
+    let nameClub = document.querySelectorAll(".multi-account-number input")
+    nameClub.forEach((item, index)=>{
+       arNameClub.push(item.value) 
+    })
+    var objectToSave = {
+      maHS: maHS,
+      nameClub: arNameClub,
+    }
+    return objectToSave;
+  }
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

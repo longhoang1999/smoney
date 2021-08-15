@@ -6,15 +6,16 @@
     <div class="question question-two">Bạn có người bảo trợ không</div>
     <div class="block-square">
       <ul>
-        <li class="square-item square-select">
+        <li class="square-item" data-value="1">
           <span>Có</span>
           <i class="fas fa-smile-wink"></i>
         </li>
-        <li class="square-item">
+        <li class="square-item" data-value="2">
           <span>Không</span>
           <i class="fas fa-smile-beam"></i>
         </li>
       </ul>
+      <input type="hidden" class="your-parents">
     </div>
     <!-- /question -->
   </div>
@@ -39,7 +40,11 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "option4"},
+        data:{
+            "page": "option4",
+            "pagepresent" : "option3",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -48,6 +53,14 @@
     });
   })
 
+  function createObject(){
+    var yourParents = $(".your-parents").val();
+    var objectToSave = {
+      maHS: maHS,
+      yourParents: yourParents,
+    }
+    return objectToSave;
+  }
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

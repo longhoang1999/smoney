@@ -3,11 +3,11 @@
   <span class="main-nottop-title-detail">Điền các thông tin cơ bản về việc làm hiện tại của bạn</span>
   <div class="block-question">
     <!--question  -->
-    <div class="question question-two">3. Thông tin về cơ sở nơi bạn làm việc</div>
-    <br><span class="main-top-title-detail">Tên cơ sở làm việc: </span><br>
-    <input type="text" class="input-text mt-1" placeholder="Nhập tên cơ sở làm việc của bạn">
-    <br><span class="main-top-title-detail">Địa chỉ của cơ sở: </span><br>
-    <input type="text" class="input-text mt-1" placeholder="Nhập địa chỉ của cơ sở nơi bạn làm việc">
+    <div class="question question-two">Thông tin về cơ sở nơi bạn làm việc</div>
+    <br><span class="main-top-title-detail">1. Tên cơ sở làm việc: </span><br>
+    <input type="text" class="input-text mt-1 name-company" placeholder="Nhập tên cơ sở làm việc của bạn">
+    <br><span class="main-top-title-detail">2. Địa chỉ của cơ sở: </span><br>
+    <input type="text" class="input-text mt-1 address-company" placeholder="Nhập địa chỉ của cơ sở nơi bạn làm việc">
     <!-- /question -->
   </div>
 </div>
@@ -31,7 +31,11 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "vieclam4"},
+        data:{
+            "page": "vieclam4",
+            "pagepresent" : "vieclam3",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -39,6 +43,16 @@
         }
     });
   })
+  function createObject(){
+    var nameCompany = $(".name-company").val();
+    var addressCompany = $(".address-company").val();
+    var objectToSave = {
+      maHS: maHS,
+      nameCompany: nameCompany,
+      addressCompany:addressCompany
+    }
+    return objectToSave;
+  }
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

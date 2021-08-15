@@ -45,7 +45,12 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-        data:{"page": "notification1"},
+        data:{"page": ""},
+        data:{
+            "page": "notification1",
+            "pagepresent" : "tag1",
+            "data" : createObject()
+        },
         success:function(data)
         {
           $(".main").empty();
@@ -53,6 +58,13 @@
         }
     });
   })
+  function createObject(){
+    var objectToSave = {
+      maHS: maHS,
+      contentTag: $("#content_tag").val(),
+    }
+    return objectToSave;
+  }
   $(".btn-back").click(function() {
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",

@@ -1,3 +1,8 @@
+<style>
+  .block-show-img{
+    min-height: 11rem;
+  }
+</style>
 <div class="main-top">
   <div class="main-top-title">Thông tin về cơ sở đào tạo của bạn</div>
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
