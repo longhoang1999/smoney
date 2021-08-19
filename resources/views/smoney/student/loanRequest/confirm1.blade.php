@@ -1,5 +1,15 @@
 <div class="main-top">
-  <div class="main-top-title">Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi</div>
+  <div class="main-top-title">
+    Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Chấp nhận điều khoản</p>
+      <p class="text-info">
+        <span>+ Chấp nhận điều khoản và khoản vay của bạn sẽ được gửi đi</span>
+        <span>+ Chúng tôi sẽ thông báo cho bạn thông tin về yêu cầu vay của bạn sớm nhất</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail"></span>
   <div class="block-question">
     <!--question  -->
@@ -109,6 +119,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
   $('#doneModal').on('hidden.bs.modal', function (e) {

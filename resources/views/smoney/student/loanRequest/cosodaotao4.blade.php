@@ -4,7 +4,18 @@
   }
 </style>
 <div class="main-top">
-  <div class="main-top-title">Thông tin về cơ sở đào tạo của bạn</div>
+  <div class="main-top-title">
+    Thông tin về cơ sở đào tạo của bạn
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin về trường mà bạn theo học (tiếp theo).</p>
+      <p>Những thông tin này sẽ là cơ sở để trường xác minh bạn là sinh viên của nhà trường</p>
+      <p class="text-info">
+        <span>+ Tải lên hệ thống bảng điểm hiện tại của bạn ở trường. Nếu kết quả học tập của bạn tốt bạn sẽ có khả năng vay thành công cao</span>
+        <span>(Lưu ý: chỉ nên tải file bảng điểm của trường bạn sẽ vay học phí)</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
   <div class="block-question">
     <!--question  -->
@@ -109,6 +120,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })  
   function createObject(){
     var numberSchool = $(".number-school").val();
@@ -130,6 +142,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
   $(".timeline-two").removeClass("active");

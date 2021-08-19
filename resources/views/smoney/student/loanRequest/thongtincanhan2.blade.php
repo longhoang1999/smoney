@@ -1,10 +1,25 @@
 <div class="main-top">
-  <div class="main-top-title">Thông tin cá nhân</div>
+  <div class="main-top-title">
+    Thông tin cá nhân
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin cá nhân của bạn.</p>
+      <p>Thông tin cá nhân tiếp theo là:</p>
+      <p class="text-info">
+        <span>+ Email chính của bạn (email này được dùng để gửi các thông báo đến bạn)</span>
+        <span>+ Giới tính của bạn</span>
+        <span>+ Thông tin tài khoản: Hệ thống yêu cầu cung cấp số thẻ ATP của bạn</span>
+              <span class="text-block ml-3 text-primary">Hãy nhập dưới dạng sau: Số tài khoản - Tên ngân hàng - Chi nhánh mở tài khoản</span>    
+              <span class="text-block ml-3 text-primary">Ví dụ: 0123456789 - Agribank - Chi nhánh Đông Hà Nội</span>        
+        <span>+ Số điện thoại khác (nếu có): Nếu bạn sử dụng nhiều số điện thoại ngoài số điện thoại chính, hãy điền vào đây</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin cá nhân của bạn</span>
   <div class="block-question">
     <!--question  -->
     <div class="question question-one required-icon">Email</div>
-    <span class="main-top-title-detail">Email chính của bạn</span>
+    <!-- <span class="main-top-title-detail">Email chính của bạn</span> -->
     <input type="email" class="email input-text mt-1" placeholder="Nhập email" value="{{ $email }}">
     <!-- /question -->
 
@@ -33,26 +48,28 @@
 
     <!--question  -->
     <div class="question question-three required-icon">Nhập thông tin tài khoản của bạn</div>
-    <span class="main-top-title-detail">Hãy nhập dưới dạng sau: Số tài khoản - Tên ngân hàng - Chi nhánh mở tài khoản</span>
+    <!-- <span class="main-top-title-detail">Hãy nhập dưới dạng sau: Số tài khoản - Tên ngân hàng - Chi nhánh mở tài khoản</span>
     <br>
-    <span class="main-top-title-detail">Ví dụ: 0123456789 - Agribank - Chi nhánh Đông Hà Nội</span>
+    <span class="main-top-title-detail">Ví dụ: 0123456789 - Agribank - Chi nhánh Đông Hà Nội</span> -->
 
     <div class="multi-input multi-account-number">
       <input type="text" class="input-text mt-1" placeholder="Nhập thông tin tài khoản">
     </div>
     <div class="btn-plus btn-plus-account-number">
+      <span>Thêm mới</span>
       <i class="fas fa-plus"></i>
     </div>
     <!-- /question -->
 
     <!--question  -->
     <div class="question question-three">Số điện thoại khác(nếu có)</div>
-    <span class="main-top-title-detail">Nếu bạn sử dụng nhiều số điện thoại ngoài số điện thoại chính, hãy điền vào đây</span>
+    <!-- <span class="main-top-title-detail">Nếu bạn sử dụng nhiều số điện thoại ngoài số điện thoại chính, hãy điền vào đây</span> -->
 
     <div class="multi-input multi-other-phone">
       <input type="text" class="input-text mt-1" placeholder="Nhập số điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
     </div>
     <div class="btn-plus btn-plus-other-phone">
+      <span>Thêm mới</span>
       <i class="fas fa-plus"></i>
     </div>
     <!-- /question -->
@@ -86,6 +103,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   function createObject(){
     var var1 = $(".email").val();
@@ -111,15 +129,21 @@
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "thongtincanhan1"},
+        data:{
+            "page": "thongtincanhan1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
+    scrollToMain();
   })
   // 
   $(".btn-plus-account-number").click(function() {
@@ -129,5 +153,35 @@
     $(".multi-other-phone").append(`<input type="text" class="input-text mt-1" placeholder="Nhập thêm điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1');">`);
   })
   
-  
+  function fillData(data){
+    $(".email").val(data['hsk_email']);
+    $(".select").val(data['hsk_gender']);
+    // check mảng null toàn bộ
+    var otherThanNull = data['hsk_stk'].some(function (el) {
+        return el !== null;
+    });
+    if(otherThanNull){
+      $(".multi-account-number").empty();
+      data['hsk_stk'].forEach(function(item, index){
+        if(item !=  null){
+          
+          $(".multi-account-number").append(`<input type="text" class="input-text mt-1" placeholder="Nhập thông tin tài khoản" value="${item}">`);
+        }
+      })
+    }
+
+    // check mảng null toàn bộ
+    var otherThanNull = data['hsk_otherPhone'].some(function (el) {
+        return el !== null;
+    });
+    if(otherThanNull){
+      $(".multi-other-phone").empty();
+      data['hsk_otherPhone'].forEach(function(item, index){
+        if(item !=  null){
+          $(".multi-other-phone").append(`<input value="${item}" type="text" class="input-text mt-1" placeholder="Nhập số điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1');">`);
+        }
+      })
+    }
+    
+  }
 </script>

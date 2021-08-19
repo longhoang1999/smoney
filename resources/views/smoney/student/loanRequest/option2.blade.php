@@ -1,5 +1,15 @@
 <div class="main-top">
-  <div class="main-top-title">Một số options có thể làm tăng khả năng bạn được cho vay</div>
+  <div class="main-top-title">
+    Một số options có thể làm tăng khả năng bạn được cho vay
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền một số tùy chọn có thể làm tăng khả năng vay thành công của bạn</p>
+      <p class="text-info">
+        <span>+ Nếu bạn tham gia các hoạt động đoàn thể ở trường,... hãy điền vào phần dưới. Ví dụ: đoàn thanh niên, câu lạc bộ sinh viên</span>
+        <span>Lưu ý: Thông tin chỉ có ích tại cơ sở bạn sẽ gửi hồ sơ</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Nếu bạn có người bảo trợ hoặc bạn tham gia các hoạt động đoàn thể ở trường,... hãy điền vào phần dưới. Ví dụ: đoàn thanh niên, câu lạc bộ sinh viên</span>
   <div class="block-question">
     <!--question  -->
@@ -8,6 +18,7 @@
       <input type="text" class="input-text mt-1" placeholder="Tên câu lạc bộ, đoàn thể">
     </div>
     <div class="btn-plus btn-plus-account-number">
+      <span>Thêm mới</span>
       <i class="fas fa-plus"></i>
     </div>
     <!-- /question -->
@@ -44,6 +55,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   function createObject(){
     let arNameClub = [];
@@ -68,6 +80,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
   

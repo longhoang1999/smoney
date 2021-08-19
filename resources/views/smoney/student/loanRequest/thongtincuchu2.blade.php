@@ -1,10 +1,22 @@
 <div class="main-top">
-  <div class="main-top-title">Thông tin nơi cư chú</div>
+  <div class="main-top-title">
+    Thông tin nơi cư chú
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin về nơi cư chú của bạn.</p>
+      <p class="text-info">
+        <span>Thông tin thường chú là thông tin trong sổ hộ khẩu của bạn.</span>
+        <span>+ Nếu hộ khẩu của bạn bạn ở thành phố hãy khai báo đến số nhà, số đường...</span>
+        <span>+ Nếu bạn không ở thành phố hãy khai báo đến bản, làng, thôn, xóm,...</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin về nơi cư chú của bạn</span>
   <div class="block-question">
 
     <!--question  -->
     <div class="question question-one required-icon">Địa chỉ thường chú của bạn</div>
+    <p class="text-fill-address font-italic">Địa chỉ bạn đã nhập là: <span class="text-warning fill-address font-weight-bold"></span></p>
     <div class="range">
       <span class="main-top-title-detail">Chọn Thành phố / Tỉnh</span>
       <br>
@@ -62,9 +74,15 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   function createObject(){
-    var address = `${$(".home-number").val()} - ${$( "#select-ward option:selected" ).text()} - ${$( "#select-district option:selected" ).text()} - ${$( "#select-city option:selected" ).text()}`;
+    let checkBack = $(".fill-address").text();
+    if(checkBack == ""){
+      var address = `${$(".home-number").val()} - ${$( "#select-ward option:selected" ).text()} - ${$( "#select-district option:selected" ).text()} - ${$( "#select-city option:selected" ).text()}`;
+    }else{
+      var address = checkBack;
+    }
 
     var objectToSave = {
       maHS: maHS,
@@ -75,15 +93,21 @@
 
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "thongtincuchu1"},
+        data:{
+            "page": "thongtincuchu1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
+    scrollToMain();
   })
 
   $.ajax({
@@ -94,7 +118,7 @@
         if(data['status'] === "success")
         {
           data['province_address'].forEach(function(item, index) {
-            $("#select-city").append(`<option value="${item['provinceid']}">${item['name']}</option>`);
+            $("#select-city").append(`<option value="${item['provinceid']}">${item['type']} ${item['name']}</option>`);
           })
         }
       }
@@ -117,6 +141,9 @@
               }
           }
       });
+      // reset back
+      $(".fill-address").text("");
+      $(".text-fill-address").hide();
   })
   $("#select-district").change(function() {
       $.ajax({
@@ -137,4 +164,9 @@
           }
       });
   })
+
+  function fillData(data){    
+    $(".fill-address").text(data['hsk_address']);
+    $(".text-fill-address").show();
+  }
 </script>

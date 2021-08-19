@@ -1,5 +1,17 @@
 <div class="main-top">
-  <div class="main-top-title">Thông tin khoản vay</div>
+  <div class="main-top-title">
+    Thông tin khoản vay
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin khoản vay của bạn.</p>
+      <p>Thông tin về khoản vay gồm có:</p>
+      <p class="text-info">
+        <span>+ Bạn muốn vay là bao nhiêu tiền?</span>
+        <span>+ Mục đích của khoản vay là gì?</span>
+        <span>+ Bạn dự định sẽ trả hết trong bao nhiêu tháng?</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin về khoản vay của bạn</span>
   <div class="block-question">
     <!--question  -->
@@ -142,6 +154,7 @@
             $(".main").append(data[1]);
           }
       });
+      scrollToMain();
     }
   })
 
@@ -150,6 +163,7 @@
     var var2 = $(".loan-purpose").val();
     var var3 = $(".loan-duration").val();
     var objectToSave = {
+      maHS: maHS,
       money : var1,
       purpose : var2,
       duration : var3
@@ -165,4 +179,17 @@
     $(".timeline-two").removeClass("active");
   }
   
+
+  function fillData(data){
+    // hsk_money
+    $("input[type='range']").attr("value",data['hsk_money']);
+    $(".show-money").html(asMoney(data['hsk_money']))
+    $("input[type='range']").attr("style",generateBackground($("input[type='range']")));
+    // hsk_purpose
+    $(".loan-purpose").val(data['hsk_purpose']);
+    $(".loan-purpose").parent().find(`li.square-item[data-value=${data['hsk_purpose']}]`).addClass("square-select");
+    // hsk_duration
+    $(".loan-duration").val(data['hsk_duration']);
+    $(".loan-duration").parent().find(`li.square-item[data-value=${data['hsk_duration']}]`).addClass("square-select");
+  }
 </script>

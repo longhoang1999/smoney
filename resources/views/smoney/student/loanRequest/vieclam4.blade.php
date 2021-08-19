@@ -1,5 +1,14 @@
 <div class="main-top">
-  <div class="main-top-title">Thông tin về việc làm của bạn</div>
+  <div class="main-top-title">
+    Thông tin về việc làm của bạn
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin về tình trạng việc làm của bạn.</p>
+      <p class="text-info">
+        <span>+ Chia sẻ mức lương trên tháng hiện tại mà bạn kiếm được (Điều này sẽ làm căn cứ để gia tăng khả năng vay thành công của bạn)</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin cơ bản về việc làm hiện tại của bạn</span>
   <div class="block-question">
     <!--question  -->
@@ -98,6 +107,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   function createObject(){
     var wage = $("input[type=range]").val();
@@ -118,6 +128,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
   $(".timeline-three").removeClass("active");
