@@ -96,8 +96,18 @@
     background-color: white;
     border-radius: 3px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
+.summary-background .chart-container {
+    flex: 1;
+}
+.summary-background .chart-container #myChart2 {
+    height: 400px !important;
+    width: 400px !important;
+}
 .summary-items {
     height: 160px;
     display: flex;
