@@ -1,5 +1,14 @@
 <div class="main-top">
-  <div class="main-top-title">Lựa chọn kênh thông báo</div>
+  <div class="main-top-title">
+    Lựa chọn kênh thông báo
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Lựa chọn kênh thông tin mà bạn muốn hệ thống thông báo</p>
+      <p class="text-info">
+        <span>+ Chúng tôi khuyên bạn nên chọn gửi thông báo từ cả số điện thoại và email</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Chúng tôi có thể liên lạc với bạn qua những cách nào</span>
   <div class="block-question">
     <!--question  -->
@@ -53,6 +62,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   
   function createObject(){
@@ -74,6 +84,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   
   $(".timeline-five").removeClass("active");

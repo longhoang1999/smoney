@@ -10,5 +10,5 @@ class HoSoKhoanVay extends Eloquent
 {
     protected $connection='mongodb';
     protected $collection='Hosokhoanvay';
-    public $timestamps = false;
+    public $timestamps = true;
 }

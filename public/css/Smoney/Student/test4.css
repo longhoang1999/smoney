@@ -245,6 +245,42 @@ input::-moz-focus-inner, input::-moz-focus-outer {
     font-weight: bold;
     font-size: 20px;
     text-align: center;
+    position: relative;
+}
+.main-top-title i{
+  position: absolute;
+  right: 3rem;
+  color: #3489fb;
+  cursor: pointer;
+  bottom: 0;
+}
+.main-top-title i:hover ~ .more-info-user{
+  display: block;
+}
+.more-info-user{
+  position: absolute;
+  right: 4rem;
+  width: 80%;
+  min-height: 20rem;
+  top: 2rem;
+  box-shadow: 0 0 7px #6b6a65;
+  z-index: 12;
+  border-radius: 5px;
+  padding: 1rem;
+  text-align: left;
+  display: none;
+  background: rgb(125 107 95);
+  background: linear-gradient(
+180deg
+, rgb(255 247 242) 0%, rgb(255 227 190) 30%, rgb(255 219 157) 56%, rgb(255 221 146) 82%, rgb(255 241 203) 100%);
+}
+.more-info-user p{
+  margin-bottom: .5rem;
+}
+.more-info-user span{
+  display: block;
+  font-size: 16px;
+  margin-bottom: .5rem;
 }
 .main-top-title-detail {
     font-size: 14px;
@@ -362,13 +398,17 @@ textarea:focus {
   margin-top: 6px;
   background: #2191d6;
   color: white;
-  width: 30px;
+  width: 20%;
   height: 30px;
   border-radius: 3px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   cursor: pointer;
+}
+.btn-plus i{
+  font-size: 13px;
+  margin-left: 5px;
 }
 .magin-top-small{
   margin-top: 3.5rem;
@@ -695,4 +735,7 @@ option[disabled=""] {
 }
 .star_select{
   color:  #ff9700;
+}
+.text-fill-address{
+  display: none;
 }

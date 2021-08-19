@@ -1,5 +1,14 @@
 <div class="main-top">
-  <div class="main-top-title">Bạn có đóng góp ý kiến gì không?</div>
+  <div class="main-top-title">
+    Bạn có đóng góp ý kiến gì không?
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Nhập ý kiến và đánh giá của bạn</p>
+      <p class="text-info">
+        <span>Nếu bạn có bất kỳ ý kiến, đóng góp gì, bạn có thể gửi cho chúng tôi</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Chúng tôi muốn lắng nghe ý kiến và đánh giá của bạn</span>
   <div class="block-question">
     <!--question  -->
@@ -61,6 +70,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
   function createObject(){
@@ -83,5 +93,6 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 </script>

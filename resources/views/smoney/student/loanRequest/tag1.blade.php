@@ -1,5 +1,15 @@
 <div class="main-top">
-  <div class="main-top-title">Các chủ đề mà bạn quan tâm</div>
+  <div class="main-top-title">
+    Các chủ đề mà bạn quan tâm
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền các chủ đề mà bạn quan tâm.</p>
+      <p class="text-info">
+        <span>+ Để chúng tôi hiểu rõ hơn về bạn: bạn có thể cho chúng tôi biết các lĩnh vực mà bạn quan tâm</span>
+        <span>Lưu ý: kéo thả vào vùng của bạn</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Hãy để chúng tôi hiểu rõ hơn về bạn</span>
   <div class="block-question">
     <!--question  -->
@@ -57,6 +67,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   function createObject(){
     var objectToSave = {
@@ -76,6 +87,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
     function allowDrop(ev) {

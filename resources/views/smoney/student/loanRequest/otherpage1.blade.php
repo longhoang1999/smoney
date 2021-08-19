@@ -5,7 +5,16 @@
   }
 </style>
 <div class="main-top">
-  <div class="main-top-title">Một số giấy tờ khác (nếu có)</div>
+  <div class="main-top-title">
+    Một số giấy tờ khác (nếu có)
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền một số tùy chọn có thể làm tăng khả năng vay thành công của bạn.</p>
+      <p class="text-info">
+        <span>+ Nếu bạn có bất kì chứng chỉ nào, bạn có thể điền vào đây</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Nếu bạn có các giấy tờ như giấy khám sức khỏe, chứng nhận đã tham gia các cuộc thi, chứng nhận tham gia NCKH,... có thể điền vào để tăng khả năng vay thành công</span>
   <!-- giấy tờ 1 -->
   <div class="block-question">
@@ -410,6 +419,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
   function createObject(){
     let pageObject = [];
@@ -466,6 +476,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
     
   

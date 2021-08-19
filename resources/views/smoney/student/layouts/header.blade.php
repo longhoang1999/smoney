@@ -19,7 +19,7 @@
         <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
                 <!-- logo -->
-                <a class="navbar-brand" href="#" id="header-logo">
+                <a class="navbar-brand" href="{{ route('student.student') }}" id="header-logo">
                     <img src="{{ asset('img-smoney/img-students/logo.svg') }}" alt="" class="header-logo-item">
                     <div class="header-logo-name">
                         <img src="{{ asset('img-smoney/img-students/name-logo.svg') }}" alt="" class="header-logo-item">
@@ -109,6 +109,12 @@
                             <div class="information-more">
                                 <a href="{{ route('student.information') }}" class="item-information">
                                     Thông tin tài khoản
+                                </a>
+                                <a href="{{ route('student.loanRequest') }}" class="item-information">
+                                    Yêu cầu khoản vay
+                                </a>
+                                <a href="{{ route('student.applyLoan') }}" class="item-information">
+                                    Hồ sơ khoản vay
                                 </a>
                                 <a href="{{ route('student.logout') }}" class="item-information">
                                     Đăng xuất

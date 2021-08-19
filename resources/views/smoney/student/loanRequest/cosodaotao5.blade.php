@@ -3,7 +3,18 @@
   $findUni = NhaTruong::whereIn("nt_id",$uniAr)->get();
  ?>
 <div class="main-top">
-  <div class="main-top-title">Thông tin về cơ sở đào tạo của bạn</div>
+  <div class="main-top-title">
+    Thông tin về cơ sở đào tạo của bạn
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin về trường mà bạn theo học (tiếp theo).</p>
+      <p>Những thông tin này sẽ là cơ sở để trường xác minh bạn là sinh viên của nhà trường</p>
+      <p class="text-info">
+        <span>+ Chọn trường nơi gửi hồ sơ của bạn. Nếu bạn muốn nộp học phí cho trường nào hãy chọn nơi gửi hồ sơ khoản vay về trường đó</span>
+        <span>+ Sau khi trường bạn xác nhận thông tin của bạn là đúng bạn mới có thể vay</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
   <div class="block-question">
     <!--question  -->
@@ -63,6 +74,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })  
   function createObject(){
     var chooseSchool = $(".choose-school").val();
@@ -83,6 +95,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 
   $(".timeline-two").removeClass("active");

@@ -223,5 +223,9 @@
             alert("Bạn chưa hoàn thành thông tin!");
         }
     })
+
+    function scrollToMain(){
+        $(window).scrollTop($('.main').offset().top - 20);
+    }
 </script>
 @stop

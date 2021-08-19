@@ -1,5 +1,18 @@
 <div class="main-top">
-  <div class="main-top-title">Thông tin về cơ sở đào tạo của bạn</div>
+  <div class="main-top-title">
+    Thông tin về cơ sở đào tạo của bạn
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền thông tin về trường mà bạn theo học (tiếp theo).</p>
+      <p>Những thông tin này sẽ là cơ sở để trường xác minh bạn là sinh viên của nhà trường</p>
+      <p class="text-info">
+        <span>+ Địa chỉ email sinh viên mà nhà trường bạn cung cấp (không bắt buộc)</span>
+        <span>+ Loại chương trình đào tạo của trường bạn</span>
+        <span>+ Địa chỉ trụ sở chính của trường nếu trường bạn có nhiều trụ sở. Hoặc điền địa chỉ trường bạn nếu trường bạn chỉ có một địa chỉ</span>
+        <span>+ Trạng thái tối nghiệp của bạn</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
   <div class="block-question">
     <!--question  -->
@@ -56,6 +69,7 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })  
   function createObject(){
     var numberSchool = $(".number-school").val();
@@ -80,5 +94,6 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 </script>

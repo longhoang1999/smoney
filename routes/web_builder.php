@@ -66,7 +66,6 @@
             Route::get('marketplace','SmoneyControllers\HomeController@marketplace')->name('student.marketplace');
             
 
-
             Route::get('student-information','SmoneyControllers\StudentController@studentInformation')->name('student.information');
             Route::post('student-changeavatar','SmoneyControllers\StudentController@changeAvatar')->name('student.changeAvatar');
             Route::post('student-update-information','SmoneyControllers\StudentController@updateInformation')->name('student.updateInformation');
@@ -74,6 +73,8 @@
             
             Route::get('loan-request','SmoneyControllers\LoanController@loanRequest')->name('student.loanRequest');
             Route::get('load-timeline', 'SmoneyControllers\LoanController@loadTimeline')->name('student.loadTimeline');
+            Route::get('load-timeline-pre', 'SmoneyControllers\LoanController@loadTimelinePre')->name('student.loadTimelinePre');
+            
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
             Route::get('delete-img-point', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
 

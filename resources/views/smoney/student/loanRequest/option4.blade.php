@@ -1,33 +1,60 @@
 <div class="main-top">
-  <div class="main-top-title">Một số options có thể làm tăng khả năng bạn được cho vay</div>
+  <div class="main-top-title">
+    Một số options có thể làm tăng khả năng bạn được cho vay
+    <i class="fas fa-question-circle"></i>
+    <div class="more-info-user">
+      <p>Điền một số tùy chọn có thể làm tăng khả năng vay thành công của bạn</p>
+      <p class="text-info">
+        <span>+ Nếu bạn có thông tin về người bảo trợ bạn có thể khai báo ở đây</span>
+        <span>Lưu ý: Người bảo trợ có thể là bố, mẹ, người thân ruột thịt,..</span>
+      </p>
+    </div>
+  </div>
   <span class="main-nottop-title-detail">Nếu bạn có người bảo trợ hoặc bạn tham gia các hoạt động đoàn thể ở trường,... hãy điền vào phần dưới. Ví dụ: đoàn thanh niên, câu lạc bộ sinh viên</span>
   <div class="block-question">
     <!--question  -->
     <div class="question question-two">Nhập thông tin người bảo trợ</div>
-    <span class="main-top-title-detail required-icon">1. Họ và tên: </span><br>
-    <input type="text" class="input-text mt-1 fullname" placeholder="Nhập họ và tên">
-    <br><span class="main-top-title-detail required-icon">2. Số điện thoại: </span><br>
-    <input type="text" class="input-text mt-1 phone" placeholder="Nhập số điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
-    <br><span class="main-top-title-detail required-icon">3. Số căn cước công dân: </span><br>
-    <input type="text" class="input-text mt-1 cccd" placeholder="Nhập số căn cước công dân">
-    <br><span class="main-top-title-detail required-icon">4. Giới tính: </span><br>
-    <select name="gender" class="select color-gray">
-      <option value="" hidden="">--Giới tính</option>
-      <option value="Nam">Nam</option>
-      <option value="Nữ">Nữ</option>
-      <option value="Khác">Khác</option>
-    </select>
-    <br><span class="main-top-title-detail">
-      5. Số tài khoản: 
-      <small>Ví dụ: 0123456789 - Agribank - Chi nhánh Đông Hà Nội</small>
-    </span><br>
-    <input type="text" class="input-text mt-1 stk" placeholder="Nhập số tài khoản">
-    <br><span class="main-top-title-detail required-icon">6. Quan hệ với sinh viên: </span><br>
-    <input type="text" class="input-text mt-1 relationship" placeholder="Nhập quan hệ với sinh viên">
 
-    <!-- /question -->
-    <div class="file-infor mt-3">
-      <button class="btn btn-sm btn-info btn-add">Thêm một người bảo trợ</button>
+    <div class="container-fuild">
+      <div class="row">
+        <div class="col-md-6">
+          <span class="main-top-title-detail required-icon">1. Họ và tên: </span><br>
+          <input type="text" class="input-text mt-1 fullname" placeholder="Nhập họ và tên">
+        </div>
+        <div class="col-md-6">
+          <span class="main-top-title-detail required-icon">2. Số điện thoại: </span><br>
+          <input type="text" class="input-text mt-1 phone" placeholder="Nhập số điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+        </div>
+        <div class="col-md-6">
+          <span class="main-top-title-detail required-icon">3. Số căn cước công dân: </span><br>
+          <input type="text" class="input-text mt-1 cccd" placeholder="Nhập số căn cước công dân">
+        </div>
+        <div class="col-md-6">
+          <span class="main-top-title-detail required-icon">4. Giới tính: </span><br>
+          <select name="gender" class="select color-gray mt-1">
+            <option value="" hidden="">--Giới tính</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <span class="main-top-title-detail">
+            5. Số tài khoản: 
+            Ví dụ: 0123456789 - Agribank - Chi nhánh Đông Hà Nội
+          </span><br>
+          <input type="text" class="input-text mt-1 stk" placeholder="Nhập số tài khoản">
+        </div>
+        <div class="col-md-12">
+          <span class="main-top-title-detail required-icon">6. Quan hệ với sinh viên: </span><br>
+          <input type="text" class="input-text mt-1 relationship" placeholder="Nhập quan hệ với sinh viên">
+        </div>
+
+        <!-- /question -->
+        <div class="file-infor mt-3">
+          <button class="btn btn-sm btn-info btn-add">Thêm một người bảo trợ</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -170,6 +197,7 @@
             $(".main").append(data[1]);
           }
       });
+      scrollToMain();
     }else{
       alert("Bạn chưa nhập thông tin");
     }
@@ -193,5 +221,6 @@
           $(".main").append(data[1]);
         }
     });
+    scrollToMain();
   })
 </script>
