@@ -87,7 +87,10 @@
             Route::get('school-unpaid', 'SmoneyControllers\UniversityController@unpaid')->name('schhool.unpaid');
             Route::get('school-pending', 'SmoneyControllers\UniversityController@pending')->name('schhool.pending'); 
 
-
+            //==============================================================================
+            Route::get('bank-dashboard', 'SmoneyControllers\BankController@bankDashboard')->name('bank.bankDashboard');
+            Route::get('bank-school-info', 'SmoneyControllers\BankController@schoolinfo')->name('bank.schoolinfo');
+            Route::get('bank-loan-info', 'SmoneyControllers\BankController@loaninfo')->name('bank.loaninfo');
         }
     );
 ?>
