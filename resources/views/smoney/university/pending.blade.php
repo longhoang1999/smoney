@@ -11,7 +11,7 @@ integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEB
 crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
     .banner-2{
-        background: url('{{ asset("img-smoney/img-students/bg-title.png")  }}');
+        background: url('{{ asset("img-smoney/university/aaa.png")  }}');
         background-repeat: no-repeat;
         background-size: cover;
     }

@@ -85,7 +85,7 @@
                         </div>
                         <!-- avatar user -->
                         <div class="information-user-avatar nav-item">
-                            <div class="information-user">
+                            <div class="information-user" title="{{ $name }}">
                                 <div class="info-avatar" 
                                     @if($avatar == "")
                                         style="background: url('{{ asset('img-smoney/img-students/avatar-default.png')}}')"
@@ -95,7 +95,7 @@
                                 >
                                 </div>
                                 <span class="name-user">
-                                    <span>Trường ĐHQG HN</span>
+                                    <span>{{ $name }}</span>
                                     <i class="fas fa-sort-down"></i>
                                 </span>
                             </div>

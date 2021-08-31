@@ -19,7 +19,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
                 <!-- logo -->
-                <a class="navbar-brand" href="#" id="header-logo">
+                <a class="navbar-brand" href="{{ route('bank.bankDashboard') }}" id="header-logo">
                     <img src="{{ asset('img-smoney/img-students/logo.svg') }}" alt="" class="header-logo-item">
                     <div class="header-logo-name">
                         <img src="{{ asset('img-smoney/img-students/name-logo.svg') }}" alt=""
@@ -86,23 +86,26 @@
                         </div>
                         <!-- avatar user -->
                         <div class="information-user-avatar nav-item">
-                            <div class="information-user">
-                                <div class="info-avatar" @if ($avatar == '')
-                                    style="background:
-                                    url('{{ asset('img-smoney/bank/bank-small-logo.png') }}')"
+                            <div class="information-user" title="{{ $name }}">
+                                <div class="info-avatar" 
+                                @if ($avatar == '')
+                                    style="background: url('{{ asset('img-smoney/img-students/avatar-default.png')}}')"
                                 @else
                                     style="background: url('{{ asset($avatar) }}') no-repeat;"
-                                    @endif
+                                @endif
                                     >
                                 </div>
                                 <span class="name-user">
-                                    <span>Techcombank</span>
+                                    <span>{{ $name }}</span>
                                     <i class="fas fa-sort-down"></i>
                                 </span>
                             </div>
                             <div class="information-more">
-                                <a href="{{ route('student.information') }}" class="item-information">
-                                    Thông tin tài khoản
+                                <a href="{{ route('bank.schoolinfo') }}" class="item-information">
+                                    Thông tin nhà trường
+                                </a>
+                                <a href="{{ route('bank.loaninfo') }}" class="item-information">
+                                    Thông tin khoản vay
                                 </a>
                                 <a href="{{ route('student.logout') }}" class="item-information">
                                     Đăng xuất

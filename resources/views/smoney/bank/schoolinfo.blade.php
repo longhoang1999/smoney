@@ -11,7 +11,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .banner-2 {
-            background: url('{{ asset('img-smoney/img-students/bg-title.png') }}');
+            background: url('{{ asset('img-smoney/bank/aaaa.png') }}');
             background-repeat: no-repeat;
             background-size: cover;
         }

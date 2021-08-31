@@ -317,6 +317,9 @@ class StudentController extends Controller
             }else if($user->tks_loaitk == "2"){
                 return redirect()->route("schhool.schoolDashboard");
             }
+            else if($user->tks_loaitk == "3"){
+                return redirect()->route("bank.bankDashboard");
+            }
         }
         else{
             return back()->with("error","Sai tài khoản hoặc mật khẩu");
