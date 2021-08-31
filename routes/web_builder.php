@@ -81,6 +81,11 @@
             
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
             Route::get('delete-img-point', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
+//             dung
+           //==============================================================================
+            Route::get('bank-dashboard', 'SmoneyControllers\BankController@bankDashboard')->name('bank.bankDashboard');
+            Route::get('bank-school-info', 'SmoneyControllers\BankController@schoolinfo')->name('bank.schoolinfo');
+            Route::get('bank-loan-info', 'SmoneyControllers\BankController@loaninfo')->name('bank.loaninfo');
         }
     );
     Route::group(
