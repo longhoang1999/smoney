@@ -50,21 +50,31 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "cosodaotao2",
-            "pagepresent" : "cosodaotao1",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".number-school").val() == undefined || $(".number-school").val() == ""){
+      $(".notExistContent").html("Bạn học tại bao nhiêu trường");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "cosodaotao2",
+              "pagepresent" : "cosodaotao1",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+            hsk_numberSchool = data[2];
+            if(hsk_numberSchool != ""){
+               $(".numSh-hidden").show();
+               $(".numSh-hidden").text("Trường thứ " + (parseInt(hsk_numberSchool) + 1));
+            } 
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     var numberSchool = $(".number-school").val();
@@ -75,6 +85,7 @@
     return objectToSave;
   }
   $(".btn-back").click(function() {
+
     $.ajax({
         url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",

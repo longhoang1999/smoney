@@ -12,7 +12,7 @@
   <span class="main-nottop-title-detail">Điền các thông tin cơ bản về việc làm hiện tại của bạn</span>
   <div class="block-question">
     <!--question  -->
-    <div class="question question-two">Thời gian bạn làm việc</div>
+    <div class="question question-two required-icon">Thời gian bạn làm việc</div>
     <div class="block-square">
       <ul>
         <li class="square-item" data-value="1">
@@ -49,21 +49,26 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "vieclam3",
-            "pagepresent" : "vieclam2",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".time-work").val() == undefined || $(".time-work").val() == ""){
+      $(".notExistContent").html("Thời gian làm việc");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "vieclam3",
+              "pagepresent" : "vieclam2",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     var timeWork = $(".time-work").val();

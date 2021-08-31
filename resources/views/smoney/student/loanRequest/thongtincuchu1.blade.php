@@ -14,7 +14,7 @@
   <div class="block-question">
 
     <!--question  -->
-    <div class="question question-one">Bạn đang sống ở đâu</div>
+    <div class="question question-one required-icon">Bạn đang sống ở đâu</div>
    <!--  <span class="main-top-title-detail">Hiện tại bạn đang sống cùng ai</span> -->
     <div class="block-square">
       <ul>
@@ -54,21 +54,29 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "thongtincuchu2",
-            "pagepresent" : "thongtincuchu1",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".loan-address").val() == undefined || $(".loan-address").val() == ""){
+      $(".notExistContent").html("Mục đích vay");
+      $("#modalNotExist").modal("show");
+    }else if($(".loan-address").val() == "3" && $(".live-other").val() == ""){
+      $(".notExistContent").html("Mục đích vay");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "thongtincuchu2",
+              "pagepresent" : "thongtincuchu1",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     var var1 = $(".loan-address").val();

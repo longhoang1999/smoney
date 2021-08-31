@@ -192,4 +192,12 @@
     $(".loan-duration").val(data['hsk_duration']);
     $(".loan-duration").parent().find(`li.square-item[data-value=${data['hsk_duration']}]`).addClass("square-select");
   }
+
+
+  // function divMainAnimation(){
+  //   $(".main-top").fadeOut("fast");
+  //   $(".block-end").fadeOut("fast");
+  //   $(".main-top").fadeIn("slow");
+  //   $(".block-end").fadeIn("slow");
+  // }
 </script>

@@ -68,8 +68,10 @@ class LoanController extends Controller
                 'findHSNotDone' => $findHSNotDone
             ]);
         }
-        else 
+        else {
+            Auth::logout();
             return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+        }
     }
 
     public function loanRequest(Request $req){
@@ -90,12 +92,15 @@ class LoanController extends Controller
                 'email' => $findStudent->email,
             ]);
         }
-        else 
+        else {
+            Auth::logout();
             return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+        }
     }
     // load time
     public function loadTimeline(Request $req){
         $idHS = ""; $uniID = ""; $uniAr = array();
+        $hsk_numberSchool = "";
         $user = Auth::user();
         $findStudent = Student::where("_id",$user->tks_sotk)->first();
 
@@ -173,12 +178,14 @@ class LoanController extends Controller
                 }
                 case 'cosodaotao1': {
                     $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
-                    $findHS->hsk_numberSchool = $req->data['numberSchool'];
+                    $findHS->hsk_numberSchool = "0";
                     $findHS->hsk_numberSchool_checkBack = $req->data['numberSchool'];
                     $findHS->university = null;
                     $findHS->pagepresent = "cosodaotao1";
                     $findHS->save();
                     $idHS = $findHS->_id;
+                    if($req->data['numberSchool'] != "1")
+                        $hsk_numberSchool = $findHS->hsk_numberSchool;
                     break;
                 }
                 case 'cosodaotao2': {
@@ -189,7 +196,7 @@ class LoanController extends Controller
                     $oldUni = $findHS->university;
                     $newUni = (object) array($req->data['universityID'] => $data );
                     // check total uni
-                    $findHS->hsk_numberSchool = strval(intval($findHS->hsk_numberSchool) - 1);
+                    $findHS->hsk_numberSchool = strval(intval($findHS->hsk_numberSchool) + 1);
                     if($oldUni != null){
                         $c = (object) $this->merge((array)$oldUni, (array)$newUni);
                         $findHS->university = $c;
@@ -235,8 +242,9 @@ class LoanController extends Controller
                     $findHS->pagepresent = "cosodaotao4";
                     //check
                     $uniAr = array_keys($universityOld);
-                    if(intval($findHS->hsk_numberSchool) > 0 ){
+                    if(intval($findHS->hsk_numberSchool) < intval($findHS->hsk_numberSchool_checkBack)){
                         $req->page = "cosodaotao2";
+                        $hsk_numberSchool = $findHS->hsk_numberSchool;
                     }else if(count($uniAr) > 1 && $findHS->chooseSchool == null){
                         $req->page = "cosodaotao5";
                     }
@@ -401,10 +409,10 @@ class LoanController extends Controller
                 'uniID' => $uniID,
                 'uniAr' => $uniAr
             ])->render();
-        return [$idHS,$body];
+        return [$idHS,$body,$hsk_numberSchool];
     }
     public function loadTimelinePre(Request $req){
-        $user = Auth::user();
+        $user = Auth::user(); $uniAr = array();
         $findStudent = Student::where("_id",$user->tks_sotk)->first();
         switch($req->page){
             case 'thongtinkhoanvay1':{
@@ -442,6 +450,23 @@ class LoanController extends Controller
                 $dataPre = (object) array('hsk_numberSchool' => $findHS->hsk_numberSchool_checkBack);
                 break;
             }
+            case 'cosodaotao2':{
+                $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+                $indexArr = $req->numberUni;
+                $universityKey = array_keys($findHS->university);
+                $universityArray = array_values($findHS->university);
+
+                $uniAr = $universityKey;
+                unset($uniAr[$indexArr]);
+
+                $dataPre =  array(
+                    'idUniver' => $universityKey[$indexArr], 
+                    'specialized' => $universityArray[$indexArr]['specialized'], 
+                    'class' => $universityArray[$indexArr]['specialized'], 
+                    'studentCode' => $universityArray[$indexArr]['studentCode']
+                );
+                break;
+            }
             
             
         }
@@ -453,6 +478,7 @@ class LoanController extends Controller
                 'cccd' => $findStudent->cccd,
                 'ngaysinh' => $findStudent->ngaysinh,
                 'gioitinh' => $findStudent->gioitinh,
+                'uniAr' => $uniAr
             ])->render();
         return [$body,$dataPre];
     }

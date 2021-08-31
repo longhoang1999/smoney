@@ -19,6 +19,7 @@
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
   <div class="block-question">
     <!--question  -->
+    <div class="question question-two numSh-hidden"></div>
     <div class="question question-two ">Thành tích học tập của bạn</div>
     <span class="main-top-title-detail required-icon">Tải lên file bảng điểm của bạn</span>
 
@@ -58,7 +59,7 @@
 
 <!-- <script type="text/javascript" src="{{ asset('dropzone/js/dropzone.js') }}" ></script> -->
 <script type="text/javascript">
-  var imgAr = [];
+  var imgAr = [], uploaded = false;
   $.getScript( "{{ asset('dropzone/js/dropzone.js') }}", function() {
     console.log( "Load was performed." );
   });
@@ -67,6 +68,7 @@
       acceptedFiles:'.jpeg,.jpg,.png',
       maxFiles: 10,
       success: function(file, response){
+        uploaded = true;
         imgAr.push(response['url']);
       },
       queuecomplete: function() {
@@ -106,21 +108,33 @@
   })
 
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "vieclam1",
-            "pagepresent" : "cosodaotao4",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if(!uploaded){
+      $(".notExistContent").html("File thành tích học tập");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "vieclam1",
+              "pagepresent" : "cosodaotao4",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+            if(data[2] != null) {
+              hsk_numberSchool = data[2];
+              if(hsk_numberSchool != ""){
+                 $(".numSh-hidden").show();
+                 $(".numSh-hidden").text("Trường thứ " + (parseInt(hsk_numberSchool) + 1));
+              }
+            }
+          }
+      });
+      scrollToMain();
+    }
   })  
   function createObject(){
     var numberSchool = $(".number-school").val();

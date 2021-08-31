@@ -189,7 +189,7 @@ li.menu-service {
 .information-more {
     position: absolute;
     display: block;
-    width: 15rem;
+    width: 13rem;
     background: #f8e2e2;
     border-left: 2px solid #e14c4c;
     border-radius: 5px;
@@ -207,7 +207,7 @@ li.menu-service {
     line-height: 2rem;
 }
 .item-information{
-    padding: .8rem 1rem;
+    padding: .8rem 1rem !important;
 }
 .item-notification:hover,
 .item-information:hover {
@@ -228,7 +228,7 @@ li.menu-service {
 }
 .information-more {
     left: auto;
-    mix-width: 140px;
+    min-width: 14rem;
     border-left: 2px solid #098618;
     background-color: #c0f7b5;
 }

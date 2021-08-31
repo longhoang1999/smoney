@@ -739,3 +739,6 @@ option[disabled=""] {
 .text-fill-address{
   display: none;
 }
+.numSh-hidden{
+  display: none;
+}

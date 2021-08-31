@@ -41,7 +41,7 @@
             @foreach($findHSNotDone as $hs)
             <!--  a div content -->
             <div class="content-block-parents">
-                <div class="content-block" data-toggle="modal" data-target="#modalLoan_1_{{ $i_0 }}">
+                <div class="content-block content-block-notdone" data-toggle="modal" data-target="#modalLoan_1_{{ $i_0 }}">
                     <div class="content-block-title">
                         @if($hs->hsk_purpose == "1")
                             <span>Tiền học phí</span>
@@ -1253,14 +1253,13 @@
 
 
 @section('footer-js')
-<!-- <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script> -->
+<script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
-    // $(".content-block-done").click(function(e) {
-    //     if(e.target.className.indexOf("complete-profile") == -1){
-    //         $("#modalLoan_1").modal("show");
-    //     }
-    // })
+    $(".complete-profile").click(function(e) {
+        // ngăn call modal
+        e.stopPropagation();
+    })
 </script>
 @stop

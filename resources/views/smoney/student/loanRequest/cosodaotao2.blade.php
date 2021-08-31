@@ -20,13 +20,14 @@
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
   <div class="block-question">
     <!--question  -->
+    <div class="question question-two numSh-hidden"></div>
     <div class="question question-two">Thông tin về trường của bạn</div>
     <div class="range">
       <br>
       <span class="main-top-title-detail required-icon">1. Tên trường: </span>
       <br>
       <select id="select-university" class="select color-gray">
-        <option hidden="">Chọn trường</option>
+        <option hidden="" value="">Chọn trường</option>
         @foreach($unis as $uni)
           <option value="{{ $uni->nt_id }}" 
             @foreach($uniAr as $uAr)
@@ -64,24 +65,41 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "cosodaotao3",
-            "pagepresent" : "cosodaotao2",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($("#select-university").val() == undefined || $("#select-university").val() == ""){
+      $(".notExistContent").html("Tên trường");
+      $("#modalNotExist").modal("show");
+    }else if($(".specialized").val()==undefined || $(".specialized").val()==""){
+      $(".notExistContent").html("Chuyên ngành theo học");
+      $("#modalNotExist").modal("show");
+    }else if($(".class").val()==undefined || $(".class").val()==""){
+      $(".notExistContent").html("Lớp hành chính");
+      $("#modalNotExist").modal("show");
+    }else if($(".studentCode").val()==undefined || $(".studentCode").val()==""){
+      $(".notExistContent").html("Mã sinh viên");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "cosodaotao3",
+              "pagepresent" : "cosodaotao2",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+            if(hsk_numberSchool != ""){
+               $(".numSh-hidden").show();
+               $(".numSh-hidden").text("Trường thứ " + (parseInt(hsk_numberSchool) + 1));
+            } 
+          }
+      });
+      scrollToMain();
+    }
   })  
   function createObject(){
-    var numberSchool = $(".number-school").val();
     var objectToSave = {
       maHS: maHS,
       universityID: $("#select-university").val(),
@@ -109,4 +127,11 @@
     });
     scrollToMain();
   })
+
+  function fillData(data){    
+    $("#select-university").val(data['idUniver']);
+    $(".specialized").val(data['specialized']);
+    $(".class").val(data['class']);
+    $(".studentCode").val(data['studentCode']);
+  }
 </script>

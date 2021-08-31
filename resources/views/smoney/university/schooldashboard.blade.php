@@ -17,13 +17,15 @@
             background-size: cover;
             background-position: bottom;
         }
-
         .logo {
-            background-image: url('{{ asset('img-smoney/university/university_logo.png') }}');
+            @if($avatar == "")
+                background-image: url('{{ asset('img-smoney/img-students/avatar-default.png')}}');
+            @else
+                background-image: url('{{ asset($avatar)}}');
+            @endif
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: cover;
         }
-
     </style>
 @stop
 @section('content')
@@ -248,6 +250,7 @@
 @section('footer-js')
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        document.getElementById('myChart').height = 200;
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -255,7 +258,7 @@
                     'Khoản vay đã trả'
                 ],
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Chi tiết các khoản vay',
                     data: [25, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         '#7068CC',
@@ -295,7 +298,7 @@
                     'Khoản vay đã trả'
                 ],
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Chi tiết các khoản vay',
                     data: [25, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         '#7068CC',

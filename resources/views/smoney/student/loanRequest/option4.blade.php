@@ -58,17 +58,20 @@
     </div>
   </div>
 </div>
-<hr>
-<div class="main-bottom">
-  <div class="btn-back main-bottom-item">
-    Quay lại
-    <i class="fas fa-long-arrow-alt-left"></i>
-  </div>
-  <div class="btn-next main-bottom-item">
-    Tiếp theo
-    <i class="fas fa-long-arrow-alt-right"></i>
+<div class="block-end">
+  <hr>
+  <div class="main-bottom">
+    <div class="btn-back main-bottom-item">
+      Quay lại
+      <i class="fas fa-long-arrow-alt-left"></i>
+    </div>
+    <div class="btn-next main-bottom-item">
+      Tiếp theo
+      <i class="fas fa-long-arrow-alt-right"></i>
+    </div>
   </div>
 </div>
+
 <!-- modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">

@@ -53,7 +53,7 @@
     <span class="main-top-title-detail">Ví dụ: 0123456789 - Agribank - Chi nhánh Đông Hà Nội</span> -->
 
     <div class="multi-input multi-account-number">
-      <input type="text" class="input-text mt-1" placeholder="Nhập thông tin tài khoản">
+      <input type="text" class="first-acc input-text mt-1" placeholder="Nhập thông tin tài khoản">
     </div>
     <div class="btn-plus btn-plus-account-number">
       <span>Thêm mới</span>
@@ -66,7 +66,7 @@
     <!-- <span class="main-top-title-detail">Nếu bạn sử dụng nhiều số điện thoại ngoài số điện thoại chính, hãy điền vào đây</span> -->
 
     <div class="multi-input multi-other-phone">
-      <input type="text" class="input-text mt-1" placeholder="Nhập số điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+      <input type="text" class="input-text mt-1 first-phone" placeholder="Nhập số điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
     </div>
     <div class="btn-plus btn-plus-other-phone">
       <span>Thêm mới</span>
@@ -89,21 +89,32 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "thongtincuchu1",
-            "pagepresent" : "thongtincanhan2",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".email").val() == undefined || $(".email").val() == ""){
+      $(".notExistContent").html("Email");
+      $("#modalNotExist").modal("show");
+    }else if($(".select").val() == undefined || $(".select").val() == ""){
+      $(".notExistContent").html("Giới tính");
+      $("#modalNotExist").modal("show");
+    }else if($(".first-acc").val() == undefined || $(".first-acc").val() == ""){
+      $(".notExistContent").html("Thông tin tài khoản");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "thongtincuchu1",
+              "pagepresent" : "thongtincanhan2",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     var var1 = $(".email").val();
@@ -147,10 +158,18 @@
   })
   // 
   $(".btn-plus-account-number").click(function() {
-    $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập thêm thông tin tài khoản">');
+    if($(".first-acc").val() == undefined || $(".first-acc").val() == ""){
+      alert("Hãy nhập trường đầu tiên");
+    }else{
+      $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập thêm thông tin tài khoản">');
+    }
   })
   $(".btn-plus-other-phone").click(function() {
-    $(".multi-other-phone").append(`<input type="text" class="input-text mt-1" placeholder="Nhập thêm điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1');">`);
+    if($(".first-phone").val() == undefined || $(".first-phone").val() == ""){
+      alert("Hãy nhập trường đầu tiên");
+    }else{
+      $(".multi-other-phone").append(`<input type="text" class="input-text mt-1" placeholder="Nhập thêm điện thoại" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1');">`);
+    }
   })
   
   function fillData(data){

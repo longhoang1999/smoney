@@ -97,8 +97,10 @@ class HomeController extends Controller
                 'avatar' => $findStudent->avatar
             ]);
         }
-        else 
+        else {
+            Auth::logout();
             return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+        }
     }
     public function marketplace(){
         $userLogin = Auth::user();
@@ -109,8 +111,10 @@ class HomeController extends Controller
                 'avatar' => $findStudent->avatar
             ]);
         }
-        else 
+        else {
+            Auth::logout();
             return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+        }
     }
     
     public function loadAllCity(Request $req){
