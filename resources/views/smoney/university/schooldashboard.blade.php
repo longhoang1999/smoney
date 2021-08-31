@@ -35,7 +35,7 @@
         <div class='container'>
             <div class='logo-container'>
                 <div class="logo"></div>
-                <div class='logo-title'>Trường DHQG HN</div>
+                <div class='logo-title'>{{ $name }}</div>
             </div>
             <div class='w-100 mb-5'>
                 <div class='d-flex justify-content-between my-3'>

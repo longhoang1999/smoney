@@ -241,6 +241,7 @@ li.menu-service {
     background-color: #bb3d3d;
 }
 .info-avatar {
+    border: 1px solid #c5c5c5;
     height: 40px;
     width: 40px;
     background-repeat: no-repeat !important;

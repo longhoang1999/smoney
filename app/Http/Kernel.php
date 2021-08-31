@@ -67,7 +67,9 @@ class Kernel extends HttpKernel
         'cookieUserLogged' => \App\Http\Middleware\VerifyCookieLogin::class,
         'studentLogin' => \App\Http\Middleware\StudentLoginMiddleware::class,
         'universityLogin' => \App\Http\Middleware\UniversityLoginMiddleware::class,
+        'bankLogin' => \App\Http\Middleware\BankMiddleware::class,
         'language' => \App\Http\Middleware\ChangeLanguageMiddleware::class,
+
 
     ];
 

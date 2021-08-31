@@ -19,9 +19,13 @@
         }
 
         .logo {
-            background-image: url('{{ asset('img-smoney/bank/bank-big-logo.png') }}');
+            @if($avatar == "")
+                background-image: url('{{ asset('img-smoney/img-students/avatar-default.png')}}');
+            @else
+                background-image: url('{{ asset($avatar)}}');
+            @endif
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: cover;
         }
 
     </style>
@@ -33,7 +37,7 @@
         <div class='container'>
             <div class='logo-container'>
                 <div class="logo"></div>
-                <div class='logo-title'>Techcombank</div>
+                <div class='logo-title'>{{ $name }}</div>
             </div>
             <div class='w-100 mb-5'>
                 <div class='d-flex justify-content-between my-3'>
@@ -248,6 +252,7 @@
 @section('footer-js')
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
+        document.getElementById('myChart').height = 200;
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -255,7 +260,7 @@
                     'Khoản vay đã trả'
                 ],
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Chi tiết các khoản vay',
                     data: [25, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         '#7068CC',
@@ -295,7 +300,7 @@
                     'Khoản vay đã trả'
                 ],
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Chi tiết các khoản vay',
                     data: [25, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         '#7068CC',
