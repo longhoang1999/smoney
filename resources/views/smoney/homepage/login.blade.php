@@ -68,7 +68,7 @@
                             </div>                        
                         </div>
                         <!-- btn submit -->
-                        <button class="btn-submit" type="submit">
+                        <button class="btn-submit btn-full-width" type="submit">
                             <span>Tìm tài khoản</span>
                             <div class="btn-icon">
                                 <i class="fas fa-long-arrow-alt-right"></i>

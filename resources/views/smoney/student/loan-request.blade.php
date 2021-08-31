@@ -28,6 +28,12 @@
     .headroom--top{
         transform: translateY(0%) !important;
     }
+    .btn-back{
+        display: none !important;
+    }
+    .main-bottom{
+        justify-content: flex-end !important;
+    }
 </style>
 @stop
 @section('content')
@@ -129,7 +135,7 @@
 <script type="text/javascript" src="{{ asset('js/frontend/index.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
-    var maHS = null, sent = null;
+    var maHS = null, sent = null, hsk_numberSchool = null;
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -138,7 +144,7 @@
     $.ajax({
         url:"{!! route('student.loadTimeline') !!}",
         method: "GET",
-         data:{"page": "thongtinkhoanvay1"},
+        data:{"page": "thongtinkhoanvay1"},
         // data:{"page": "thongtincanhan1"},
         // data:{"page": "thongtincanhan2"},
         // data:{"page": "thongtincuchu1"},

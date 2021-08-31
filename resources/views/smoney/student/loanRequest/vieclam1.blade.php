@@ -49,21 +49,26 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "vieclam2",
-            "pagepresent" : "vieclam1",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".employment-status").val() == undefined || $(".employment-status").val() == ""){
+      $(".notExistContent").html("Tình trạng việc làm của bạn");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "vieclam2",
+              "pagepresent" : "vieclam1",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     var employmentStatus = $(".employment-status").val();

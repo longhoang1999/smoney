@@ -16,13 +16,14 @@
   <span class="main-nottop-title-detail">Điền các thông tin về các trường đại học, cao đẳng,... mà bạn đang theo học</span>
   <div class="block-question">
     <!--question  -->
+    <div class="question question-two numSh-hidden"></div>
     <div class="question question-two">Thông tin về trường của bạn</div>
     <div class="range">
       <br><span class="main-top-title-detail">5. Địa chỉ email do nhà trường cung cấp: </span><br>
       <input type="email" class="input-text mt-1 email" placeholder="Nhập địa chỉ email">
       <br><span class="main-top-title-detail required-icon">6. Loại chương trình đào tạo: </span><br>
       <select id="programType" class="select color-gray">
-        <option hidden="">Chọn loại chương trình đào tạo</option>
+        <option hidden="" value="">Chọn loại chương trình đào tạo</option>
         <option value="Chính quy">Chính quy</option>
         <option value="Không chính quy">Không chính quy</option>
       </select>
@@ -30,7 +31,7 @@
       <input type="text" class="uniAddress input-text mt-1" placeholder="Nhập địa chỉ trụ sở chính của trường">
       <br><span class="main-top-title-detail required-icon">8. Trạng thái tốt nghiệp: </span><br>
       <select id="leaveUni" class="select color-gray">
-        <option hidden="">Chọn trạng thái tốt nghiệp của bạn</option>
+        <option hidden="" value="">Chọn trạng thái tốt nghiệp của bạn</option>
         <option value="Đã tốt nghiệp">Đã tốt nghiệp</option>
         <option value="Chưa tốt nghiệp">Chưa tốt nghiệp</option>
       </select>
@@ -55,21 +56,33 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "cosodaotao4",
-            "pagepresent" : "cosodaotao3",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($("#programType").val() == undefined || $("#programType").val() == ""){
+      $(".notExistContent").html("Loại chương trình đào tạo");
+      $("#modalNotExist").modal("show");
+    }else if($("#leaveUni").val() == undefined || $("#leaveUni").val() == ""){
+      $(".notExistContent").html("Trạng thái tốt nghiệp");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "cosodaotao4",
+              "pagepresent" : "cosodaotao3",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+            if(hsk_numberSchool != ""){
+               $(".numSh-hidden").show();
+               $(".numSh-hidden").text("Trường thứ " + (parseInt(hsk_numberSchool) + 1));
+            } 
+          }
+      });
+      scrollToMain();
+    } 
   })  
   function createObject(){
     var numberSchool = $(".number-school").val();
@@ -85,13 +98,19 @@
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "cosodaotao2"},
+        data:{
+            "page": "cosodaotao2",
+            "maHS" : maHS,
+            "numberUni" : hsk_numberSchool
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();

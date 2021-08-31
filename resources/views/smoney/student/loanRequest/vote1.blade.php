@@ -12,10 +12,10 @@
   <span class="main-nottop-title-detail">Chúng tôi muốn lắng nghe ý kiến và đánh giá của bạn</span>
   <div class="block-question">
     <!--question  -->
-    <div class="question question-two">Ý kiến của bạn</div>
+    <div class="question question-two required-icon">Ý kiến của bạn</div>
     <textarea class="input-text hight-200 opinion" placeholder="Nhập ý kiến của bạn"></textarea>
 
-    <div class="question question-two">Đánh giá của bạn</div>
+    <div class="question question-two required-icon">Đánh giá của bạn</div>
     <div class="star mt-2" id="div_Starrank_tour">
       <i class="fas fa-star star_1 star_select" data-value="1"></i>
       <i class="fas fa-star star_2 star_select" data-value="2"></i>
@@ -56,21 +56,29 @@
 
 
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "confirm1",
-            "pagepresent" : "vote1",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($("#star_Share").val() == undefined || $("#star_Share").val() == ""){
+      $(".notExistContent").html("Đánh giá của bạn");
+      $("#modalNotExist").modal("show");
+    }else if($(".opinion").val() == undefined || $(".opinion").val() == ""){
+      $(".notExistContent").html("Ý kiến của bạn");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "confirm1",
+              "pagepresent" : "vote1",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
 
   function createObject(){

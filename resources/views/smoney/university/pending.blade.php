@@ -32,14 +32,14 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- student - block - title -->
 <div class="banner-2">
     <div class="block-banner-title">
-        Khoản vay đã trả
+        Khoản vay đang chờ xử lý
     </div>
 </div>
 
 <!-- student - block - content -->
 <div class="content">
     <div class="content-title">
-       <h1>Các khoản vay đã trả</h1>
+       <h1>Các khoản vay đang chờ xử lý</h1>
     </div>
     <!-- table -->
     <table class="content-table">

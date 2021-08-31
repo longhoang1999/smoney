@@ -12,7 +12,7 @@
   <span class="main-nottop-title-detail">Chúng tôi có thể liên lạc với bạn qua những cách nào</span>
   <div class="block-question">
     <!--question  -->
-    <div class="question question-two">Lựa chọn cổng thông tin mà chúng tôi có thể thông báo đến bạn</div>
+    <div class="question question-two required-icon">Lựa chọn cổng thông tin thông báo đến bạn</div>
     <div class="block-square">
       <ul>
         <li class="square-item" data-value="1">
@@ -48,21 +48,26 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "vote1",
-            "pagepresent" : "notification1",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".portal").val() == undefined || $(".portal").val() == ""){
+      $(".notExistContent").html("Lựa chọn cổng thông tin mà chúng tôi có thể thông báo đến bạn");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "vote1",
+              "pagepresent" : "notification1",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   
   function createObject(){

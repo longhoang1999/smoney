@@ -21,19 +21,19 @@
       <span class="main-top-title-detail">Chọn Thành phố / Tỉnh</span>
       <br>
       <select name="" class="select color-gray" id="select-city">
-        <option hidden="">Thành phố / Tỉnh</option>
+        <option hidden="" value="">Thành phố / Tỉnh</option>
       </select>
       <br>
       <span class="main-top-title-detail">Chọn Quận / Huyện</span>
       <br>
       <select name="" class="select color-gray" id="select-district">
-        <option hidden="">Quận / Huyện</option>
+        <option hidden="" value="">Quận / Huyện</option>
       </select>
       <br>
       <span class="main-top-title-detail">Chọn Phường / Xã</span>
       <br>
       <select name="" class="select color-gray" id="select-ward">
-        <option hidden="">Phường / Xã</option>
+        <option hidden="" value="">Phường / Xã</option>
       </select>
       <br>
       <span class="main-top-title-detail">Số nhà (tên đường, phố) / thôn, xóm</span>
@@ -60,21 +60,35 @@
 
 <script type="text/javascript">
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "thongtincuchu3",
-            "pagepresent" : "thongtincuchu2",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($("#select-city").val() == ""){
+      $(".notExistContent").html("Thành phố / Tỉnh");
+      $("#modalNotExist").modal("show");
+    }else if($("#select-district").val() == ""){
+      $(".notExistContent").html("Quận  / Huyện");
+      $("#modalNotExist").modal("show");
+    }else if($("#select-ward").val() == ""){
+      $(".notExistContent").html("Phường / Xã");
+      $("#modalNotExist").modal("show");
+    }else if($(".home-number").val() == ""){
+      $(".notExistContent").html("Số nhà");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "thongtincuchu3",
+              "pagepresent" : "thongtincuchu2",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     let checkBack = $(".fill-address").text();
@@ -138,6 +152,9 @@
                   district.forEach((item, index) => {
                       $("#select-district").append(`<option value="${item['districtid']}">${item['type']} ${item['name']}</option>`);
                   })
+                  // reset xa
+                  $("#select-ward").empty();
+                  $("#select-ward").append('<option hidden="" value="">Phường / Xã</option>');
               }
           }
       });

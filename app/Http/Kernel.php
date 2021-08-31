@@ -65,6 +65,8 @@ class Kernel extends HttpKernel
         'user' => \App\Http\Middleware\SentinelUser::class,
         'userLogin' => \App\Http\Middleware\UserLoginMiddleware::class,
         'cookieUserLogged' => \App\Http\Middleware\VerifyCookieLogin::class,
+        'studentLogin' => \App\Http\Middleware\StudentLoginMiddleware::class,
+        'universityLogin' => \App\Http\Middleware\UniversityLoginMiddleware::class,
         'language' => \App\Http\Middleware\ChangeLanguageMiddleware::class,
 
     ];

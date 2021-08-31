@@ -19,7 +19,7 @@
         <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
                 <!-- logo -->
-                <a class="navbar-brand" href="#" id="header-logo">
+                <a class="navbar-brand" href="{{ route('schhool.schoolDashboard') }}" id="header-logo">
                     <img src="{{ asset('img-smoney/img-students/logo.svg') }}" alt="" class="header-logo-item">
                     <div class="header-logo-name">
                         <img src="{{ asset('img-smoney/img-students/name-logo.svg') }}" alt="" class="header-logo-item">
@@ -88,7 +88,7 @@
                             <div class="information-user">
                                 <div class="info-avatar" 
                                     @if($avatar == "")
-                                        style="background: url('{{ asset('img-smoney/university/univesity-logo-small.png')}}')"
+                                        style="background: url('{{ asset('img-smoney/img-students/avatar-default.png')}}')"
                                     @else
                                         style="background: url('{{ asset($avatar)  }}') no-repeat;" 
                                     @endif
@@ -100,8 +100,20 @@
                                 </span>
                             </div>
                             <div class="information-more">
-                                <a href="{{ route('student.information') }}" class="item-information">
-                                    Thông tin tài khoản
+                                <a href="{{ route('schhool.pending') }}" class="item-information">
+                                    Khoản vay đang chờ xử lý
+                                </a>
+                                <a href="{{ route('schhool.unpaid') }}" class="item-information">
+                                    Khoản vay chưa thanh toán
+                                </a>
+                                <a href="{{ route('schhool.paid') }}" class="item-information">
+                                    Khoản vay đã trả
+                                </a>
+                                <a href="{{ route('schhool.overdue') }}" class="item-information">
+                                    Khoản vay quá hạn
+                                </a>
+                                <a href="{{ route('schhool.workinfor') }}" class="item-information">
+                                    Thông tin việc làm
                                 </a>
                                 <a href="{{ route('student.logout') }}" class="item-information">
                                     Đăng xuất

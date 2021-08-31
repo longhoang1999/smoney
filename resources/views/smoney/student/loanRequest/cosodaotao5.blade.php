@@ -60,21 +60,26 @@
 <script type="text/javascript">
 
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{
-            "page": "vieclam1",
-            "pagepresent" : "cosodaotao5",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if($(".choose-school").val() == undefined || $(".choose-school").val() == ""){
+      $(".notExistContent").html("Chọn trường nơi gửi hồ sơ của bạn");
+      $("#modalNotExist").modal("show");
+    }else{
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{
+              "page": "vieclam1",
+              "pagepresent" : "cosodaotao5",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })  
   function createObject(){
     var chooseSchool = $(".choose-school").val();
