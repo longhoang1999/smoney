@@ -75,7 +75,7 @@
                                 <span class="text-warning font-weight-bold">{{ $hs->takePagepresent }}</span>
                             </div>
                             <div class="information-bottom-right">
-                                <a href="#" class="complete-profile block-status block-status-confirm">Hoàn thiện hồ sơ</a>
+                                <a href="{{ route('student.completeProfile',$hs->_id) }}" class="complete-profile block-status block-status-confirm">Hoàn thiện hồ sơ</a>
                             </div>
                         </div>
                     </div>

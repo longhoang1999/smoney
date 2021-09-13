@@ -16,7 +16,7 @@
     </div>
   </div>
   <span class="main-nottop-title-detail">Điền các thông tin cá nhân của bạn</span>
-  <div class="block-question">
+  <div class="block-question" style="margin-bottom: 4rem;">
     <!--question  -->
     <div class="question question-one required-icon">Email</div>
     <!-- <span class="main-top-title-detail">Email chính của bạn</span> -->

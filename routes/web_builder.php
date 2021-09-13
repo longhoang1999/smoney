@@ -81,6 +81,7 @@
             
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
             Route::get('delete-img-point', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
+            Route::get('complete-profile/{idHS}','SmoneyControllers\LoanController@completeProfile')->name('student.completeProfile');
         }
     );
     Route::group(
