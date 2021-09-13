@@ -42,7 +42,7 @@
 <div class="block-infomation">
     <div class="container-fuild">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 block-avatar">
                 <div class="image-avatar">
                 </div>
                 <div class="block-update-image">
@@ -164,10 +164,6 @@
                                 <div class="block-item-content">
                                     <p>
                                         <span>{{ $sotk }}</span>
-                                        <br>
-                                        <span> - Agribank</span>
-                                        <br>
-                                        <span> - Chi Nhánh Đông HN</span>
                                     </p>
                                     <div class="btn-plus">
                                         <i class="fas fa-plus"></i>

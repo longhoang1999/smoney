@@ -509,4 +509,28 @@ class LoanController extends Controller
         $response = (object) array('status' => 'delete success');
         return response()->json($response);
     }
+    public function completeProfile($idHS){
+        $findHSNotDone = HoSoKhoanVay::where("_id",$idHS)->first();
+        switch($findHSNotDone->pagepresent){
+            case 'thongtinkhoanvay1':{
+                $data = (object) array(
+                    '_id' => $findHSNotDone->_id,
+                    'pagepresent' => $findHSNotDone->pagepresent,
+                    'hsk_money' => $findHSNotDone->hsk_money, 
+                    'hsk_purpose' => $findHSNotDone->hsk_purpose,
+                    'hsk_duration' => $findHSNotDone->hsk_duration
+                );
+                break;
+            }
+        }
+        $userLogin = Auth::user();
+        $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+        return view('smoney.student.loan-request')->with([
+            'name' => $findStudent->hoten,
+            'avatar' => $findStudent->avatar,
+            'sdt' => $findStudent->sdt,
+            'email' => $findStudent->email,
+            'dataComplete' => $data
+        ]);
+    }
 }

@@ -141,38 +141,76 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{"page": "thongtinkhoanvay1"},
-        // data:{"page": "thongtincanhan1"},
-        // data:{"page": "thongtincanhan2"},
-        // data:{"page": "thongtincuchu1"},
-        // data:{"page": "thongtincuchu2"},
-        // data:{"page": "thongtincuchu3"},
-        // data:{"page": "cosodaotao1"},
-        // data:{"page": "cosodaotao2"},
-        // data:{"page": "cosodaotao3"},
-        // data:{"page": "cosodaotao4"},
-        // data:{"page": "vieclam1"},
-        // data:{"page": "vieclam2"},
-        // data:{"page": "vieclam3"},
-        // data:{"page": "vieclam4"},
-        // data:{"page": "option1"},
-        // data:{"page": "option2"},
-        // data:{"page": "option3"},
-        // data:{"page": "option4"},
-        // data:{"page": "otherpage1"},
-        // data:{"page": "tag1"},
-        // data:{"page": "notification1"},
-        // data:{"page": "vote1"},
-        // data:{"page": "confirm1"},
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data);
+    @if(isset($dataComplete))
+        $.ajax({
+            url:"{!! route('student.loadTimeline') !!}",
+            method: "GET",
+            data:{"page": "{{ $dataComplete->pagepresent }}"},
+            success:function(data)
+            {
+              $(".main").empty();
+              $(".main").append(data);
+              fillDataComplete('{{ $dataComplete->pagepresent }}');
+            }
+        });
+        function fillDataComplete(pagepresent){
+            switch(pagepresent){
+                case 'thongtinkhoanvay1':{
+                    // hsk_money
+                    $("input[type='range']").attr("value",'{{ $dataComplete->hsk_money }}');
+                    $(".show-money").html(asMoney('{{ $dataComplete->hsk_money }}'))
+                    $("input[type='range']").attr("style",generateBackground($("input[type='range']")));
+                    // hsk_purpose
+                    $(".loan-purpose").val('{{ $dataComplete->hsk_purpose }}');
+                    $(".loan-purpose").parent().find(`li.square-item[data-value=${'{{ $dataComplete->hsk_purpose }}'}]`).addClass("square-select");
+                    // hsk_duration
+                    $(".loan-duration").val('{{ $dataComplete->hsk_duration }}');
+                    $(".loan-duration").parent().find(`li.square-item[data-value=${'{{ $dataComplete->hsk_duration }}'}]`).addClass("square-select");
+                    maHS = '{{ $dataComplete->_id }}';
+                }
+            }
         }
-    });
+        function generateBackground(rangeElement) {   
+            if (rangeElement.val() === min) {
+              return
+            }
+            let percentage =  (rangeElement.val() - min) / (max - min) * 100;
+            return 'background: linear-gradient(to right, #50299c, #7a00ff ' + percentage + '%, #d3edff ' + percentage + '%, #dee1e2 100%)'
+        }
+    @else
+        $.ajax({
+            url:"{!! route('student.loadTimeline') !!}",
+            method: "GET",
+            data:{"page": "thongtinkhoanvay1"},
+            // data:{"page": "thongtincanhan1"},
+            // data:{"page": "thongtincanhan2"},
+            // data:{"page": "thongtincuchu1"},
+            // data:{"page": "thongtincuchu2"},
+            // data:{"page": "thongtincuchu3"},
+            // data:{"page": "cosodaotao1"},
+            // data:{"page": "cosodaotao2"},
+            // data:{"page": "cosodaotao3"},
+            // data:{"page": "cosodaotao4"},
+            // data:{"page": "vieclam1"},
+            // data:{"page": "vieclam2"},
+            // data:{"page": "vieclam3"},
+            // data:{"page": "vieclam4"},
+            // data:{"page": "option1"},
+            // data:{"page": "option2"},
+            // data:{"page": "option3"},
+            // data:{"page": "option4"},
+            // data:{"page": "otherpage1"},
+            // data:{"page": "tag1"},
+            // data:{"page": "notification1"},
+            // data:{"page": "vote1"},
+            // data:{"page": "confirm1"},
+            success:function(data)
+            {
+              $(".main").empty();
+              $(".main").append(data);
+            }
+        });
+    @endif
 
     $(".main").on('click','.square-item',function() {
       if($(this).hasClass("square-select")){
@@ -233,5 +271,8 @@
     function scrollToMain(){
         $(window).scrollTop($('.main').offset().top - 20);
     }
+
+
+    
 </script>
 @stop
