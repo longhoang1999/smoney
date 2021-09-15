@@ -69,7 +69,7 @@
             // treo
             Route::get('marketplace','SmoneyControllers\HomeController@marketplace')->name('student.marketplace');
             
-
+            Route::post('student-changepass','SmoneyControllers\StudentController@studentChangepass')->name('student.studentChangepass');
             Route::get('student-information','SmoneyControllers\StudentController@studentInformation')->name('student.information');
             Route::post('student-changeavatar','SmoneyControllers\StudentController@changeAvatar')->name('student.changeAvatar');
             Route::post('student-update-information','SmoneyControllers\StudentController@updateInformation')->name('student.updateInformation');

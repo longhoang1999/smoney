@@ -157,9 +157,6 @@
 input[type="date"]::-webkit-calendar-picker-indicator{
     filter: invert(1);
 }
-.btn-submit-form{
-    display: none;
-}
 .notification-error{
     z-index: 20;
     width: 50%;
@@ -194,18 +191,94 @@ span.success{
     font-size: 25px;
 }
 .btn-plus {
-    width: 30px;
+    width: 120px;
     height: 30px;
-    background: #166bd4;
     border-radius: 3px;
-    display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-left: 5px;
-    border: 2px solid white;
+    border: 2px solid #166bd4;
     cursor: pointer;
+    color: #166bd4;
+    text-align: center;
+    transition: all .5s;
+}
+.btn-plus:hover{
+    color: white;
+    background: #166bd4;
+}
+.not-flex{
+    display: block !important;
+}
+.address-hide {
+    display: none;
+}
+.not-hide{
+    display: block !important;
+    border-bottom: 1px solid rgb(212, 209, 209);
+}
+#changeInforModel input{
+    border-bottom: 1px solid #d4d1d1;
+    width: 90%;
+}
+#changeInforModel select{
+    border: 1px solid lightgray;
+    padding: .2rem .5rem;
+    border-radius: 3px;
+    display: block;
+    margin-bottom: 10px;
+    width: 90%;
+}
+#selecct-gender{
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    padding: 2px 0;
+}
+.choose-address,.choose-address-now{
+    display: none;
+    margin-top: 10px;
 }
 
-.block-avatar{
-    
+/*new */
+.education-facilities-new {
+    display: none;
+}
+.education-facilities-new input {
+    display: block;
+    border-bottom: 1px solid #d4d1d1;
+    width: 80%;
+}
+
+.education-facilities-new .block-item-content select {
+    display: block;
+    width: 80%;
+}
+
+.family-info {
+    display: none;
+}
+.family-infoinput {
+    display: block;
+    border-bottom: 1px solid #d4d1d1;
+    width: 80%;
+}
+
+.family-info.block-item-content select {
+    display: block;
+    width: 80%;
+}
+
+#edit-info .modal-header {
+    padding: 0;
+    border: none;
+}
+
+#edit-info .modal-content {
+    background-color: #1a60ff !important;
+    padding: 20px;
+}
+.add-education-facility, .add-family{
+    cursor: pointer;
+}
+.block-numberic{
+    display: flex;
 }

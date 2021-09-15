@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Arr;
 use PHPMailer;
 use Redirect;
 use Cookie;
@@ -498,7 +499,7 @@ class StudentController extends Controller
         }
     }  
 
-    public function studentInformation()
+    public function studentInformation(Request $req)
     {
         $province_address = DB::table('province_address')->get();
         $userLogged = Auth::user();
@@ -510,7 +511,9 @@ class StudentController extends Controller
             'cccd' => $findInfor->cccd,
             'email' => $findInfor->email,
             'ngaysinh' => $findInfor->ngaysinh,
-            'address' => $findInfor->diachi,
+            'addressString' => $this->formatAddress($findInfor->diachi),
+            'addressNowString' => $this->formatAddress($findInfor->diachihientai),
+            'otherSdt' => $findInfor->otherSdt,
             'gender' => $findInfor->gioitinh,
             'sotk' => $findInfor->stk,
             'province_address' => $province_address
@@ -553,31 +556,105 @@ class StudentController extends Controller
     }
     public function updateInformation(Request $req)
     {
-        // fullname cccd  date  gender  email  address  stk
+        // fullname cccd  date  gender  email  address  stk phone otherPhone
         $this->validate($req,[
             'fullname'=>'required',
-            'cccd'=>'required|numeric',
-            'date' => 'date',
-            'email'=>'required|email',
+            'date' => 'date', 'email'=>'required|email',
+            'phone' => 'required', 'gender' => 'required',
         ],[
             'fullname.required' => 'Bạn phải nhập họ tên',
-            'cccd.required' => 'Bạn phải nhập số căn cước công dân',
-            'cccd.numeric' => 'Số căn cước công dân phải là số',
             'date.date' => 'Ngày sinh phải là ngày tháng',
             'email.required' => 'Bạn phải nhập email',
             'email.email' => 'Email sai định dạng',
+            'phone.required' => 'Bạn phải nhập số điện thoại chính',
+            'gender' => 'Bạn phải nhập giới tính',
         ]);
         $user = Auth::user();
         $findStudent = Student::where("_id",$user->tks_sotk)->first();
         $findStudent->hoten = $req->fullname;
+        $user->tks_tentk = $req->fullname;
+        $user->save();
+
         $findStudent->cccd = $req->cccd;
-        $findStudent->email = $req->email;
         $findStudent->ngaysinh = $req->date;
-        $findStudent->diachi = $req->address;
         $findStudent->gioitinh = $req->gender;
-        $findStudent->stk = $req->stk;
+        // array_filter remove null element
+        if($req->stk != null)
+            $findStudent->stk = array_filter($req->stk);
+        if($req->otherPhone != null)
+            $findStudent->otherSdt = array_filter($req->otherPhone);
+        $findStudent->email = $req->email;
+        
+        if($req->select_province != null){
+            $findStudent->diachi = (object) array("home" => $req->number_house,"xa" => $req->select_ward,"huyen" => $req->select_district, "tinh" => $req->select_province);  
+        }
+        if($req->select_provinceNow != null){
+            $findStudent->diachihientai = (object) array("home" => $req->numberHouseNow,"xa" => $req->select_wardNow,"huyen" => $req->select_districtNow, "tinh" => $req->select_provinceNow);
+        }
         $findStudent->save();
-        return back()->with("success","Cập nhật thông tin thành công");
+
+        if($req->phone != $findStudent->sdt){
+            $check = TaiKhoanSmoney::where("tks_sdt",$req->phone)->first();
+            if(!empty($check)){
+                return back()->with("error","Số điện thoại đã được đăng ký!");
+            }else{
+                $findStudent->sdt = $req->phone;
+                $findStudent->save();
+                $user->tks_sdt = $req->phone;
+                $user->save();
+            }
+        }
+        return back()->with("success","Cập nhật thông tin thành công")
+                    ->withCookie(cookie('phone', $user->tks_sdt, 20160));
     }
-     
+    public function studentChangepass(Request $req){
+        $this->validate($req,[
+            'newPass'=>'required|min:8',
+            'oldPass' => 'required|min:8',
+            'confirmPass' => 'required|min:8'
+        ],[
+            'newPass.required' => 'Bạn phải nhập mật khẩu mới',
+            'oldPass.required' => 'Bạn phải nhập mật khẩu cũ',
+            'confirmPass.required' => 'Bạn phải xác nhận mật khẩu',
+            'newPass.min' => 'Mật khẩu mới quá ngắn',
+            'oldPass.min' => 'Mật khẩu cũ quá ngắn',
+            'confirmPass.min' => 'Xác nhận mật khẩu quá ngắn',
+        ]);
+        if($req->newPass != $req->confirmPass){
+            return back()->with("error","Xác nhận mật khẩu không khớp");
+        }else{
+            $user = Auth::user();
+            $check = Hash::check($req->oldPass,$user->ths_mk);
+            if($check){
+                $user->ths_mk = Hash::make($req->newPass);
+                $user->save();
+                return redirect()->route('student.logout');
+            }else{
+                return back()->with("error","Mật khẩu hiện tại không đúng");
+            }
+        }
+    }
+
+
+    // cut string to array
+    public function cutArrray($string)
+    {
+        $pieces = explode("|", $string);
+        $array = array();
+        for ($i=0; $i < count($pieces)-1; $i++) {
+            $array = Arr::add($array, $i ,$pieces[$i]);
+        }
+        return $array;
+    }
+    // format address
+    public function formatAddress($objectAddress){
+        if($objectAddress != null){
+            $province_address = DB::table('province_address')->where("provinceid",$objectAddress['tinh'])->first();
+            $district_address = DB::table('district_address')->where("districtid",$objectAddress['huyen'])->first();
+            $ward_address = DB::table('ward_address')->where("wardid",$objectAddress['xa'])->first();
+            return $objectAddress['home']." - ".$ward_address->type." ".$ward_address->name." - ".$district_address->type." ".$district_address->name." - ".$province_address->type." ".$province_address->name;
+        }else{
+            return "";
+        }
+    }
 }

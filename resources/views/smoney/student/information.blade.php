@@ -55,7 +55,8 @@
             <div class="col-md-9 div-block">
                 <p class="text-uppercase block-title">
                     Thông tin cá nhân
-                    <small class="btn-open-change">Chỉnh sửa</small>
+                    <small class="btn-open-change mr-4" data-toggle="modal" data-target="#changeInforModel">Chỉnh sửa thông tin</small>
+                    <small class="btn-open-change" data-toggle="modal" data-target="#changePassModel">Đổi mật khẩu</small>
                 </p>
 
                 <!-- div notification -->
@@ -88,170 +89,123 @@
                     </ul>
                 </div>
                 @endif
-                <!-- /div notification -->
-
-                <form action="{{ route('student.updateInformation') }}" method="post">
-                    @csrf
-                    <div class="infomation-content">
-                        <div class="infomation-content-left">
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Họ và tên: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>{{ $name }}</p>
-                                    <input type="text" value="{{ $name }}" readonly="" class="font-weight-bold" name="fullname" required="">
-                                </div>
+                <!-- /div notification -->                
+                <div class="infomation-content">
+                    <div class="infomation-content-left">
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Họ và tên: </span>
                             </div>
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Email: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>{{ $email }}</p>
-                                    <input type="email" value="{{ $email }}" readonly="" class="font-weight-bold" name="email" required="">
-                                </div>
+                            <div class="block-item-content">
+                                <p>{{ $name }}</p>
                             </div>
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Số căn cước công dân: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>{{ $cccd }}</p>
-                                    <input type="text" value="{{ $cccd }}" readonly="" class="font-weight-bold" name="cccd" 
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="">
-                                </div>
-                            </div>
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Ngày sinh: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>{{ date("d/m/Y", strtotime($ngaysinh)) }}</p>
-                                    <input type="date" value="{{ $ngaysinh }}" readonly="" class="font-weight-bold" name="date" required="">
-                                </div>
-                            </div>
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Giới tính: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>{{ $gender }}</p>
-                                    <select name="gender" id="selecct-gender" disabled="" class="font-weight-bold">
-                                        <option value="" hidden="">--  Giới tính</option>
-                                        <option
-                                            @if($gender == 'Nam')
-                                                selected
-                                            @endif
-                                        value="Nam">Nam</option>
-                                        <option 
-                                            @if($gender == 'Nữ')
-                                                selected
-                                            @endif
-                                        value="Nữ">Nữ</option>
-                                        <option 
-                                            @if($gender == 'Khác')
-                                                selected
-                                            @endif
-                                        value="Khác">Khác</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Số tài khoản: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>
-                                        <span>{{ $sotk }}</span>
-                                    </p>
-                                    <div class="btn-plus">
-                                        <i class="fas fa-plus"></i>
-                                    </div>
-                                    <input type="text" value="{{ $sotk }}" readonly="" class="font-weight-bold" name="stk" 
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
-                                </div>
-                            </div>
-                            <button class="btn btn-sm btn-light mt-3 btn-submit-form" type="submit">Xác nhận chỉnh sửa</button>
                         </div>
-                        <div class="infomation-content-rigit">
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Số điện thoại chình:
-                                        <br>
-                                        <small class="font-italic">(dùng làm tài khoản đăng nhập hệ thống)</small>
-                                    </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p class="not-change">{{ $phone }}</p>
-                                    <input type="text" value="{{ $phone }}" readonly="" class="font-weight-bold not-change">
-                                </div>
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Email: </span>
                             </div>
-
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Số điện thoại khác:
-                                    </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p class="not-change">01234567</p>
-                                    <div class="btn-plus">
-                                        <i class="fas fa-plus"></i>
-                                    </div>
-                                </div>
+                            <div class="block-item-content">
+                                <p>{{ $email }}</p>
                             </div>
-
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Địa chỉ thường chú: </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>{{ $address }}</p>
-
-                                    <select id="select_province" class="font-weight-bold">
-                                        <option hidden="" value="">Thành phố / Tỉnh</option>
-                                        @foreach($province_address as $value)
-                                            <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <select id="select_district" class="font-weight-bold">
-                                        <option hidden="" value="">Quận / Huyện</option>
-                                    </select>
-                                    <select id="select_ward" class="font-weight-bold">
-                                        <option hidden="" value="">Phường / Xã</option>
-                                    </select>
-
-                                    <input type="text" value="{{ $address }}" readonly="" class="font-weight-bold not-change" name="address" id="input-address" >
-                                </div>
+                        </div>
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Số căn cước công dân: </span>
                             </div>
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span>Số nhà(đường, phố): </span>
-                                </div>
-                                <div class="block-item-content">
-                                    <p>Số nhà 21 ngõ 100 Kim ngưu</p>
-                                </div>
+                            <div class="block-item-content">
+                                <p>{{ $cccd }}</p>
+                            </div>
+                        </div>
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Ngày sinh: </span>
+                            </div>
+                            <div class="block-item-content">
+                                <p>{{ date("d/m/Y", strtotime($ngaysinh)) }}</p>
+                            </div>
+                        </div>
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Giới tính: </span>
+                            </div>
+                            <div class="block-item-content">
+                                <p>{{ $gender }}</p>
+                            </div>
+                        </div>
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Số tài khoản: </span>
+                            </div>
+                            <div class="block-item-content not-flex">
+                                @foreach($sotk as $value)
+                                    <p>{{ $value }}</p>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                </form>
+                    <div class="infomation-content-rigit">
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Số điện thoại:</span>
+                            </div>
+                            <div class="block-item-content">
+                                <p>{{ $phone }}</p>
+                            </div>
+                        </div>
+
+                        <div class="block-item">
+                            <div class="block-item-title">
+                                <span>Số điện thoại khác:</span>
+                            </div>
+                            <div class="block-item-content not-flex">
+                                @foreach($otherSdt as $value)
+                                    <p>{{ $value }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="block-item">
+                            <div class="block-item-title">  
+                                <span>Địa chỉ thường chú: </span>
+                            </div>
+                            <div class="block-item-content not-flex">
+                                <p>{{ $addressString }}</p>
+                            </div>
+                        </div>
+
+                        <div class="block-item">
+                            <div class="block-item-title">  
+                                <span>Nơi ở hiện tại: </span>
+                            </div>
+                            <div class="block-item-content not-flex">
+                                <p>{{ $addressNowString }}</p>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
             </div>
+
+            <!-- Trường -->
             <div class="line"></div>
             <div class="row justify-content-between" style="width: 100%;">
                 <div class="col-md-12 div-block">
                     <div class="block-infomation-university">
                         <p class="text-uppercase block-title">
                             Thông tin cơ sở đào tạo
-                            <ins class="ml-3">Thêm mới</ins>
+                            <ins class="ml-3 add-education-facility">Chỉnh sửa</ins>
                         </p>
-                        <div class="number">1</div>
+                        <div class="block-numberic">
+                            <div class="number mr-5">1</div>
+                            <button type="button" class="btn btn-sm btn-light ">Chỉnh sửa</button>
+                        </div>
                         <div class="block-item">
                             <div class="block-item-title">
                                 <span>Tên cơ sở: </span>
                             </div>
                             <div class="block-item-content">
                                 <p>Trường Đại Học ABC</p>
-                                <input type="text" value="Trường Đại Học ABC" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -260,7 +214,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>17103100124</p>
-                                <input type="text" value="17103100124" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -269,10 +222,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>Công Nghệ Thông Tin</p>
-                                <div class="btn-plus">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <input type="text" value="Công Nghệ Thông Tin" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -281,7 +230,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>ĐHTI11A2</p>
-                                <input type="text" value="ĐHTI11A2" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -290,7 +238,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>Chính quy đợt 1</p>
-                                <input type="text" value="Chính quy đợt 1" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -299,89 +246,29 @@
                             </div>
                             <div class="block-item-content">
                                 <p>abc@dneti.edu.vn</p>
-                                <input type="text" value="Chính quy đợt 1" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 div-block">
-                    <div class="block-infomation-university">
-                        <div class="number">2</div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Tên cơ sở: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>Trường Cao đẳng DEF</p>
-                                <input type="text" value="Trường Đại Học ABC" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Mã sinh viên: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>17103132424</p>
-                                <input type="text" value="17103100124" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Chuyên ngành: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>Điện tử viễn thông</p>
-                                <div class="btn-plus">
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                                <input type="text" value="Công Nghệ Thông Tin" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Lớp hành chính: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>ĐHĐT11A2</p>
-                                <input type="text" value="ĐHTI11A2" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Loại chương trình đào tạo: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>Chính quy đợt 1</p>
-                                <input type="text" value="Chính quy đợt 1" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Email sinh viên do trường cung cấp: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>abcd@dneti.edu.vn</p>
-                                <input type="text" value="Chính quy đợt 1" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- ================== -->
                 <div class="line"></div>
+                <!-- ================== -->
                 <div class="col-md-12 div-block">
                     <div class="block-infomation-university">
                         <p class="text-uppercase block-title">
                             Thông tin người bảo trợ
-                            <ins class="ml-3">Thêm mới</ins>
+                            <ins class="ml-3 add-family">Thêm mới</ins>
                         </p>
-                        <div class="number">1</div>
+                        <div class="block-numberic">
+                            <div class="number mr-5">1</div>
+                            <button type="button" class="btn btn-sm btn-light ">Chỉnh sửa</button>
+                        </div>
                         <div class="block-item">
                             <div class="block-item-title">
                                 <span>Họ tên: </span>
                             </div>
                             <div class="block-item-content">
                                 <p>Nguyễn Văn A</p>
-                                <input type="text" value="Nguyễn Văn A" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -390,7 +277,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>0123456789</p>
-                                <input type="text" value="0123456789" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -399,7 +285,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>142922188</p>
-                                <input type="text" value="142922188" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -408,7 +293,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>Nam</p>
-                                <input type="text" value="Nam" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -417,7 +301,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>098765432123</p>
-                                <input type="text" value="098765432123" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                         <div class="block-item">
@@ -426,66 +309,6 @@
                             </div>
                             <div class="block-item-content">
                                 <p>Bố ruột</p>
-                                <input type="text" value="Bố ruột" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 div-block">
-                    <div class="block-infomation-university">
-                        <div class="number">2</div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Họ tên: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>Nguyễn Văn B</p>
-                                <input type="text" value="Nguyễn Văn A" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số điện thoại: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>012443256789</p>
-                                <input type="text" value="0123456789" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số căn cước công dân: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>142922342188</p>
-                                <input type="text" value="142922188" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Giới tinh: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>Nữ</p>
-                                <input type="text" value="Nam" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số tài khoản: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>098765432123</p>
-                                <input type="text" value="098765432123" readonly="" class="font-weight-bold">
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Quan hệ với sinh viên: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>Mẹ ruột</p>
-                                <input type="text" value="Bố ruột" readonly="" class="font-weight-bold">
                             </div>
                         </div>
                     </div>
@@ -494,6 +317,138 @@
         </div>
     </div>
 </div>
+
+<!-- add trường -->
+<div id="edit-info" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="education-facilities-new">
+                <form method="post">
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Tên cơ sở: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <select id="select_ward" class="font-weight-bold">
+                                <option value="">Đại học Công nghệ - DHQGHN</option>
+                                <option value="">Đại học Kinh tế - DHQGHN</option>
+                                <option value="">Đại học Công nghiệp Hà Nội</option>
+                                <option value="">Đại học Thương mại</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Mã sinh viên: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Chuyên ngành: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Lớp hành chính: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Loại chương trình đào tạo: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <select id="select_ward" class="font-weight-bold">
+                                <option value="">Chính quy</option>
+                                <option value="">Không chính quy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Email sinh viên do trường cung cấp: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-light mt-3" type="submit">Thêm cơ sở đào
+                        tạo</button>
+                </form>
+            </div>
+            <div class="family-info">
+                <form method="post">
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Họ tên: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Số điện thoại: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Số căn cước công dân: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Số tài khoản: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Quan hệ với sinh viên: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <select id="select_ward" class="font-weight-bold">
+                                <option value="">Mẹ ruột</option>
+                                <option value="">Bố ruột</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <div class="block-item-title">
+                            <span>Email sinh viên do trường cung cấp: </span>
+                        </div>
+                        <div class="block-item-content">
+                            <input type="text" class="font-weight-bold">
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-light mt-3" type="submit">Thêm cơ sở đào
+                        tạo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- crop image -->
 <div id="uploadimageModal" class="modal" role="dialog">
@@ -518,6 +473,256 @@
         </div>
     </div>
 </div> 
+<!-- Đổi mật khẩu -->
+<div class="modal fade" id="changePassModel" tabindex="-1" role="dialog" aria-labelledby="changePassModelLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePassModelLable">Đổi mật khẩu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('student.studentChangepass') }}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <div class="container-fuild">
+                        <div class="row mb-3">
+                            <div class="col-md-5">Nhập mật khẩu cũ</div>
+                            <div class="col-md-7">
+                                <input type="password" class="form-control" placeholder="Mật khẩu cũ (tối thiểu 8 ký tự)" required="" name="oldPass">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-5">Nhập mật khẩu mới</div>
+                            <div class="col-md-7">
+                                <input type="password" class="form-control" placeholder="Mật khẩu mới (tối thiểu 8 ký tự)" required="" name="newPass">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-5">Nhập lại mật khẩu mới</div>
+                            <div class="col-md-7">
+                                <input type="password" class="form-control" placeholder="Mật khẩu mới (tối thiểu 8 ký tự)" required="" name="confirmPass">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Xác nhận đổi mật khẩu</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Chỉnh sửa thông tin cá nhân -->
+<div class="modal fade" id="changeInforModel" tabindex="-1" role="dialog" aria-labelledby="changeInforModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeInforModelLabel">Chỉnh sửa thông tin cá nhân của bạn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form action="{{ route('student.updateInformation') }}" method="post" class="form-change-info">
+                    @csrf
+                    <div class="container-fuild">
+                        <!-- Họ và tên -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Họ và tên:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" value="{{ $name }}" name="fullname" required="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <small class="font-italic text-danger">Lưu ý: Nếu muốn sửa địa chỉ email bạn phải xác nhận thay đổi email trong hòm thư email cũ của bạn</small>
+                            </div>
+                        </div>
+                        <!-- Email -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Email:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="email" value="{{ $email }}" name="email" required="">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <small class="font-italic text-danger">Lưu ý: Số điện thoại chính là điều kiện để bạn login vào hệ thống</small>
+                            </div>
+                        </div>
+                        <!-- Main Phone -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Số điện thoại chính:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" value="{{ $phone }}" name="phone" 
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                            </div>
+                        </div>
+
+                        <!-- Số căn cước công dân -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Số căn cước công dân:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" value="{{ $cccd }}" name="cccd" 
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="">
+                            </div>
+                        </div>
+
+                        <!-- Ngày sinh -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Ngày sinh:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="date" value="{{ $ngaysinh }}" name="date" required="">
+                            </div>
+                        </div>
+
+                        <!-- Giới tính -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Giới tính:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <select name="gender" id="selecct-gender">
+                                    <option value="" hidden="">--  Giới tính</option>
+                                    <option
+                                        @if($gender == 'Nam')
+                                            selected
+                                        @endif
+                                    value="Nam">Nam</option>
+                                    <option 
+                                        @if($gender == 'Nữ')
+                                            selected
+                                        @endif
+                                    value="Nữ">Nữ</option>
+                                    <option 
+                                        @if($gender == 'Khác')
+                                            selected
+                                        @endif
+                                    value="Khác">Khác</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Số tài khoản -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Số tài khoản:</span>
+                                <div class="btn-plus btn-plus-stk">
+                                    Thêm mới
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="parent-input-stk">
+                                    @foreach($sotk as $value)
+                                        <input type="text" value="{{ $value }}" name="stk[]" >
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Phone -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Số điện thoại khác:</span>
+                                <div class="btn-plus btn-plus-other">
+                                    Thêm mới
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="parent-input-other">
+                                    @foreach($otherSdt as $value)
+                                        <input type="text" name="otherPhone[]" value="{{ $value }}" 
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Address -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Địa chỉ thường chú:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="font-italic">Địa chỉ thường chú cũ: <span class="text-info">{{ $addressString }}</span></p>
+                                <button class="btn btn-sm btn-info btn-fix-address" type="button">Sửa</button>
+                                <div class="choose-address">
+                                    <select name="select_province" id="select_province" class="font-weight-bold">
+                                        <option hidden="" value="">Thành phố / Tỉnh</option>
+                                        @foreach($province_address as $value)
+                                            <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <select name="select_district" id="select_district" class="font-weight-bold">
+                                        <option hidden="" value="">Quận / Huyện</option>
+                                    </select>
+                                    <select name="select_ward" id="select_ward" class="font-weight-bold">
+                                        <option hidden="" value="">Phường / Xã</option>
+                                    </select>
+                                    <input type="text" name="number_house" id="input-number-house" placeholder="Số nhà, đường (thôn, xóm)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Now -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <span class="font-weight-bold">Nơi ở hiện tại:</span>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="font-italic">Nơi ở hiện tại cũ: <span class="text-info">{{ $addressNowString }}</span></p>
+                                <button class="btn btn-sm btn-info btn-fix-addressNow" type="button">Sửa</button>
+                                <div class="choose-address-now">
+                                    <select name="select_provinceNow" id="select_province-now" class="font-weight-bold">
+                                        <option hidden="" value="">Thành phố / Tỉnh</option>
+                                        @foreach($province_address as $value)
+                                            <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <select name="select_districtNow" id="select_district-now" class="font-weight-bold">
+                                        <option hidden="" value="">Quận / Huyện</option>
+                                    </select>
+                                    <select name="select_wardNow" id="select_ward-now" class="font-weight-bold">
+                                        <option hidden="" value="">Phường / Xã</option>
+                                    </select>
+                                    <input type="text" name="numberHouseNow" id="inputNumberHouseNow" placeholder="Số nhà, đường (thôn, xóm)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-submit-form" type="button">Xác nhận chỉnh sửa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
 <!-- back to top -->
 <div class="back_to_top">
     <i class="fas fa-angle-up"></i>
@@ -616,8 +821,6 @@
     // })
     
 
-
-
     //  select address
     $("#select_province").change(function() {
         $.ajax({
@@ -657,10 +860,57 @@
             }
         });
     })
-    $("#select_ward").change(function() {
-        let fullAddress = 
-        `${$("#select_ward option:selected").text()} - ${$("#select_district option:selected").text()} - ${$("#select_province option:selected").text()}`;
-        $("#input-address").val(fullAddress);
+    // address now
+    $("#select_province-now").change(function() {
+        $.ajax({
+            method: "POST",
+            url: "{!! route('student.findDistrict') !!}",
+            data: {'provinceID': $(this).val()},
+            success: function(data)
+            {
+                if(data['status'] === "success")
+                {
+                    let district = data['district_address'];
+                    $("#select_district-now").empty();
+                    $("#select_district-now").append('<option hidden="" value="">Quận / Huyện</option>');
+                    district.forEach((item, index) => {
+                        $("#select_district-now").append(`<option value="${item['districtid']}">${item['type']} ${item['name']}</option>`);
+                    })
+                }
+            }
+        });
     })
+    $("#select_district-now").change(function() {
+        $.ajax({
+            method: "POST",
+            url: "{!! route('student.findWard') !!}",
+            data: {'districtID': $(this).val()},
+            success: function(data)
+            {
+                if(data['status'] === "success")
+                {
+                    let ward = data['ward_address'];
+                    $("#select_ward-now").empty();
+                    $("#select_ward-now").append('<option hidden="" value="">Phường / Xã</option>');
+                    ward.forEach((item, index) => {
+                        $("#select_ward-now").append(`<option value="${item['wardid']}">${item['type']} ${item['name']}</option>`);
+                    })
+                }
+            }
+        });
+    })
+
+    //Đây nữa
+    $('.add-education-facility').click(function() {
+        $('#edit-info').modal('show');
+        $('.education-facilities-new').show();
+        $('.family-info').hide();
+    });
+
+    $('.add-family').click(function() {
+        $('#edit-info').modal('show');
+        $('.family-info').show();
+        $('.education-facilities-new').hide();
+    });
 </script>
 @stop
