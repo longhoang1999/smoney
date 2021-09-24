@@ -75,13 +75,27 @@
             Route::post('student-update-information','SmoneyControllers\StudentController@updateInformation')->name('student.updateInformation');
 
             
-            Route::get('loan-request','SmoneyControllers\LoanController@loanRequest')->name('student.loanRequest');
+            Route::get('loan-request/{id_nn}','SmoneyControllers\LoanController@loanRequest')->name('student.loanRequest');
             Route::get('load-timeline', 'SmoneyControllers\LoanController@loadTimeline')->name('student.loadTimeline');
             Route::get('load-timeline-pre', 'SmoneyControllers\LoanController@loadTimelinePre')->name('student.loadTimelinePre');
             
             Route::post('up-file-point', 'SmoneyControllers\LoanController@upFilePoint')->name('student.upFilePoint');
             Route::get('delete-img-point', 'SmoneyControllers\LoanController@deleteImgPoint')->name('student.deleteImgPoint');
             Route::get('complete-profile/{idHS}','SmoneyControllers\LoanController@completeProfile')->name('student.completeProfile');
+
+            Route::post('add-infor-university', 'SmoneyControllers\StudentController@addUniversity')->name('student.addUniversity');
+            Route::post('edit-infor-university/{id}', 'SmoneyControllers\StudentController@editUniversity')->name('student.editUniversity');
+            Route::get('delete-infor-university/{id}','SmoneyControllers\StudentController@deleteUniversity')->name('student.deleteUniversity');
+
+            Route::post('add-parent', 'SmoneyControllers\StudentController@addParents')->name('student.addParents');
+            Route::post('edit-parent/{id}', 'SmoneyControllers\StudentController@editParents')->name('student.editParents');
+            Route::get('delete-infor-parent/{id}','SmoneyControllers\StudentController@deleteParent')->name('student.deleteParent');
+            
+            Route::post('fix-job-status', 'SmoneyControllers\StudentController@jobStatus')->name('student.jobStatus');
+
+            Route::post('refress-info', 'SmoneyControllers\StudentController@refressInfo')->name('student.refressInfo');
+            Route::get('get-info-hoso', 'SmoneyControllers\LoanController@getInfoHoso')->name('student.getInfoHoso');
+            
         }
     );
     Route::group(
@@ -94,6 +108,10 @@
             Route::get('school-paid', 'SmoneyControllers\UniversityController@paid')->name('schhool.paid');
             Route::get('school-unpaid', 'SmoneyControllers\UniversityController@unpaid')->name('schhool.unpaid');
             Route::get('school-pending', 'SmoneyControllers\UniversityController@pending')->name('schhool.pending'); 
+
+
+            // // // /
+            Route::get('school-loan-detail', 'SmoneyControllers\UniversityController@loanDetail')->name('school.loanDetail');
         }
     );
     Route::group(
@@ -103,6 +121,22 @@
             Route::get('bank-dashboard', 'SmoneyControllers\BankController@bankDashboard')->name('bank.bankDashboard');
             Route::get('bank-school-info', 'SmoneyControllers\BankController@schoolinfo')->name('bank.schoolinfo');
             Route::get('bank-loan-info', 'SmoneyControllers\BankController@loaninfo')->name('bank.loaninfo');
+        }
+    );
+
+    Route::group(
+        ['middleware' => ['cookieUserLogged','userLogin','adminLogin'] ],
+        function(){
+            //==============================================================================
+            Route::get('testadmin', function() {
+                echo "ccc";
+            });
+            Route::get('admin', 'SmoneyControllers\AdminController@dashboard')->name('admin.dashboard'); 
+            Route::get('admin-school', 'SmoneyControllers\AdminController@school')->name('admin.adminSchool'); 
+            Route::get('admin-account', 'SmoneyControllers\AdminController@account')->name('admin.adminAccount'); 
+            Route::get('admin-bank', 'SmoneyControllers\AdminController@bank')->name('admin.bankAccount');
+            Route::get('show-all-student', 'SmoneyControllers\AdminController@showAllStudent')->name('admin.showAllStudent');
+            
         }
     );
 

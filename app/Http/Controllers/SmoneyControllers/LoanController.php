@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Arr;
 use PHPMailer;
 use Redirect;
 use Cookie;
@@ -16,10 +17,24 @@ use Cookie;
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\Student;
 use App\Models\SmoneyModels\HoSoKhoanVay;
+use App\Models\SmoneyModels\SinhVienHoSo;
 use App\Models\SmoneyModels\TaiKhoanSmoney_Log;
+use App\Models\SmoneyModels\NhaTruong;
+use App\Models\SmoneyModels\NganHang;
 
 class LoanController extends Controller
 {
+    // format address
+    public function formatAddress($objectAddress){
+        if($objectAddress != null){
+            $province_address = DB::table('province_address')->where("provinceid",$objectAddress['tinh'])->first();
+            $district_address = DB::table('district_address')->where("districtid",$objectAddress['huyen'])->first();
+            $ward_address = DB::table('ward_address')->where("wardid",$objectAddress['xa'])->first();
+            return $objectAddress['home']." - ".$ward_address->type." ".$ward_address->name." - ".$district_address->type." ".$district_address->name." - ".$province_address->type." ".$province_address->name;
+        }else{
+            return "";
+        }
+    }
     function merge($a1, $a2) {
 
         $aRes = $a1;
@@ -74,11 +89,34 @@ class LoanController extends Controller
         }
     }
 
-    public function loanRequest(Request $req){
+    public function loanRequest(Request $req,$idNN){
+        $choseBank = NganHang::where("nn_id",$idNN)->first();
         $userLogin = Auth::user();
         $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
-        if($findStudent) {
 
+        $inforUniArr = array();
+        $uniAr = array();
+        if($findStudent->university != null){
+            $university = $findStudent->university;
+            $uniAr = array_keys($university);
+
+            $index = 1;
+            foreach($uniAr as $value){
+                $findNhaTruong = NhaTruong::where("nt_id",$value)->first();
+                $newArr = array("index" => $index,
+                                "id" => $findNhaTruong->nt_id,
+                                "name" => $findNhaTruong->nt_ten,
+                                "studentCode" => $university[$value]["studentCode"],
+                                "specialized" => $university[$value]["specialized"],
+                                "nameClass" => $university[$value]["nameClass"],
+                                "typeProgram" => $university[$value]["typeProgram"],
+                                "emailStudent" => $university[$value]["emailStudent"],
+                );
+                array_push($inforUniArr, $newArr);
+                $index ++;
+            } 
+        }
+        if($findStudent) {
             // Xóa hồ sơ cũ
             $findOldHS  = HoSoKhoanVay::where("hsk_id_student",$findStudent->_id)
                         ->where("hsk_send_status","false")->get();
@@ -86,10 +124,21 @@ class LoanController extends Controller
                 $hs->delete();
             }
             return view('smoney.student.loan-request')->with([
-                'name' => $findStudent->hoten,
                 'avatar' => $findStudent->avatar,
-                'sdt' => $findStudent->sdt,
+                'name' => $findStudent->hoten,
+                'phone' => $findStudent->sdt,
+                'cccd' => $findStudent->cccd,
                 'email' => $findStudent->email,
+                'ngaysinh' => $findStudent->ngaysinh,
+                'addressString' => $this->formatAddress($findStudent->diachi),
+                'addressNowString' => $this->formatAddress($findStudent->diachihientai),
+                'otherSdt' => $findStudent->otherSdt,
+                'gender' => $findStudent->gioitinh,
+                'sotk' => $findStudent->stk,
+                'university' => $inforUniArr,
+                'parents' => $findStudent->parents,
+                'yourjob' => $findStudent->yourjob,
+                'choseBank' => $choseBank,
             ]);
         }
         else {
@@ -101,6 +150,7 @@ class LoanController extends Controller
     public function loadTimeline(Request $req){
         $idHS = ""; $uniID = ""; $uniAr = array();
         $hsk_numberSchool = "";
+        $IDchoseShool = "";
         $user = Auth::user();
         $findStudent = Student::where("_id",$user->tks_sotk)->first();
 
@@ -112,6 +162,7 @@ class LoanController extends Controller
                     }else{
                         $hoso = HoSoKhoanVay::where("_id",$req->data["maHS"])->first();
                     }
+                    $hoso->idBank = $req->data["idBank"];
                     $hoso->hsk_id_student = $findStudent->_id;
                     $hoso->hsk_money = $req->data["money"];
                     $hoso->hsk_purpose = $req->data["purpose"];
@@ -229,27 +280,32 @@ class LoanController extends Controller
                 }
                 case 'cosodaotao4': {
                     $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
-                    $data = $req->data;
-                    unset($data['maHS']);
-                    unset($data['universityID']);
-                    $uniID = $req->data['universityID'];
-
-                    $universityOld = $findHS->university;
-                    $universityNew = array_merge($universityOld[$uniID],$data);
-                    $universityOld[$uniID] = $universityNew;
-
-                    $findHS->university = $universityOld;
-                    $findHS->pagepresent = "cosodaotao4";
-                    //check
-                    $uniAr = array_keys($universityOld);
-                    if(intval($findHS->hsk_numberSchool) < intval($findHS->hsk_numberSchool_checkBack)){
-                        $req->page = "cosodaotao2";
-                        $hsk_numberSchool = $findHS->hsk_numberSchool;
-                    }else if(count($uniAr) > 1 && $findHS->chooseSchool == null){
-                        $req->page = "cosodaotao5";
+                    if(isset($req->data['imgPointAr'])){
+                        $findHS->imgPointAr = $req->data['imgPointAr'];
                     }
+                    $findHS->pagepresent = "cosodaotao4";
                     $findHS->save();
-                    $idHS = $findHS->_id;
+                    // $data = $req->data;
+                    // unset($data['maHS']);
+                    // unset($data['universityID']);
+                    // $uniID = $req->data['universityID'];
+
+                    // $universityOld = $findHS->university;
+                    // $universityNew = array_merge($universityOld[$uniID],$data);
+                    // $universityOld[$uniID] = $universityNew;
+
+                    // $findHS->university = $universityOld;
+                    // $findHS->pagepresent = "cosodaotao4";
+                    // //check
+                    // $uniAr = array_keys($universityOld);
+                    // if(intval($findHS->hsk_numberSchool) < intval($findHS->hsk_numberSchool_checkBack)){
+                    //     $req->page = "cosodaotao2";
+                    //     $hsk_numberSchool = $findHS->hsk_numberSchool;
+                    // }else if(count($uniAr) > 1 && $findHS->chooseSchool == null){
+                    //     $req->page = "cosodaotao5";
+                    // }
+                    // $findHS->save();
+                    // $idHS = $findHS->_id;
                     break;
                 }
                 case 'cosodaotao5': {
@@ -301,11 +357,22 @@ class LoanController extends Controller
                     $idHS = $findHS->_id;
                     break;
                 }
+                case 'someoption': {
+                    $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
+                    $findHS->option = $req->data['option'];
+                    $findHS->pagepresent = "someoption";
+                    if($req->data['option'] == "2"){
+                        $req->page = "notification1";
+                    }
+                    $findHS->save();
+                    $idHS = $findHS->_id;
+                    break;
+                }
                 case 'option1': {
                     $findHS = HoSoKhoanVay::where("_id",$req->data['maHS'])->first();
                     $findHS->club = $req->data['club'];
                     if($req->data['club'] == "2"){
-                        $req->page = "option3";
+                        $req->page = "otherpage1";
                     }
                     $findHS->pagepresent = "option1";
                     $findHS->save();
@@ -373,6 +440,7 @@ class LoanController extends Controller
                     $findHS->star_votes = $req->data['star_votes'];
                     $findHS->pagepresent = "vote1";
                     $findHS->save();
+                    $IDchoseShool = $findHS->chooseSchool;
                     $idHS = $findHS->_id;
                     break;
                 }
@@ -381,8 +449,10 @@ class LoanController extends Controller
                     $findHS->hsk_send_status = "true";
 
                     $findHS->pagepresent = "done";
+                    
+                    $IdsaveSV = $this->copyAndCustomStucent($req->data['maHS']);
+                    $findHS->idsaveSV = $IdsaveSV;
                     $findHS->save();
-
                     $result = (object) array('response' => 'success');
                     return response()->json($result);
                 }
@@ -407,9 +477,36 @@ class LoanController extends Controller
                 'ngaysinh' => $findStudent->ngaysinh,
                 'gioitinh' => $findStudent->gioitinh,
                 'uniID' => $uniID,
-                'uniAr' => $uniAr
+                'uniAr' => $uniAr,
+                'IDchoseShool' => $IDchoseShool
             ])->render();
         return [$idHS,$body,$hsk_numberSchool];
+    }
+    public function copyAndCustomStucent($maHS){
+        $user = Auth::user();
+        $findStudent = Student::where("_id",$user->tks_sotk)->first();
+        $findHS = HoSoKhoanVay::where("_id",$maHS)->first();
+        $copyInforSV = new SinhVienHoSo();
+        $copyInforSV->maHS = $maHS;
+        $copyInforSV->idSV = $findStudent->_id;
+        $copyInforSV->hoten = $findStudent->hoten;
+        $copyInforSV->sdt = $findStudent->sdt;
+        $copyInforSV->email = $findStudent->email;
+        $copyInforSV->stk = $findStudent->stk;
+        $copyInforSV->diachi = $findStudent->diachi;
+        $copyInforSV->diachihientai = $findStudent->diachihientai;
+        $copyInforSV->cccd = $findStudent->cccd;
+        $copyInforSV->ngaysinh = $findStudent->ngaysinh;
+        if(isset($findStudent->otherSdt) && $findStudent->otherSdt != null)
+            $copyInforSV->otherSdt = $findStudent->otherSdt;
+        if(isset($findStudent->parents) && $findStudent->parents != null)
+            $copyInforSV->parents = $findStudent->parents;
+        $copyInforSV->yourjob = $findStudent->yourjob;
+        $copyInforSV->gioitinh = $findStudent->gioitinh;
+        $choseUni = $findHS->chooseSchool;
+        $copyInforSV->university = $findStudent->university[$choseUni];
+        $copyInforSV->save();
+        return $copyInforSV->_id;
     }
     public function loadTimelinePre(Request $req){
         $user = Auth::user(); $uniAr = array();
@@ -420,53 +517,113 @@ class LoanController extends Controller
                 $dataPre = (object) array('hsk_money' => $findHS->hsk_money, 'hsk_purpose' => $findHS->hsk_purpose, 'hsk_duration' => $findHS->hsk_duration);
                 break;
             }
-            case 'thongtincanhan1':{
+            case 'cosodaotao5':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $dataPre = (object) array('hsk_ten' => $findHS->hsk_ten, 'hsk_main_phone' => $findHS->hsk_main_phone, 'hsk_cccd' => $findHS->hsk_cccd, 'hsk_birthday' => $findHS->hsk_birthday);
+                $dataPre = (object) array('chooseSchool' => $findHS->chooseSchool);
                 break;
             }
-            case 'thongtincanhan2':{
+            case 'cosodaotao4':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $dataPre = (object) array('hsk_email' => $findHS->hsk_email, 'hsk_gender' => $findHS->hsk_gender, 'hsk_otherPhone' => $findHS->hsk_otherPhone, 'hsk_stk' => $findHS->hsk_stk);
+                $dataPre = $findHS->imgPointAr;
                 break;
             }
-            case 'thongtincuchu1':{
+            case 'someoption':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $dataPre = (object) array('hsk_liveWith' => $findHS->hsk_liveWith);
+                $dataPre = $findHS->option;
                 break;
             }
-            case 'thongtincuchu2':{
+            case 'option1':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $dataPre = (object) array('hsk_address' => $findHS->hsk_address);
+                $dataPre = $findHS->club;
                 break;
             }
-            case 'thongtincuchu3':{
+            case 'option2':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $dataPre = (object) array('hsk_address_now' => $findHS->hsk_address_now);
+                if($findHS->club == "2"){
+                    $req->page = "option1";
+                    $dataPre = $findHS->club;
+                }else{
+                    $dataPre = $findHS->nameClub;
+                }
                 break;
             }
-            case 'cosodaotao1':{
+            case 'otherpage1':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $dataPre = (object) array('hsk_numberSchool' => $findHS->hsk_numberSchool_checkBack);
+                $dataPre = $findHS->pageObject;
                 break;
             }
-            case 'cosodaotao2':{
+            case 'tag1':{
                 $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
-                $indexArr = $req->numberUni;
-                $universityKey = array_keys($findHS->university);
-                $universityArray = array_values($findHS->university);
+                if($findHS->option == "2"){
+                    $req->page = "someoption";
+                    $dataPre = $findHS->option;
+                }else{
+                    $dataPre = $this->cutArrray($findHS->contentTag);
+                }
+                break;
+            }
+            case 'notification1':{
+                $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+                $dataPre = $findHS->portal;
+                break;
+            }
+            case 'vote1':{
+                $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+                $dataPre = (object) array('opinion' => $findHS->opinion, 'star_votes' => $findHS->star_votes);
+                break;
+            }
+            
+            
+            
+            
 
-                $uniAr = $universityKey;
-                unset($uniAr[$indexArr]);
+            // case 'thongtincanhan1':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $dataPre = (object) array('hsk_ten' => $findHS->hsk_ten, 'hsk_main_phone' => $findHS->hsk_main_phone, 'hsk_cccd' => $findHS->hsk_cccd, 'hsk_birthday' => $findHS->hsk_birthday);
+            //     break;
+            // }
+            // case 'thongtincanhan2':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $dataPre = (object) array('hsk_email' => $findHS->hsk_email, 'hsk_gender' => $findHS->hsk_gender, 'hsk_otherPhone' => $findHS->hsk_otherPhone, 'hsk_stk' => $findHS->hsk_stk);
+            //     break;
+            // }
+            // case 'thongtincuchu1':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $dataPre = (object) array('hsk_liveWith' => $findHS->hsk_liveWith);
+            //     break;
+            // }
+            // case 'thongtincuchu2':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $dataPre = (object) array('hsk_address' => $findHS->hsk_address);
+            //     break;
+            // }
+            // case 'thongtincuchu3':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $dataPre = (object) array('hsk_address_now' => $findHS->hsk_address_now);
+            //     break;
+            // }
+            // case 'cosodaotao1':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $dataPre = (object) array('hsk_numberSchool' => $findHS->hsk_numberSchool_checkBack);
+            //     break;
+            // }
+            // case 'cosodaotao2':{
+            //     $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+            //     $indexArr = $req->numberUni;
+            //     $universityKey = array_keys($findHS->university);
+            //     $universityArray = array_values($findHS->university);
 
-                $dataPre =  array(
-                    'idUniver' => $universityKey[$indexArr], 
-                    'specialized' => $universityArray[$indexArr]['specialized'], 
-                    'class' => $universityArray[$indexArr]['specialized'], 
-                    'studentCode' => $universityArray[$indexArr]['studentCode']
-                );
-                break;
-            }
+            //     $uniAr = $universityKey;
+            //     unset($uniAr[$indexArr]);
+
+            //     $dataPre =  array(
+            //         'idUniver' => $universityKey[$indexArr], 
+            //         'specialized' => $universityArray[$indexArr]['specialized'], 
+            //         'class' => $universityArray[$indexArr]['specialized'], 
+            //         'studentCode' => $universityArray[$indexArr]['studentCode']
+            //     );
+            //     break;
+            // }
             
             
         }
@@ -505,6 +662,17 @@ class LoanController extends Controller
         }
     }
     public function deleteImgPoint(Request $req){
+        // $findHSNotDone = HoSoKhoanVay::where("_id",$req->maHS)->first();
+        // if($findHSNotDone->imgPointAr != null){
+        //     $array = $findHSNotDone->imgPointAr;
+        //     for($i = 0; $i < count($array); $i++){
+        //         if($array[$i] == $req->value){
+        //             array_splice($array, $i, 1);
+        //         }
+        //     }
+        //     $findHSNotDone->imgPointAr = $array;
+        //     $findHSNotDone->save();
+        // }
         File::delete(public_path($req->value));
         $response = (object) array('status' => 'delete success');
         return response()->json($response);
@@ -532,5 +700,40 @@ class LoanController extends Controller
             'email' => $findStudent->email,
             'dataComplete' => $data
         ]);
+    }
+    public function getInfoHoso(Request $req){
+        $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
+        $nameSchool = NhaTruong::where("nt_id",$findHS->chooseSchool)->select("nt_ten")->first();
+        $bank = NganHang::where("nn_id",$findHS->idBank)->first();
+        $body = view('smoney/student/infohosomodal')->with([
+                'hsk_money' => $findHS->hsk_money,
+                'hsk_purpose' => $findHS->hsk_purpose,
+                'hsk_duration' => $findHS->hsk_duration,
+                'chooseSchool' => $nameSchool->nt_ten,
+                'imgPointAr' => $findHS->imgPointAr,
+                'option' => $findHS->option,
+                'club' => $findHS->club,
+                'nameClub' => $findHS->nameClub,
+                'pageObject' => $findHS->pageObject,
+                'contentTag' => $this->cutArrray($findHS->contentTag),
+                'portal' => $findHS->portal,
+                'opinion' => $findHS->opinion,
+                'star_votes' => $findHS->star_votes,
+                'bank' => $bank
+            ])->render();
+        return $body;
+    }
+
+
+
+    // cut string to array
+    public function cutArrray($string)
+    {
+        $pieces = explode("|", $string);
+        $array = array();
+        for ($i=0; $i < count($pieces)-1; $i++) {
+            $array = Arr::add($array, $i ,$pieces[$i]);
+        }
+        return $array;
     }
 }

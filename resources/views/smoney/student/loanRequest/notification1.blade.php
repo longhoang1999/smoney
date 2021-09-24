@@ -80,24 +80,37 @@
 
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "tag1"},
+        data:{
+            "page": "tag1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
-  
+  function fillData(data){
+    // portal
+    $(".portal").val(data);
+    $(".portal").parent().find(`li.square-item[data-value=${data}]`).addClass("square-select");
+  }
+
+
+  $(".timeline-three").removeClass("active");
+  if(!$(".timeline-three").hasClass("done")){
+    $(".timeline-three").addClass("done");
+  }
+  $(".timeline-four").removeClass("done");
+  if(!$(".timeline-four").hasClass("active")){
+    $(".timeline-four").addClass("active");
+  }
   $(".timeline-five").removeClass("active");
-  if(!$(".timeline-five").hasClass("done")){
-    $(".timeline-five").addClass("done");
-  }
-  $(".timeline-six").removeClass("done");
-  if(!$(".timeline-six").hasClass("active")){
-    $(".timeline-six").addClass("active");
-  }
+  $(".timeline-five").removeClass("done");
 </script>

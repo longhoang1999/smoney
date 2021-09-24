@@ -22,8 +22,10 @@ $(document).ready(function(){
 	$(".btn-plus-other").click(function() {
 		$(".parent-input-other").append(`<input placeholder="Số điện thoại khác" name="otherPhone[]" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*?)\\..*/g, '$1');">`);
 	})
+
+
 	$(".btn-submit-form").click(function() {
-        let tinh = $("#select_province").val();
+		let tinh = $("#select_province").val();
         let huyen = $("#select_district").val();
         let xa = $("#select_ward").val();
         let nha = $("#input-number-house").val();
@@ -34,15 +36,57 @@ $(document).ready(function(){
         let nha_now = $("#inputNumberHouseNow").val();
 
         if(tinh == '' && huyen == '' && xa == '' && nha == '' && tinh_now == '' && huyen_now == '' && xa_now == '' && nha_now == '') {
-            $(".form-change-info").submit();
+            $('.submit-hide').trigger('click');
         }else if(tinh != '' && huyen != '' && xa != '' && nha != '' && tinh_now == '' && huyen_now == '' && xa_now == '' && nha_now == ''){
-            $(".form-change-info").submit();
+            $('.submit-hide').trigger('click');
         }else if(tinh == '' && huyen == '' && xa == '' && nha == '' && tinh_now != '' && huyen_now != '' && xa_now != '' && nha_now != ''){
-            $(".form-change-info").submit();
+            $('.submit-hide').trigger('click');
         }else if(tinh != '' && huyen != '' && xa != '' && nha != '' && tinh_now != '' && huyen_now != '' && xa_now != '' && nha_now != ''){
-            $(".form-change-info").submit();
+            $('.submit-hide').trigger('click');
         }else{
             alert("Bạn nhập thiếu thông tin địa chỉ");
         } 
     })
+    $("#jobstatus").change(function() {
+    	if($(this).val() == "3"){
+    		$(".for-jobstatus").slideUp();
+    	}else{
+    		$(".for-jobstatus").slideDown();
+    	}
+    })
+
+
+    // set up input range
+  	var rangeElement = document.querySelector("input[type='range']")
+  	$("input[type='range']").attr("min",min);
+  	$("input[type='range']").attr("max",max);
+  	$("input[type='range']").attr("value",cur);
+  	$(".show-money").html(asMoney(cur))
+  	$("input[type='range']").attr("style",generateBackground($("input[type='range']")));
+
+    rangeElement.addEventListener('input', updateSlider)
+  	function asMoney(value) {
+    	return parseFloat(value)
+      		.toLocaleString('en-US', { maximumFractionDigits: 2 }) + '  VNĐ'
+  	}
+  	function generateBackground(rangeElement) {   
+    	if (rangeElement.val() === min) {
+     		return
+    	}
+    	let percentage =  (rangeElement.val() - min) / (max - min) * 100;
+    	return 'background: linear-gradient(to right, #50299c, #7a00ff ' + percentage + '%, #d3edff ' + percentage + '%, #dee1e2 100%)'
+  	}
+  	function updateSlider () {
+    	$(".show-money").html(asMoney($("input[type='range']").val()))
+    	$("input[type='range']").attr("style",generateBackground($("input[type='range']")));
+  	}
+  	$(".plus").click(function() {
+    	$("input[type='range']").val(parseInt($("input[type='range']").val()) + 50000)
+    	updateSlider()
+  	})
+  	$(".sub").click(function() {
+    	$("input[type='range']").val(parseInt($("input[type='range']").val()) - 50000)
+    	updateSlider()
+  	})
+  // end set up input range
 })

@@ -17,6 +17,9 @@ use Cookie;
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\Student;
 use App\Models\SmoneyModels\TaiKhoanSmoney_Log;
+use App\Models\SmoneyModels\NhaTruong;
+use App\Models\SmoneyModels\NganHang;
+
 
 class StudentController extends Controller
 {
@@ -132,10 +135,12 @@ class StudentController extends Controller
     public function studentPage() {
         $userLogin = Auth::user();
         $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+        $bankAll = NganHang::get();
         if($findStudent) {
             return view('smoney.student.student')->with([
                 'name' => $findStudent->hoten,
-                'avatar' => $findStudent->avatar
+                'avatar' => $findStudent->avatar,
+                'bankAll' => $bankAll
             ]);
         }
         else {
@@ -173,7 +178,7 @@ class StudentController extends Controller
                 $newStudent->hoten = $req->fullname;
                 $newStudent->sdt = $req->phone;
                 $newStudent->email = $req->email;
-                $newStudent->diachi = $req->address;
+                //$newStudent->diachi = $req->address;
                 // create folder
                 $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $newStudent->code = substr(str_shuffle($permitted_chars), 0, 20); 
@@ -320,6 +325,9 @@ class StudentController extends Controller
             }
             else if($user->tks_loaitk == "3"){
                 return redirect()->route("bank.bankDashboard");
+            }
+            else if($user->tks_loaitk == "4"){
+                return redirect()->route("admin.dashboard");
             }
         }
         else{
@@ -504,6 +512,30 @@ class StudentController extends Controller
         $province_address = DB::table('province_address')->get();
         $userLogged = Auth::user();
         $findInfor = Student::where("_id",$userLogged->tks_sotk)->first();
+        $allUni = NhaTruong::select("nt_id","nt_ten")->get();
+
+        $inforUniArr = array();
+        $uniAr = array();
+        if($findInfor->university != null){
+            $university = $findInfor->university;
+            $uniAr = array_keys($university);
+
+            $index = 1;
+            foreach($uniAr as $value){
+                $findNhaTruong = NhaTruong::where("nt_id",$value)->first();
+                $newArr = array("index" => $index,
+                                "id" => $findNhaTruong->nt_id,
+                                "name" => $findNhaTruong->nt_ten,
+                                "studentCode" => $university[$value]["studentCode"],
+                                "specialized" => $university[$value]["specialized"],
+                                "nameClass" => $university[$value]["nameClass"],
+                                "typeProgram" => $university[$value]["typeProgram"],
+                                "emailStudent" => $university[$value]["emailStudent"],
+                );
+                array_push($inforUniArr, $newArr);
+                $index ++;
+            } 
+        }
         return view('smoney/student/information',[
             'avatar' => $findInfor->avatar,
             'name' => $findInfor->hoten,
@@ -516,9 +548,151 @@ class StudentController extends Controller
             'otherSdt' => $findInfor->otherSdt,
             'gender' => $findInfor->gioitinh,
             'sotk' => $findInfor->stk,
-            'province_address' => $province_address
+            'province_address' => $province_address,
+            'allUni' => $allUni,
+            'university' => $inforUniArr,
+            'uniAr' => $uniAr,
+            'parents' => $findInfor->parents,
+            'yourjob' => $findInfor->yourjob
         ]);
     }
+    public function addUniversity(Request $req){
+        $this->validate($req,[
+            'studentCode'=>'required',
+            'specialized' => 'required', 'nameClass'=>'required',
+            'typeProgram' => 'required',
+        ],[
+            'studentCode.required' => 'Bạn phải nhập mã sinh viên',
+            'specialized.required' => 'Bạn phải nhập chuyên ngành',
+            'nameClass.required' => 'Bạn phải nhập lớp hành chính',
+            'typeProgram.required' => 'Bạn phải nhập loại chương trình đào tạo',
+        ]);
+        $data = (object) array("studentCode" => $req->studentCode, "specialized" => $req->specialized, "nameClass" => $req->nameClass, "typeProgram" => $req->typeProgram, "emailStudent" => $req->emailStudent);
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $oldUni = $student->university;
+        $newUni = (object) array($req->idUni => $data );
+        if($oldUni != null){
+            $c = (object) $this->merge((array)$oldUni, (array)$newUni);
+            $student->university = $c;
+        }else{
+            $student->university = $newUni;
+        }
+        $student->save(); 
+        return back()->with("success","Bạn thêm mới nhà trường thành công!");
+    }
+    public function editUniversity(Request $req, $id){
+        $this->validate($req,[
+            'studentCode'=>'required',
+            'specialized' => 'required', 'nameClass'=>'required',
+            'typeProgram' => 'required',
+        ],[
+            'studentCode.required' => 'Bạn phải nhập mã sinh viên',
+            'specialized.required' => 'Bạn phải nhập chuyên ngành',
+            'nameClass.required' => 'Bạn phải nhập lớp hành chính',
+            'typeProgram.required' => 'Bạn phải nhập loại chương trình đào tạo',
+        ]);
+        $data = (object) array("studentCode" => $req->studentCode, "specialized" => $req->specialized, "nameClass" => $req->nameClass, "typeProgram" => $req->typeProgram, "emailStudent" => $req->emailStudent);
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $oldUni = $student->university;
+        // xóa cũ
+        unset($oldUni[$id]);
+        $newUni = (object) array($req->idUni => $data );
+        if($oldUni != null){
+            $c = (object) $this->merge((array)$oldUni, (array)$newUni);
+            $student->university = $c;
+        }else{
+            $student->university = $newUni;
+        }
+        $student->save(); 
+        return back()->with("success","Bạn thêm mới nhà trường thành công!");
+    }
+    public function deleteUniversity($id){
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $oldUni = $student->university;
+        unset($oldUni[$id]);
+        $student->university = $oldUni;
+        $student->save(); 
+        return back()->with("success","Bạn đã xóa thông tin thành công");
+    }
+    public function addParents(Request $req){
+        $this->validate($req,[
+            'fullname'=>'required',
+            'cccd' => 'required',
+            'phone' => 'required', 'gender'=>'required',
+            'relationship' => 'required',
+        ],[
+            'fullname.required' => 'Bạn phải nhập tên người bản trợ',
+            'cccd' => 'Bạn phải nhập số chứng minh nhân dân',
+            'phone.required' => 'Bạn phải nhập số điện thoại người bảo trợ',
+            'gender.required' => 'Bạn phải nhập giới tính người bảo trợ',
+            'relationship.required' => 'Bạn phải nhập quan hệ với sinh viên',
+        ]);
+        
+        $data = (object)array("fullname" => $req->fullname, "phone" => $req->phone,"cccd" => $req->cccd, "stk" => $req->stk, "gender" => $req->gender, "relationship" => $req->relationship);
+
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $parents = $student->parents;
+        if($parents != null){
+            array_push($parents, $data);
+            $student->parents = $parents;
+        }else{
+            $student->parents = array($data);
+        }
+        $student->save(); 
+        return back()->with("success","Bạn thêm mới người bảo trợ thành công!");
+    }
+    public function editParents(Request $req, $id){
+        $this->validate($req,[
+            'fullname'=>'required',
+            'cccd' => 'required',
+            'phone' => 'required', 'gender'=>'required',
+            'relationship' => 'required',
+        ],[
+            'fullname.required' => 'Bạn phải nhập tên người bản trợ',
+            'cccd' => 'Bạn phải nhập số chứng minh nhân dân',
+            'phone.required' => 'Bạn phải nhập số điện thoại người bảo trợ',
+            'gender.required' => 'Bạn phải nhập giới tính người bảo trợ',
+            'relationship.required' => 'Bạn phải nhập quan hệ với sinh viên',
+        ]);
+        
+        $data = (object)array("fullname" => $req->fullname, "phone" => $req->phone,"cccd" => $req->cccd, "stk" => $req->stk, "gender" => $req->gender, "relationship" => $req->relationship);
+
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $parents = $student->parents;
+        array_splice($parents, $id, 1);
+        if(count($parents) > 0){
+            array_push($parents, $data);
+            $student->parents = $parents;
+        }else{
+            $student->parents = array($data);
+        }
+        $student->save(); 
+        return back()->with("success","Bạn đã chỉnh sửa thông tin người bảo trợ thành công!");
+    }
+    public function deleteParent($id){
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $parents = $student->parents;
+        unset($parents[$id]);
+        $student->parents = $parents;
+        $student->save();
+        return back()->with("success","Bạn đã xóa thông tin người bảo trợ thành công!");
+    }
+    public function jobStatus(Request $req){
+        $userLogged = Auth::user();
+        $student = Student::where("_id",$userLogged->tks_sotk)->first();
+        $data = (object) array("jobstatus" => $req->jobstatus, "timeJob" => $req->timeJob, "nameCompany" => $req->nameCompany, "addressCompany" => $req->addressCompany, "money" => $req->money);
+        $student->yourjob = $data;
+        $student->save();
+
+        return back()->with("success","Bạn đã cập nhật thông tin việc làm thành công!");
+    }
+
     public function changeAvatar(Request $req){
         $user = Auth::user();
         $student = Student::where("_id",$user->tks_sotk)->first();
@@ -634,7 +808,50 @@ class StudentController extends Controller
             }
         }
     }
+    public function refressInfo(){
+        $userLogged = Auth::user();
+        $findInfor = Student::where("_id",$userLogged->tks_sotk)->first();
+        $inforUniArr = array();
+        $uniAr = array();
+        if($findInfor->university != null){
+            $university = $findInfor->university;
+            $uniAr = array_keys($university);
 
+            $index = 1;
+            foreach($uniAr as $value){
+                $findNhaTruong = NhaTruong::where("nt_id",$value)->first();
+                $newArr = array("index" => $index,
+                                "id" => $findNhaTruong->nt_id,
+                                "name" => $findNhaTruong->nt_ten,
+                                "studentCode" => $university[$value]["studentCode"],
+                                "specialized" => $university[$value]["specialized"],
+                                "nameClass" => $university[$value]["nameClass"],
+                                "typeProgram" => $university[$value]["typeProgram"],
+                                "emailStudent" => $university[$value]["emailStudent"],
+                );
+                array_push($inforUniArr, $newArr);
+                $index ++;
+            } 
+        }
+        $body = view('smoney/student/modalInfo')->with([
+                'avatar' => $findInfor->avatar,
+                'name' => $findInfor->hoten,
+                'phone' => $findInfor->sdt,
+                'cccd' => $findInfor->cccd,
+                'email' => $findInfor->email,
+                'ngaysinh' => $findInfor->ngaysinh,
+                'addressString' => $this->formatAddress($findInfor->diachi),
+                'addressNowString' => $this->formatAddress($findInfor->diachihientai),
+                'otherSdt' => $findInfor->otherSdt,
+                'gender' => $findInfor->gioitinh,
+                'sotk' => $findInfor->stk,
+                'university' => $inforUniArr,
+                'uniAr' => $uniAr,
+                'parents' => $findInfor->parents,
+                'yourjob' => $findInfor->yourjob
+            ])->render();
+        return $body;
+    }
 
     // cut string to array
     public function cutArrray($string)

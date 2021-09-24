@@ -110,9 +110,9 @@
                                 <a href="{{ route('student.information') }}" class="item-information">
                                     Thông tin tài khoản
                                 </a>
-                                <a href="{{ route('student.loanRequest') }}" class="item-information">
+                                <!-- <a href="" class="item-information">
                                     Yêu cầu khoản vay
-                                </a>
+                                </a> -->
                                 <a href="{{ route('student.applyLoan') }}" class="item-information">
                                     Hồ sơ khoản vay
                                 </a>

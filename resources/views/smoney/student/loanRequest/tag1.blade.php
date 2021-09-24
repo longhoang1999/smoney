@@ -76,53 +76,80 @@
     }
     return objectToSave;
   }
+
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+  var arrayTag = [];
+  function drop(ev,el) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    el.appendChild(document.getElementById(data));
+    // gán value
+    $("#content_tag").val("");
+    arrayTag = [];
+    let lenth = $("#div2 a").length;
+    for (let i = 0; i < lenth; i++) {
+      arrayTag.push($("#div2 a")[i].text)
+    }
+    let content_tag = "";
+    arrayTag.forEach(function(item, index){
+      content_tag = content_tag + item + "|";
+    })
+    $("#content_tag").val(content_tag);
+  }
+
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "otherpage1"},
+        data:{
+            "page": "otherpage1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
 
-    function allowDrop(ev) {
-      ev.preventDefault();
+  function fillData(data){
+    let ar = document.querySelectorAll("#div1 a");
+    ar.forEach((item) => {
+        if(data.indexOf(item.innerText) != -1){
+            $("#div2").append(item)
+        }
+    })
+    $("#content_tag").val("");
+    arrayTag = [];
+    let lenth = $("#div2 a").length;
+    for (let i = 0; i < lenth; i++) {
+      arrayTag.push($("#div2 a")[i].text)
     }
-    function drag(ev) {
-      ev.dataTransfer.setData("text", ev.target.id);
-    }
-    var arrayTag = [];
-    function drop(ev,el) {
-      ev.preventDefault();
-      var data = ev.dataTransfer.getData("text");
-      el.appendChild(document.getElementById(data));
-      // gán value
-      $("#content_tag").val("");
-      arrayTag = [];
-      let lenth = $("#div2 a").length;
-      for (let i = 0; i < lenth; i++) {
-        arrayTag.push($("#div2 a")[i].text)
-      }
-      let content_tag = "";
-      arrayTag.forEach(function(item, index){
-        content_tag = content_tag + item + "|";
-      })
-      $("#content_tag").val(content_tag);
-    }
+    let content_tag = "";
+    arrayTag.forEach(function(item, index){
+      content_tag = content_tag + item + "|";
+    })
+    $("#content_tag").val(content_tag);
+  }
 
+
+  $(".timeline-two").removeClass("active");
+  if(!$(".timeline-two").hasClass("done")){
+    $(".timeline-two").addClass("done");
+  }
+  $(".timeline-three").removeClass("done");
+  if(!$(".timeline-three").hasClass("active")){
+    $(".timeline-three").addClass("active");
+  }
   $(".timeline-four").removeClass("active");
-  if(!$(".timeline-four").hasClass("done")){
-    $(".timeline-four").addClass("done");
-  }
-  $(".timeline-five").removeClass("done");
-  if(!$(".timeline-five").hasClass("active")){
-    $(".timeline-five").addClass("active");
-  }
-  $(".timeline-six").removeClass("active");
-  $(".timeline-six").removeClass("done");
+  $(".timeline-four").removeClass("done");
 </script>

@@ -59,7 +59,7 @@
 
 <!-- <script type="text/javascript" src="{{ asset('dropzone/js/dropzone.js') }}" ></script> -->
 <script type="text/javascript">
-  var imgAr = [], uploaded = false;
+  var imgAr = [];
   $.getScript( "{{ asset('dropzone/js/dropzone.js') }}", function() {
     console.log( "Load was performed." );
   });
@@ -68,7 +68,6 @@
       acceptedFiles:'.jpeg,.jpg,.png',
       maxFiles: 10,
       success: function(file, response){
-        uploaded = true;
         imgAr.push(response['url']);
       },
       queuecomplete: function() {
@@ -94,7 +93,10 @@
     $.ajax({
         url:"{!! route('student.deleteImgPoint') !!}",
         method: "GET",
-        data:{"value": valueImgAr},
+        data:{
+          "maHS": maHS,
+          "value": valueImgAr
+        },
         success:function(data)
         {
           if(data['status'] == 'delete success'){
@@ -108,7 +110,7 @@
   })
 
   $(".btn-next").click(function() {
-    if(!uploaded){
+    if(imgAr.length == 0){
       $(".notExistContent").html("File thành tích học tập");
       $("#modalNotExist").modal("show");
     }else{
@@ -116,7 +118,7 @@
           url:"{!! route('student.loadTimeline') !!}",
           method: "GET",
           data:{
-              "page": "vieclam1",
+              "page": "someoption",
               "pagepresent" : "cosodaotao4",
               "data" : createObject()
           },
@@ -124,13 +126,13 @@
           {
             $(".main").empty();
             $(".main").append(data[1]);
-            if(data[2] != null) {
-              hsk_numberSchool = data[2];
-              if(hsk_numberSchool != ""){
-                 $(".numSh-hidden").show();
-                 $(".numSh-hidden").text("Trường thứ " + (parseInt(hsk_numberSchool) + 1));
-              }
-            }
+            // if(data[2] != null) {
+            //   hsk_numberSchool = data[2];
+            //   if(hsk_numberSchool != ""){
+            //      $(".numSh-hidden").show();
+            //      $(".numSh-hidden").text("Trường thứ " + (parseInt(hsk_numberSchool) + 1));
+            //   }
+            // }
           }
       });
       scrollToMain();
@@ -140,33 +142,49 @@
     var numberSchool = $(".number-school").val();
     var objectToSave = {
       maHS: maHS,
-      universityID: `{{ $uniID }}`,
       imgPointAr: imgAr,
     }
     return objectToSave;
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "cosodaotao3"},
+        data:{
+            "page": "cosodaotao5",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
 
-  $(".timeline-two").removeClass("active");
-  if(!$(".timeline-two").hasClass("done")){
-    $(".timeline-two").addClass("done");
+  function fillData(data){
+    $(".block-show-img .row").empty();
+    $(".block-show-img .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+    if(data.length > 0 )
+        imgAr = data;
+    data.forEach(function(item, index) {
+      let urlImg = `{{ url('/') }}/${item}`;
+      $(".block-show-img .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+    })
   }
+
+
+  $(".timeline-one").removeClass("active");
+  if(!$(".timeline-one").hasClass("done")){
+    $(".timeline-one").addClass("done");
+  }
+  $(".timeline-two").removeClass("done");
+  if(!$(".timeline-two").hasClass("active")){
+    $(".timeline-two").addClass("active");
+  }
+  $(".timeline-three").removeClass("active");
   $(".timeline-three").removeClass("done");
-  if(!$(".timeline-three").hasClass("active")){
-    $(".timeline-three").addClass("active");
-  }
-  $(".timeline-four").removeClass("active");
-  $(".timeline-four").removeClass("done");
 </script>

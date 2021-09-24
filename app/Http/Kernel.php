@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'studentLogin' => \App\Http\Middleware\StudentLoginMiddleware::class,
         'universityLogin' => \App\Http\Middleware\UniversityLoginMiddleware::class,
         'bankLogin' => \App\Http\Middleware\BankMiddleware::class,
+        'adminLogin' => \App\Http\Middleware\AdminMiddleware::class,
         'language' => \App\Http\Middleware\ChangeLanguageMiddleware::class,
 
 

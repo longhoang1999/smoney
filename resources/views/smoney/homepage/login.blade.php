@@ -140,6 +140,14 @@
                             @endif
                         </div>
                     </form>
+                    <div class="login-by-fb">
+                        <i class="fab fa-facebook-square"></i>
+                        <span>Đăng nhập bằng facebook</span>
+                    </div>
+                    <div class="login-by-google">
+                        <i class="fab fa-google"></i>
+                        <span>Đăng nhập bằng google</span>
+                    </div>
                     <div class="tab-register">
                         <span>Đăng ký tài khoản</span>
                     </div>
@@ -172,7 +180,7 @@
                             <input type="email" class="register-input" id="input-email" name="email" autocomplete="off">
                         </div>
                         <!-- address -->
-                        <div class="register-address register-parent">
+                        <!-- <div class="register-address register-parent">
                             <label for="input-address" class="register-label">Địa chỉ</label>
                             <div class="block_select_address">
                                 <select id="select_province">
@@ -191,7 +199,7 @@
                             </div>
                             <input type="text" class="register-input" id="input-address" name="address"
                                 autocomplete="off">
-                        </div>
+                        </div> -->
                         <!-- password -->
                         <div class="register-password register-parent">
                             <label for="input-password" class="register-label">Mật khẩu</label>

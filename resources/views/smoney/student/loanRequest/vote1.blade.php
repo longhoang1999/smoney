@@ -6,6 +6,7 @@
       <p>Nhập ý kiến và đánh giá của bạn</p>
       <p class="text-info">
         <span>Nếu bạn có bất kỳ ý kiến, đóng góp gì, bạn có thể gửi cho chúng tôi</span>
+        <span>Hãy đánh giá về trải nghiệm sử dụng hệ thống của bạn!</span>
       </p>
     </div>
   </div>
@@ -92,15 +93,70 @@
 
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "notification1"},
+        data:{
+            "page": "notification1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
+  function fillData(data){
+    $(".opinion").text(data.opinion);
+    $("#star_Share").val(data.star_votes);
+    refreshStar(data.star_votes);
+  }
+  function refreshStar(star){
+    if(star == "1"){
+      $(".star_1").addClass("star_select");
+      $(".star_2").removeClass("star_select");
+      $(".star_3").removeClass("star_select");
+      $(".star_4").removeClass("star_select");
+      $(".star_5").removeClass("star_select");
+    }else if(star == "2"){
+      $(".star_1").addClass("star_select");
+      $(".star_2").addClass("star_select");
+      $(".star_3").removeClass("star_select");
+      $(".star_4").removeClass("star_select");
+      $(".star_5").removeClass("star_select");
+    }else if(star == "3"){
+      $(".star_1").addClass("star_select");
+      $(".star_2").addClass("star_select");
+      $(".star_3").addClass("star_select");
+      $(".star_4").removeClass("star_select");
+      $(".star_5").removeClass("star_select");
+    }else if(star == "4"){
+      $(".star_1").addClass("star_select");
+      $(".star_2").addClass("star_select");
+      $(".star_3").addClass("star_select");
+      $(".star_4").addClass("star_select");
+      $(".star_5").removeClass("star_select");
+    }else if(star == "5"){
+      $(".star_1").addClass("star_select");
+      $(".star_2").addClass("star_select");
+      $(".star_3").addClass("star_select");
+      $(".star_4").addClass("star_select");
+      $(".star_5").addClass("star_select");
+    }
+  }
+
+
+  $(".timeline-four").removeClass("active");
+  if(!$(".timeline-four").hasClass("done")){
+    $(".timeline-four").addClass("done");
+  }
+  $(".timeline-five").removeClass("done");
+  if(!$(".timeline-five").hasClass("active")){
+    $(".timeline-five").addClass("active");
+  }
+  $(".timeline-six").removeClass("active");
+  $(".timeline-six").removeClass("done");
 </script>

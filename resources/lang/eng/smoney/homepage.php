@@ -15,4 +15,10 @@ return [
     'login' => 'Login',
     'language' => 'Language',
     'create_Account' => 'Create account',
+    'emptyTable'=>'There is no data in the table',
+    'showEntries'=>'Show _MENU_ entries',
+    'search'=>'Search:',
+    'showingToOf'=>'Showing _START_ to _END_ of _TOTAL_ entries',
+    'previous'=>'Previous',
+    'next'=>'Next',
 ];

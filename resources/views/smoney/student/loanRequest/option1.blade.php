@@ -1,9 +1,9 @@
 <div class="main-top">
   <div class="main-top-title">
-    Một số options có thể làm tăng khả năng bạn được cho vay
+    Thông tin về câu lạc bộ, đoàn thể?
     <i class="fas fa-question-circle"></i>
     <div class="more-info-user">
-      <p>Điền một số tùy chọn có thể làm tăng khả năng vay thành công của bạn</p>
+      <p>Thông tin về câu lạc bộ, đoàn thể mà bạn tham gia tại cơ sở đào tạo của bạn</p>
       <p class="text-info">
         <span>+ Nếu bạn tham gia các hoạt động đoàn thể ở trường,... hãy điền vào phần dưới. Ví dụ: đoàn thanh niên, câu lạc bộ sinh viên</span>
         <span>Lưu ý: Thông tin chỉ có ích tại cơ sở bạn sẽ gửi hồ sơ</span>
@@ -78,26 +78,36 @@
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "vieclam4"},
+        data:{
+            "page": "someoption",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
+
+  function fillData(data){
+    $(".club").val(data);
+    $(".club").parent().find(`li.square-item[data-value=${data}]`).addClass("square-select");
+  }
   
+  $(".timeline-two").removeClass("active");
+  if(!$(".timeline-two").hasClass("done")){
+    $(".timeline-two").addClass("done");
+  }
+  $(".timeline-three").removeClass("done");
+  if(!$(".timeline-three").hasClass("active")){
+    $(".timeline-three").addClass("active");
+  }
   $(".timeline-four").removeClass("active");
-  if(!$(".timeline-four").hasClass("done")){
-    $(".timeline-four").addClass("done");
-  }
-  $(".timeline-five").removeClass("done");
-  if(!$(".timeline-five").hasClass("active")){
-    $(".timeline-five").addClass("active");
-  }
-  $(".timeline-six").removeClass("active");
-  $(".timeline-six").removeClass("done");
+  $(".timeline-four").removeClass("done");
 </script>

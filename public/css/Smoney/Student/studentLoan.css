@@ -47,6 +47,7 @@
     padding-bottom: 0;
     color: white;
     padding-left: 10rem;
+    padding-bottom: 15rem;
 }
 .image-avatar{
     width: 10rem;
@@ -101,9 +102,7 @@
 }
 .block-item-content input{
     background: transparent;
-    /*color: #4f4840;*/
     color: white;
-    display: none;
 }
 .block-item-content p{
     margin: 0;
@@ -146,12 +145,11 @@
     cursor: pointer;
 }
 .block-item-content select {
-    display: none;
     width: 80%;
     border-radius: 3px;
     font-size: 14px;
     color: #666666;
-    padding: .2rem 0.4rem;
+    padding: .3rem;
     margin-bottom: 6px;
 }
 input[type="date"]::-webkit-calendar-picker-indicator{
@@ -251,6 +249,7 @@ span.success{
 .education-facilities-new .block-item-content select {
     display: block;
     width: 80%;
+    color: #1a60ff;
 }
 
 .family-info {
@@ -281,4 +280,208 @@ span.success{
 }
 .block-numberic{
     display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.block-numberic button{
+    height: 50%;
+    margin-right: 25px;
+}
+.edit-university input{
+    border-bottom: 1px solid #c7c3c3;
+    width: 100%;
+}
+.edit-university select{
+    width: 100%;
+    border: 1px solid #c7c3c3;
+    padding: .3rem;
+    border-radius: 2px;
+}
+.edit-university select option[disabled=""]{
+    background: #dad9d9;
+}
+#edit-info select option[disabled=""]{
+    background: #dad9d9;
+}
+.family-info input{
+    border-bottom: 1px solid white;
+    width: 90%;
+}
+.fix-infor-job{
+    cursor: pointer;
+}
+#fixInforJob select{
+    padding: .3rem;
+    border: 1px solid #d4d4d4;
+    border-radius: 2px;
+    width: 100%;
+}
+#fixInforJob input{
+    border-bottom: 1px solid #d4d4d4;
+    width: 100%;
+}
+
+
+/*input range*/
+.range,.range2 {
+  width: 85%;
+  margin: auto;
+}
+
+.range__slider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+}
+.range__slider_child{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.range__value {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-top: .5rem;
+  position: relative;
+}
+.range__slider_child span{
+  display: block;
+  width: 15%;
+  font-weight: 500;
+}
+.money-from{
+  text-align: left;
+}
+.money-to{
+  text-align: right;
+}
+.form-group label {
+  display: block;
+  width: 20%;
+  font-size: 16px;
+  color: #222;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+span.show-money {
+    font-size: 20px;
+    color: #0b5ac3;
+    display: block;
+    width: 100%;
+    background: #FAFAFB;
+    border: 1px solid #D2D4D7;
+    padding: .2rem .5rem;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.range__slider label {
+  margin-bottom: 10px;
+}
+
+.range__slider [type="range"] {
+  width: 70%;
+  -webkit-appearance: none;
+  height: 13px;
+  border-radius: 6px;
+  background: #f1f1f1;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+.range__slider [type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  /*background: #7a00ff;*/
+  background: white;
+  border: #f9ca24 5px solid;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+
+.range__slider [type="range"]::-webkit-slider-thumb:hover {
+  background: #f0932b;
+}
+
+.range__slider [type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #f0932b;
+  border: #f9ca24 5px solid; cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+
+.range__slider [type="range"]::-moz-range-thumb:hover {
+  background: #f9ca24;
+}
+.range__value_control{
+  position: absolute;
+  right: 1%;
+  width: 1.5rem;
+  text-align: center;
+  height: 100%;
+}
+.plus, .sub{
+  height: 50%;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+}
+.plus{
+  align-items: flex-end;
+}
+.sub{
+  align-items: flex-start;
+}
+.plus i,.sub i{
+  width: 100%;
+  height: 50%;
+  line-height: 0.5;
+}
+.live-other{
+  display: none;
+}
+
+/*end input range*/
+
+
+.submit-hide{
+    display: none;
+}
+.fz-14{
+    font-size: 14px;
+}
+.block_choose_date input{
+    cursor: pointer;
+}
+.selection{
+    margin: 0 !important;
+}
+.choose-address-select{
+    width: 100%;
+    margin-bottom: 5px;
+}
+.select2-container{
+    width: 90% !important;
+}
+.selection{
+    display: block !important;
+}
+.select2-selection{
+    height: 35px !important;
+}
+.select2-selection__rendered{
+    line-height: 35px !important;
 }

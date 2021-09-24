@@ -407,6 +407,22 @@ label[for="input-address"]{
     width: 100%;
     margin-top: 1rem;
 }
+.login-by-fb,.login-by-google{
+    color: white;
+    border-radius: 5rem;
+    padding: .7rem .2rem;
+    justify-content: center;
+    text-align: center;
+    margin-top: .5rem;
+    cursor: pointer;
+}
+.login-by-fb{
+    background-color: #0f1e5f;
+}
+.login-by-google{
+    background-color: #ff0000;
+}
+
 
 
 @media (min-width: 740px) and (max-width: 1050px){

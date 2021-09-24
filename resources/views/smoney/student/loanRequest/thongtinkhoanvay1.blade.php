@@ -143,7 +143,7 @@
           url:"{!! route('student.loadTimeline') !!}",
           method: "GET",
           data:{
-            "page": "thongtincanhan1",
+            "page": "cosodaotao5",
             "pagepresent" : "thongtinkhoanvay1",
             "data" : createObject()
           },
@@ -164,6 +164,7 @@
     var var3 = $(".loan-duration").val();
     var objectToSave = {
       maHS: maHS,
+      idBank,
       money : var1,
       purpose : var2,
       duration : var3
@@ -192,7 +193,6 @@
     $(".loan-duration").val(data['hsk_duration']);
     $(".loan-duration").parent().find(`li.square-item[data-value=${data['hsk_duration']}]`).addClass("square-select");
   }
-
 
   // function divMainAnimation(){
   //   $(".main-top").fadeOut("fast");

@@ -279,7 +279,10 @@
     $.ajax({
         url:"{!! route('student.deleteImgPoint') !!}",
         method: "GET",
-        data:{"value": valueImgAr},
+        data:{
+          maHS,
+          "value": valueImgAr
+        },
         success:function(data)
         {
           if(data['status'] == 'delete success'){
@@ -401,25 +404,42 @@
       $(this).remove();
     }
   })
-
+  function checkTitle(){
+    let check = true;
+    if(imgAr_3.length > 0 && $(".title-ortherpage-3").val() == ""){
+      alert("Bạn nhập thiếu tên giấy tờ");
+      check = false;
+    }
+    if(imgAr_4.length > 0 && $(".title-ortherpage-4").val() == ""){
+      alert("Bạn nhập thiếu tên giấy tờ");
+      check = false;
+    }
+    if(imgAr_5.length > 0 && $(".title-ortherpage-5").val() == ""){
+      alert("Bạn nhập thiếu tên giấy tờ");
+      check = false;
+    }
+    return check;
+  }
 
   $(".btn-next").click(function() {
-    $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
-        method: "GET",
-        data:{"page": ""},
-        data:{
-            "page": "tag1",
-            "pagepresent" : "otherpage1",
-            "data" : createObject()
-        },
-        success:function(data)
-        {
-          $(".main").empty();
-          $(".main").append(data[1]);
-        }
-    });
-    scrollToMain();
+    if(checkTitle()){
+      $.ajax({
+          url:"{!! route('student.loadTimeline') !!}",
+          method: "GET",
+          data:{"page": ""},
+          data:{
+              "page": "tag1",
+              "pagepresent" : "otherpage1",
+              "data" : createObject()
+          },
+          success:function(data)
+          {
+            $(".main").empty();
+            $(".main").append(data[1]);
+          }
+      });
+      scrollToMain();
+    }
   })
   function createObject(){
     let pageObject = [];
@@ -467,17 +487,80 @@
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "option4"},
+        data:{
+            "page": "option2",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
-    
+  
+  function fillData(data){
+    //  giấy tờ 1
+    if(data[0] != undefined){
+      $(".block-show-img .row").empty();
+      $(".block-show-img .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+      imgAr = data[0]['arrayImg'];
+      imgAr.forEach(function(item, index) {
+        let urlImg = `{{ url('/') }}/${item}`;
+        $(".block-show-img .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+      })
+    }
+    // giấy tờ 2
+    if(data[1] != undefined){
+      $(".block-show-img_2 .row").empty();
+      $(".block-show-img_2 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+      imgAr_2 = data[1]['arrayImg'];
+      imgAr_2.forEach(function(item, index) {
+        let urlImg = `{{ url('/') }}/${item}`;
+        $(".block-show-img_2 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+      })
+    }  
+    // giấy tờ 3
+    if(data[2] != undefined){
+      $(".block-btn-add button").click();
+      $(".block-show-img_3 .row").empty();
+      $(".block-show-img_3 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+      imgAr_3 = data[2]['arrayImg'];
+      $(".title-ortherpage-3").val(data[2]['title']);
+      imgAr_3.forEach(function(item, index) {
+        let urlImg = `{{ url('/') }}/${item}`;
+        $(".block-show-img_3 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+      })
+    }
+    // giấy tờ 4
+    if(data[3] != undefined){
+      $(".block-btn-add button").click();
+      $(".block-show-img_4 .row").empty();
+      $(".block-show-img_4 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+      imgAr_4 = data[3]['arrayImg'];
+      $(".title-ortherpage-4").val(data[3]['title']);
+      imgAr_4.forEach(function(item, index) {
+        let urlImg = `{{ url('/') }}/${item}`;
+        $(".block-show-img_4 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+      })
+    }
+    // giấy tờ 5
+    if(data[4] != undefined){
+      $(".block-btn-add button").click();
+      $(".block-show-img_5 .row").empty();
+      $(".block-show-img_5 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+      imgAr_5 = data[4]['arrayImg'];
+      $(".title-ortherpage-5").val(data[4]['title']);
+      imgAr_5.forEach(function(item, index) {
+        let urlImg = `{{ url('/') }}/${item}`;
+        $(".block-show-img_5 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+      })
+    }      
+  }
   
 </script>

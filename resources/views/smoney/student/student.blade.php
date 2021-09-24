@@ -188,11 +188,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($bankAll as $value)
                     <tr>
                         <td class="table-content">
-                            <img src="{{ asset('img-smoney/img-students/thebank_home_credit.jpg') }}" alt="" width="100" class="mb-2">
+                            <img src="{{ asset($value->nn_avatar) }}" alt="" width="100" class="mb-2">
                             <br>
-                            <span class="introduce_credit mb-3">Vay tiền mặt đối với khách hàng mới Home Credit Vay tiêu dùng cá nhân</span>
+                            <span class="introduce_credit mb-3">
+                                Vay tiền với {{ $value->nn_ten }}
+                            </span>
                             <div class="votes_credit">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -221,11 +224,12 @@
                             <!-- <a href="#" class="contact-credit">Liên hệ tư vấn 
                                 <span>(2)</span>
                             </a> -->
-                            <a href="{{ route('student.applyLoan') }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
+                            <a href="{{ route('student.loanRequest',$value->nn_id) }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
                             <a href="#" class="btn btn-block btn-sm btn-danger">Liên hệ tư vấn</a>
                         </td>
                     </tr>
-                    <tr>
+                    @endforeach
+                    <!-- <tr>
                         <td class="table-content">
                             <img src="{{ asset('img-smoney/img-students/thebank_vietcombank.jpg') }}" alt="" width="100" class="mb-2">
                             <br>
@@ -258,7 +262,7 @@
                             <a href="{{ route('student.applyLoan') }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
                             <a href="#" class="btn btn-block btn-sm btn-danger">Liên hệ tư vấn</a>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>

@@ -104,4 +104,18 @@ class UniversityController extends Controller
         }
 
     }
+    public function loanDetail (){
+        $userLogin = Auth::user();
+        $findUniversity = NhaTruong::where("nt_id",$userLogin->tks_sotk)->first();
+        if($findUniversity) {
+            return View('smoney/university/loan-detail')->with([
+                'name' => $findUniversity->nt_ten,
+                'avatar' => $findUniversity->nt_avatar
+            ]);
+        }
+        else {
+            Auth::logout();
+            return redirect()->route('homepage.login')->with("error","Tài khoản của bạn bị lỗi");
+        }
+    }
 }

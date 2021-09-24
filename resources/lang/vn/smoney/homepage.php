@@ -15,4 +15,10 @@ return [
     'login' => 'Đăng nhập',
     'language' => 'Ngôn ngữ',
     'create_Account' => 'Tạo tài khoản',
+    'emptyTable'=>'Không có bản ghi phù hợp',
+    'showEntries'=>'Hiển thị _MENU_ bản ghi',
+    'search'=>'Tìm kiếm:',
+    'showingToOf'=>'Đang hiển thị trang _START_ của _END_ trong số _TOTAL_ mục',
+    'previous'=>'Trang trước',
+    'next'=>'Trang sau',
 ];

@@ -82,6 +82,43 @@
 <script type="text/javascript">
   $(".btn-send-request").click(function() {
     if ($('#rules-checkbox').is(':checked')) {
+      $(".modal-head-btn").hide();
+      $(".success-title").show();
+      $(".title-modal-Choseuni").text("Cơ sở đào tạo nhận hồ sơ");
+      $(".modal-title-heading").html("<span>Hãy kiểm tra thông tin của bản thật chính xác trước khi gửi yêu cầu đi<span><br><span class='text-danger'>Bạn sẽ không thể sửa được hồ sơ của mình sau khi hồ sơ đã được gửi.</span>");
+      $(".modal-title-comfirm").hide();
+
+      $(".block-personal-infor").slideUp("fast");
+      $(".block-school-infor").slideUp("fast");
+      $(".block-parent-infor").slideUp("fast");
+      $(".block-job-infor").slideUp("fast");
+
+      let shool = document.querySelectorAll(".block-school-infor");
+      shool.forEach((item) => {
+          if(item.dataset.id != "{{$IDchoseShool}}")
+              item.hidden = true;
+      })
+
+      $.ajax({
+          url:"{!! route('student.getInfoHoso') !!}",
+          method: "GET",
+          data:{
+              maHS
+          },
+          success:function(data)
+          {
+            $("#modalRequiredInfo .modal-body .info-hoso").remove();
+            $("#modalRequiredInfo .modal-body").append(data);
+          }
+      });
+      setTimeout(() => {
+        $("#modalRequiredInfo").modal("show");
+      },200)
+    }else{
+      alert("Bạn chưa đồng ý với điều khoản!");
+    }
+  })
+  $("#modalRequiredInfo").on("click",".btn-submit-loanRequest",function(){
       $.ajax({
           url:"{!! route('student.loadTimeline') !!}",
           method: "GET",
@@ -92,14 +129,12 @@
           success:function(data)
           {
             if(data['response'] == "success"){
+              $("#modalRequiredInfo").hide();
               $("#doneModal").modal("show");
               maHS = null;
             }
           }
       });
-    }else{
-      alert("Bạn chưa đồng ý với điều khoản!");
-    }
   })
   function createObject(){
     var objectToSave = {
@@ -110,20 +145,35 @@
 
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "vote1"},
+        data:{
+            "page": "vote1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
+  
+  
 
   $('#doneModal').on('hidden.bs.modal', function (e) {
     location.replace("{{ route('student.student') }}");
   })
   
+  $(".timeline-five").removeClass("active");
+  if(!$(".timeline-five").hasClass("done")){
+    $(".timeline-five").addClass("done");
+  }
+  $(".timeline-six").removeClass("done");
+  if(!$(".timeline-six").hasClass("active")){
+    $(".timeline-six").addClass("active");
+  }
 </script>

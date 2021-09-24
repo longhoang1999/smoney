@@ -40,8 +40,19 @@
 
 
 <script type="text/javascript">
+  function checkEmpty(){
+    let check = false;
+    let a = document.querySelectorAll(".multi-account-number input");
+    a.forEach((item)=>{
+        if(item.value != undefined && item.value != "") 
+          check = true;
+    })
+    return check;
+  }
+
+
   $(".btn-next").click(function() {
-    if($(".first-club").val() == undefined || $(".first-club").val() == ""){
+    if(!checkEmpty()){
       $(".notExistContent").html("Tên các câu lạc bộ, đoàn thể mà bạn tham gia");
       $("#modalNotExist").modal("show");
     }else{
@@ -49,7 +60,7 @@
           url:"{!! route('student.loadTimeline') !!}",
           method: "GET",
           data:{
-              "page": "option3",
+              "page": "otherpage1",
               "pagepresent" : "option2",
               "data" : createObject()
           },
@@ -76,24 +87,32 @@
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "option1"},
+        data:{
+            "page": "option1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
 
+  function fillData(data){
+    $(".multi-account-number").empty();
+    data.forEach(function(item, index) {
+      if(item != null)
+        $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập câu lạc bộ, đoàn thể" value="'+ item +'">');
+    })
+  }
   
   $(".btn-plus-account-number").click(function() {
-    if($(".first-club").val() == undefined || $(".first-club").val() == ""){
-      alert("Hãy nhấp ít nhất một câu lạc bộ trước");
-    }else{
-      $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập thêm câu lạc bộ, đoàn thể">');
-    }
+    $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập thêm câu lạc bộ, đoàn thể">');
   })
 </script>

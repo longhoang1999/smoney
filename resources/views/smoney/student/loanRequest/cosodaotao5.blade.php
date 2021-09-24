@@ -1,6 +1,23 @@
 <?php 
   use App\Models\SmoneyModels\NhaTruong;
-  $findUni = NhaTruong::whereIn("nt_id",$uniAr)->get();
+  use App\Models\SmoneyModels\Student;
+  $userLogin = Auth::user();
+  $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+  $inforUniArr = array();
+  $uniAr = array();
+  if($findStudent->university != null){
+      $university = $findStudent->university;
+      $uniAr = array_keys($university);
+
+      $index = 1;
+      foreach($uniAr as $value){
+          $findNhaTruong = NhaTruong::where("nt_id",$value)->first();
+          $newArr = array("id" => $findNhaTruong->nt_id,
+                          "name" => $findNhaTruong->nt_ten
+          );
+          array_push($inforUniArr, $newArr);
+      } 
+  }
  ?>
 <div class="main-top">
   <div class="main-top-title">
@@ -24,9 +41,9 @@
     <!--question  -->
     <div class="block-square">
       <ul>
-        @foreach($findUni as $uni)
-          <li class="square-item" data-value="{{ $uni->nt_id }}">
-            <span>{{ $uni->nt_ten }}</span>
+        @foreach($inforUniArr as $uni)
+          <li class="square-item" data-value="{{ $uni['id'] }}">
+            <span>{{ $uni['name'] }}</span>
             <i class="fas fa-university"></i>
           </li>
         @endforeach
@@ -68,7 +85,7 @@
           url:"{!! route('student.loadTimeline') !!}",
           method: "GET",
           data:{
-              "page": "vieclam1",
+              "page": "cosodaotao4",
               "pagepresent" : "cosodaotao5",
               "data" : createObject()
           },
@@ -91,26 +108,37 @@
   }
   $(".btn-back").click(function() {
     $.ajax({
-        url:"{!! route('student.loadTimeline') !!}",
+        url:"{!! route('student.loadTimelinePre') !!}",
         method: "GET",
-        data:{"page": "cosodaotao3"},
+        data:{
+            "page": "thongtinkhoanvay1",
+            "maHS" : maHS
+        },
         success:function(data)
         {
           $(".main").empty();
-          $(".main").append(data[1]);
+          $(".main").append(data[0]);
+          // call hàm ở trang trước
+          fillData(data[1]);
         }
     });
     scrollToMain();
   })
 
-  $(".timeline-two").removeClass("active");
-  if(!$(".timeline-two").hasClass("done")){
-    $(".timeline-two").addClass("done");
+  function fillData(data){
+    // chooseSchool
+    $(".choose-school").val(data['chooseSchool']);
+    $(".choose-school").parent().find(`li.square-item[data-value=${data['chooseSchool']}]`).addClass("square-select");
   }
+
+  $(".timeline-one").removeClass("active");
+  if(!$(".timeline-one").hasClass("done")){
+    $(".timeline-one").addClass("done");
+  }
+  $(".timeline-two").removeClass("done");
+  if(!$(".timeline-two").hasClass("active")){
+    $(".timeline-two").addClass("active");
+  }
+  $(".timeline-three").removeClass("active");
   $(".timeline-three").removeClass("done");
-  if(!$(".timeline-three").hasClass("active")){
-    $(".timeline-three").addClass("active");
-  }
-  $(".timeline-four").removeClass("active");
-  $(".timeline-four").removeClass("done");
 </script>
