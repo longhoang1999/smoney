@@ -16,6 +16,8 @@ use Cookie;
 // model
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\Student;
+use App\Models\SmoneyModels\HoSoKhoanVay;
+use App\Models\SmoneyModels\SinhVienHoSo;
 use App\Models\SmoneyModels\TaiKhoanSmoney_Log;
 use App\Models\SmoneyModels\NhaTruong;
 use App\Models\SmoneyModels\NganHang;
@@ -852,6 +854,35 @@ class StudentController extends Controller
             ])->render();
         return $body;
     }
+    // send mail confirm loan
+    public function sendMailConfirm(Request $req){
+        $findHS = HoSoKhoanVay::where("_id",$req->idHS)->first();
+        $findSV = SinhVienHoSo::where("_id",$findHS->idsaveSV)->select('email')->first();
+
+        $findBank = NganHang::where("nn_id",$findHS->idBank)->select("nn_ten")->first();
+        $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomCode = substr(str_shuffle($permitted_chars), 0, 10);
+        $findHS->randomCode = $randomCode;
+        $findHS->save();
+        $body = view('smoney/student/sendmailconfirm',
+            [
+                'money' => $findHS->loanProposal['money'],
+                'interestRate' => $findHS->loanProposal['interestRate'],
+                'loanMonth' => $findHS->loanProposal['loanMonth'],
+                'nameBank' => $findBank->nn_ten,
+                'code' => $randomCode
+            ]
+        )->render();
+
+        if($this->sendMail($findSV->email,$body)){
+            $result = (object) array('status' => 'success');
+            return response()->json($result);
+        }else{
+            $result = (object) array('status' => 'fail');
+            return response()->json($result);
+        }
+    }
+
 
     // cut string to array
     public function cutArrray($string)

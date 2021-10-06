@@ -112,47 +112,20 @@
             <div class="content-title">
                 <h1>Tài khoản nhà trường</h1>
             </div>
+
             <!-- table -->
-            <table class="content-table">
+            <table class="content-table" id="Table_University">
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Tên</th>
+                        <th>Hình ảnh</th>
                         <th>Mã trường</th>
+                        <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
-                        <th>Ngày đăng ký</th>
                    </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Test covid 123</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -162,46 +135,18 @@
                 <h1>Tài khoản doanh nghiệp</h1>
             </div>
             <!-- table -->
-            <table class="content-table">
+            <table class="content-table" id="Table_Bank">
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Tên</th>
-                        <th>Mã trường</th>
+                        <th>Hình ảnh</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
                         <th>Địa chỉ</th>
-                        <th>Ngày đăng ký</th>
                    </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Test covid 123</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td>0123456</td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -223,25 +168,81 @@
     <script type="text/javascript" src="{{ asset('datatables/js/jquery.dataTables.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('datatables/js/dataTables.bootstrap4.js') }}" ></script>
     <script type="text/javascript">
+
+        // Student
         var table = $('#Table_Student').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] },
+            ],
             processing: true,
             serverSide: true,
             ajax: '{!! route('admin.showAllStudent') !!}',
             order:[],
             columns: [
-                    { data: 'stt', name: 'stt' },
-                    { data: 'hoten', name: 'hoten' },
-                    { data: 'sdt', name: 'sdt' },
-                    { data: 'diachi', name: 'diachi' },
-                    { data: 'university', name: 'university' }
-                ]
+                { data: 'stt', name: 'stt' },
+                { data: 'hoten', name: 'hoten' },
+                { data: 'sdt', name: 'sdt' },
+                { data: 'diachi', name: 'diachi' },
+                { data: 'university', name: 'university' }
+            ]
+        });
+        table.on( 'draw.dt', function () {
+            var PageInfo = $('#Table_Student').DataTable().page.info();
+            table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start;
             });
-            table.on( 'draw.dt', function () {
-                var PageInfo = $('#Table_Student').DataTable().page.info();
-                table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
-                    cell.innerHTML = i + 1 + PageInfo.start;
-                });
+        });
+
+        // university
+        var table_2 = $('#Table_University').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] },
+            ],
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('admin.showAlluniversity') !!}',
+            order:[],
+            columns: [
+                { data: 'stt', name: 'stt' },
+                { data: 'nt_ten', name: 'nt_ten' },
+                { data: 'avatar', name: 'avatar' },
+                { data: 'nt_ma', name: 'nt_ma' },
+                { data: 'nt_sdt', name: 'nt_sdt' },    
+                { data: 'nt_diachi', name: 'nt_diachi'},
+            ]
+        });
+        table_2.on( 'draw.dt', function () {
+            var PageInfo = $('#Table_University').DataTable().page.info();
+            table_2.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start;
             });
+        });
+
+        // bank
+        var table_3 = $('#Table_Bank').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] },
+            ],
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('admin.showAllbank') !!}',
+            order:[],
+            columns: [
+                { data: 'stt', name: 'stt' },
+                { data: 'nn_ten', name: 'nn_ten' },
+                { data: 'avatar', name: 'avatar' },
+                { data: 'nn_sdt', name: 'nn_sdt' },
+                { data: 'nn_email', name: 'nn_email' },    
+                { data: 'nn_diachi', name: 'nn_diachi'},
+            ]
+        });
+        table_3.on( 'draw.dt', function () {
+            var PageInfo = $('#Table_Bank').DataTable().page.info();
+            table_3.column(0, { page: 'current' }).nodes().each( function (cell, i) {
+                cell.innerHTML = i + 1 + PageInfo.start;
+            });
+        });
+        
     </script>
     <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
 @stop

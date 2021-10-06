@@ -71,16 +71,35 @@ class LoanController extends Controller
         if($findStudent) {
             $findHSDone = HoSoKhoanVay::where("hsk_id_student",$findStudent->_id)->where("hsk_send_status","true")->get();
 
-            $findHSNotDone = HoSoKhoanVay::where("hsk_id_student",$findStudent->_id)->where("hsk_send_status","saved")->get();
-            foreach($findHSNotDone as $hs){
-                $hs['takePagepresent'] = $this->takePagepresent($hs->pagepresent);
-            }
+            // $findHSNotDone = HoSoKhoanVay::where("hsk_id_student",$findStudent->_id)->where("hsk_send_status","saved")->get();
+            // foreach($findHSNotDone as $hs){
+            //     $hs['takePagepresent'] = $this->takePagepresent($hs->pagepresent);
+            // }
+            foreach($findHSDone as $value){
+                $svHoSo = SinhVienHoSo::where("_id",$value->idsaveSV)->first();
+                $findNhaTruong = NhaTruong::where("nt_id",$value->chooseSchool)->select("nt_ten","nt_diachi","nt_ma")->first();
+                $findNganHang = NganHang::where("nn_id",$value->idBank)->select("nn_ten")->first();
 
+                $value['hoten'] = $svHoSo->hoten;
+                $value['sdt'] = $svHoSo->sdt;
+                $value['email'] = $svHoSo->email;
+                $value['stk'] = $svHoSo->stk;
+                $value['diachi'] = $this->formatAddress($svHoSo->diachi);
+                $value['diachihientai'] = $this->formatAddress($svHoSo->diachihientai);
+                $value['cccd'] = $svHoSo->cccd;
+                $value['ngaysinh'] = date("d/m/Y", strtotime($svHoSo->ngaysinh));
+                $value['otherSdt'] = $svHoSo->otherSdt;
+                $value['parents'] = $svHoSo->parents;
+                $value['yourjob'] = $svHoSo->yourjob;
+                $value['gioitinh'] = $svHoSo->gioitinh;
+                $value['university'] = $svHoSo->university;
+                $value['uni'] = $findNhaTruong;
+                $value['nameBank'] = $findNganHang->nn_ten;
+            }
             return view('smoney.student.applyloan')->with([
                 'name' => $findStudent->hoten,
                 'avatar' => $findStudent->avatar,
-                'findHSDone' => $findHSDone,
-                'findHSNotDone' => $findHSNotDone
+                'findHSDone' => $findHSDone
             ]);
         }
         else {
@@ -449,7 +468,9 @@ class LoanController extends Controller
                     $findHS->hsk_send_status = "true";
 
                     $findHS->pagepresent = "done";
-                    
+                    $findHS->profileStatusInUni = "wait";
+                    $findHS->profileStatusInBank = "wait";
+
                     $IdsaveSV = $this->copyAndCustomStucent($req->data['maHS']);
                     $findHS->idsaveSV = $IdsaveSV;
                     $findHS->save();
@@ -723,9 +744,28 @@ class LoanController extends Controller
             ])->render();
         return $body;
     }
+    public function confirmDelete($idHS){
+        $findHS = HoSoKhoanVay::where("_id",$idHS)->first();
+        $findHS->yourDecision = "cancel";
+        $findHS->save();
+        return back()->with("success","Bạn đã hủy bỏ khoản vay");
+    }
+    public function confirmLoan(Request $req,$idHS){
+        $findHS = HoSoKhoanVay::where("_id",$idHS)->first();
+        if($findHS->randomCode == $req->loanCode){
+            $findHS->yourDecision = "yes";
+            $findHS->randomCode = "";
+            $findHS->save();
+            return back()->with("success","Bạn đã xác nhận khoản vay thành công");
+        }else{
+            return back()->with("error","Bạn nhập sai mã xác nhận. Vui lòng xem lại email của bạn");
+        }
+    }
 
 
-
+    public function deleteHoSo($idHS){
+        echo $idHS;
+    }
     // cut string to array
     public function cutArrray($string)
     {

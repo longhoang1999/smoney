@@ -165,3 +165,13 @@ span.text-block{
     border-radius: 500rem;
 }
 /* end sematic*/
+
+
+.title-empty-loan{
+    margin: 0;
+    padding: .5rem;
+    background: #f9f1f1;
+    padding-left: 2rem;
+    border-left: 2px solid #ffa600;
+    border-radius: 3px;
+}

@@ -95,6 +95,14 @@
 
             Route::post('refress-info', 'SmoneyControllers\StudentController@refressInfo')->name('student.refressInfo');
             Route::get('get-info-hoso', 'SmoneyControllers\LoanController@getInfoHoso')->name('student.getInfoHoso');
+            Route::get('deleteHoSo/{idHS}', 'SmoneyControllers\LoanController@deleteHoSo')->name('student.deleteHoSo');
+
+            Route::get('confirm-delete/{idHS}', 'SmoneyControllers\LoanController@confirmDelete')->name('student.confirmDelete');
+
+            Route::get('send-mail-comfirm-loan', 'SmoneyControllers\StudentController@sendMailConfirm')->name('student.sendMailConfirm');
+
+            Route::post('confirm-loan/{idHS}', 'SmoneyControllers\LoanController@confirmLoan')->name('student.confirmLoan');
+            
             
         }
     );
@@ -112,6 +120,9 @@
 
             // // // /
             Route::get('school-loan-detail', 'SmoneyControllers\UniversityController@loanDetail')->name('school.loanDetail');
+            Route::get('loan-of-uni-wait', 'SmoneyControllers\UniversityController@LoanOfUniWait')->name('school.LoanOfUniWait');
+            Route::get('get-modal-loan', 'SmoneyControllers\UniversityController@getModalLoan')->name('school.getModalLoan');
+            Route::post('feet-back-loan/{idHS}', 'SmoneyControllers\UniversityController@feetbackLoan')->name('school.feetbackLoan');
         }
     );
     Route::group(
@@ -121,6 +132,17 @@
             Route::get('bank-dashboard', 'SmoneyControllers\BankController@bankDashboard')->name('bank.bankDashboard');
             Route::get('bank-school-info', 'SmoneyControllers\BankController@schoolinfo')->name('bank.schoolinfo');
             Route::get('bank-loan-info', 'SmoneyControllers\BankController@loaninfo')->name('bank.loaninfo');
+            Route::get('bank-loan-wait', 'SmoneyControllers\BankController@loanwait')->name('bank.loanwait');
+            Route::get('bank-loan-wait-data', 'SmoneyControllers\BankController@LoanOfBankWait')->name('bank.LoanOfBankWait');
+            Route::get('bank-get-modal-loan', 'SmoneyControllers\BankController@getModalLoan')->name('bank.getModalLoan');
+            Route::post('bank-refuse-loan', 'SmoneyControllers\BankController@refuseWaitLoan')->name('bank.refuseWaitLoan');
+            Route::post('bank-pass-loan', 'SmoneyControllers\BankController@passWaitLoan')->name('bank.passWaitLoan');
+            Route::get('feed-back-loan-student', 'SmoneyControllers\BankController@feedBackLoanStudent')->name('bank.feedBackLoanStudent');
+            Route::get('feed-back-loan-data', 'SmoneyControllers\BankController@FeedBackLoanData')->name('bank.FeedBackLoanData');
+            Route::get('modal-loan-feed-back', 'SmoneyControllers\BankController@modalLoanFeedBack')->name('bank.modalLoanFeedBack');
+            Route::post('modal-loan-success', 'SmoneyControllers\BankController@modalLoanSuccess')->name('bank.modalLoanSuccess');
+            Route::get('loan-of-bank-pass', 'SmoneyControllers\BankController@LoanOfBankPass')->name('bank.LoanOfBankPass');
+
         }
     );
 
@@ -136,6 +158,20 @@
             Route::get('admin-account', 'SmoneyControllers\AdminController@account')->name('admin.adminAccount'); 
             Route::get('admin-bank', 'SmoneyControllers\AdminController@bank')->name('admin.bankAccount');
             Route::get('show-all-student', 'SmoneyControllers\AdminController@showAllStudent')->name('admin.showAllStudent');
+            Route::get('show-all-university', 'SmoneyControllers\AdminController@showAlluniversity')->name('admin.showAlluniversity');
+            Route::get('show-all-bank', 'SmoneyControllers\AdminController@showAllbank')->name('admin.showAllbank');
+            Route::get('get-uni-info', 'SmoneyControllers\AdminController@getUniInfo')->name('admin.getUniInfo');
+
+            Route::post('fixUni/{idUni}', 'SmoneyControllers\AdminController@fixUniInfo')->name('admin.fixUniInfo');
+            Route::get('resetPass/{idUni}', 'SmoneyControllers\AdminController@resetPass')->name('admin.resetPass');
+            Route::post('add-new-uni', 'SmoneyControllers\AdminController@addNewUni')->name('admin.addNewUni');
+            
+            Route::get('resetPassBank/{idBank}', 'SmoneyControllers\AdminController@resetPassBank')->name('admin.resetPassBank');
+            Route::get('get-bank-info', 'SmoneyControllers\AdminController@getBankInfo')->name('admin.getBankInfo');
+            Route::post('fixBank/{idBank}', 'SmoneyControllers\AdminController@fixBankInfo')->name('admin.fixBankInfo');
+            Route::post('add-new-bank', 'SmoneyControllers\AdminController@addNewBank')->name('admin.addNewBank');
+            
+            
             
         }
     );

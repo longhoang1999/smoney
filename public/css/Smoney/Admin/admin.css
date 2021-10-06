@@ -1051,3 +1051,53 @@ li.menu-service {
     border-color: #316FD3;
     color: #31B98C;
 }
+
+/*data table*/
+#Table_Student_wrapper, #Table_University_wrapper, #Table_Bank_wrapper{
+    padding: 0 9rem;
+}
+#Table_Student_filter, #Table_University_filter, #Table_Bank_filter{
+    float: right;
+}
+#Table_Student, #Table_University, #Table_Bank{
+    width: 100% !important;
+    margin: 0;
+}
+.pagination{
+    float:  right;
+}
+.roud {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    margin: auto;
+}
+.roud img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.btn-super-small{
+    
+}
+.flex-box{
+    display: flex;
+    align-items: center;
+}
+.input-file-hidden, .input-file-hidden-add{
+    display: none;
+}
+.notification-error{
+    background: #e00000;
+    margin: 2rem 12rem;
+    padding: .3rem;
+    color: white;
+    border-radius: 4px;
+}
+.notification-success{
+    background: #54d825;
+    margin: 2rem 12rem;
+    padding: .3rem;
+    color: white;
+    border-radius: 4px;
+}

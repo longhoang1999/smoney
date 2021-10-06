@@ -14,6 +14,9 @@ use Cookie;
 use App\Models\SmoneyModels\Student;
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\TaiKhoanSmoney_Log;
+use App\Models\SmoneyModels\NhaTruong;
+use App\Models\SmoneyModels\NganHang;
+use App\Models\SmoneyModels\Admin;
 
 class HomeController extends Controller
 {
@@ -37,12 +40,39 @@ class HomeController extends Controller
     {
         if(Auth::check()){
             $userLogged = Auth::user();
-            $findUser = Student::where("_id",$userLogged->tks_sotk)->first();
-            return view('smoney.homepage.homepage',[
-                'status' => 'userLogged',
-                'name' => $findUser->hoten,
-                'image' => $findUser->avatar
-            ]);   
+            if($userLogged->tks_loaitk == "1"){
+                $findUser = Student::where("_id",$userLogged->tks_sotk)->first();
+                return view('smoney.homepage.homepage',[
+                    'status' => 'userLogged',
+                    'name' => $findUser->hoten,
+                    'image' => $findUser->avatar,
+                    'type' => $userLogged->tks_loaitk
+                ]); 
+            }else if($userLogged->tks_loaitk == "2"){
+                $findUni = NhaTruong::where("nt_id",$userLogged->tks_sotk)->first();
+                return view('smoney.homepage.homepage',[
+                    'status' => 'userLogged',
+                    'name' => $findUni->nt_ten,
+                    'image' => $findUni->nt_avatar,
+                    'type' => $userLogged->tks_loaitk
+                ]); 
+            }else if($userLogged->tks_loaitk == "3"){
+                $findBank = NganHang::where("nn_id",$userLogged->tks_sotk)->first();
+                return view('smoney.homepage.homepage',[
+                    'status' => 'userLogged',
+                    'name' => $findBank->nn_ten,
+                    'image' => $findBank->nn_avatar,
+                    'type' => $userLogged->tks_loaitk
+                ]); 
+            }else if($userLogged->tks_loaitk == "4"){
+                $findAdmin = Admin::where("ad_id",$userLogged->tks_sotk)->first();
+                return view('smoney.homepage.homepage',[
+                    'status' => 'userLogged',
+                    'name' => $findAdmin->ad_name,
+                    'image' => "",
+                    'type' => $userLogged->tks_loaitk
+                ]); 
+            }
         }else{
             return view('smoney.homepage.homepage');
         }

@@ -19,7 +19,7 @@
         <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
                 <!-- logo -->
-                <a class="navbar-brand" href="{{ route('schhool.schoolDashboard') }}" id="header-logo">
+                <a class="navbar-brand" href="{{ route('admin.dashboard') }}" id="header-logo">
                     <img src="{{ asset('img-smoney/img-students/logo.svg') }}" alt="" class="header-logo-item">
                     <div class="header-logo-name">
                         <img src="{{ asset('img-smoney/img-students/name-logo.svg') }}" alt="" class="header-logo-item">

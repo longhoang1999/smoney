@@ -107,7 +107,15 @@
 						</span>
 					</div>
 					<div class="user_logged_more">
-						<a href="{{ route('student.student') }}" class="user_logged_more_link">@lang('smoney/homepage.personal_Page')</a>
+						@if($type == "1")
+							<a href="{{ route('student.student') }}" class="user_logged_more_link">@lang('smoney/homepage.personal_Page')</a>
+						@elseif($type == "2")
+							<a href="{{ route('schhool.schoolDashboard') }}" class="user_logged_more_link">Trang nhà trường</a>
+						@elseif($type == "3")
+							<a href="{{ route('bank.bankDashboard') }}" class="user_logged_more_link">Trang ngân hàng</a>
+						@elseif($type == "4")
+							<a href="{{ route('admin.dashboard') }}" class="user_logged_more_link">Trang Admin</a>
+						@endif
 						<a href="{{ route('student.logout') }}" class="user_logged_more_link">@lang('smoney/homepage.logout')</a>
 					</div>
 				</div>

@@ -45,89 +45,18 @@
             <h1>Thông tin khoản vay</h1>
         </div>
         <!-- table -->
-        <table class="content-table">
+        <table class="content-table" id="Table_KhoanVay">
             <thead>
                 <tr>
-                    <th>MÃ SV</th>
-                    <th>Tổng số tiền cho vay</th>
-                    <th>Thời hạn cho vay</th>
-                    <th>Lãi xuất cho vay</th>
+                    <th>Tên sinh viên</th>
+                    <th>Số tiền vay (VNĐ)</th>
+                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Kỳ hạn (tháng)</th>
+                    <th>Sinh viên Trường</th>
+                    <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
-                <tr>
-                    <td class="first blue">
-                        SV12 %3456
-                    </td>
-                    <td>75.000.000 VNĐ</td>
-                    <td>12 tháng</td>
-                    <td>12 %</td>
-
-                </tr>
             </tbody>
         </table>
         <!-- paging -->
@@ -146,4 +75,31 @@
 
 @section('footer-js')
     <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('datatables/js/jquery.dataTables.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('datatables/js/dataTables.bootstrap4.js') }}" ></script>
+    <script type="text/javascript">
+        var $url_path = '{!! url('/') !!}';
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var table_3 = $('#Table_KhoanVay').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] }
+            ],
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route("bank.LoanOfBankPass") !!}',
+            order:[],
+            columns: [
+                { data: 'nameStudent', name: 'nameStudent' }, 
+                { data: 'loanProposal', name: 'loanProposal' }, 
+                { data: 'interestRate', name: 'interestRate' }, 
+                { data: 'loanMonth', name: 'loanMonth' },   
+                { data: 'nameUni', name: 'nameUni' }, 
+                { data: 'action', name: 'action' },   
+            ]
+        });
+    </script>
 @stop

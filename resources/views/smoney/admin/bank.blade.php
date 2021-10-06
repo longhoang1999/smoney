@@ -84,48 +84,258 @@
             <div class="content-title">
                 <h1>Thông tin tài khoản ngân hàng</h1>
             </div>
+                @if(Session::has('error'))
+                <div class="notification-error">
+                    <ul>
+                        <li>
+                            <span class="error">{{ Session::get('error') }}</span>
+                        </li>
+                    </ul>
+                </div>
+                @endif
 
+                @if(Session::has('success'))
+                <div class="notification-success">
+                    <ul>
+                        <li>
+                            <span class="success">{{ Session::get('success') }}</span>
+                        </li>
+                    </ul>
+                </div>
+                @endif
             <div> 
-                <div class="add-new">
+                <div class="add-new" data-toggle="modal" data-target="#addNewBankModal">
                     <span>Thêm mới</span>
                     <i class="fas fa-plus-circle"></i>
                 </div>
             </div>
             <!-- table -->
-            <table class="content-table">
+            <table class="content-table" id="Table_Bank">
                 <thead>
                     <tr>
                         <th>Phone</th>
                         <th>Ảnh</th>
                         <th>Tên</th>
                         <th>Địa chỉ</th>
-                        <th>Ngày tạo</th>
+                        <th>Email</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td><div class="bank-img" style="background: url({{ asset('img-smoney/bank/bank_icon.png') }} ) no-repeat;">
-                                </div>
-                         </td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                         <td>0123456789</td>
-                        <td>
-                            <button type="button" class="btn-sm btn-block btn btn-outline-primary">
-                                Chi tiết
-                            </button>
-                            <button type="button" class="btn-sm btn-block btn btn-danger">
-                                Reset password
-                            </button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
+    <!-- resetModal -->
+    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetModalLabel">Thông báo reset mật khẩu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">Bạn có muốn reset mật khẩu của ngân hàng "<span class="nameUniReset text-info"></span>" không?</p>
+                    <p class="text-info">Mật khẩu sẽ được đặt lại theo số điện thoại của người dùng!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger btn-reset-pass">Đặt lại mật khẩu</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal chỉnh sửa -->
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailModalLabel">Chi tiết thông tin ngân hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="post" class="form-fix-school" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="container-fuild">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Tên ngân hàng</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="tenBank form-control" placeholder="Tên ngân hàng" required="" name="tenBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Số điện thoại</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="phoneBank form-control" placeholder="Số điện thoại" required="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="phoneBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Hình ảnh</span>
+                                </div>
+                                <div class="col-md-8 flex-box">
+                                    <div class="roud imgBank m-0">
+                                    </div>
+                                    <div class="ml-4">
+                                        <button type="button" class="btn btn-sm btn-primary btn-open-file">Tải ảnh lên</button>
+                                        <input type="file" accept="image/*" class="input-file-hidden" name="imgBank">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Email</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" placeholder="Email" class="emailBank form-control" name="emailBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Địa chỉ</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="addressBank" class="addressBank form-control" placeholder="Địa chỉ" required=""></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Thông tin</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="infomationBank" class="infomationBank form-control" placeholder="Thông tin"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Chính sách</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="policyBank" class="policyBank form-control" placeholder="Chính sách"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Hoạt động</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="activeBank" class="activeBank form-control" placeholder="Hoạt động"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Chỉnh sửa</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal add bank -->
+    <div class="modal fade" id="addNewBankModal" tabindex="-1" role="dialog" aria-labelledby="addNewBankModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewBankModalLabel">Thêm một ngân hàng mới vào hệ thống</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- add new  -->
+                <form action="{{ route('admin.addNewBank') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="container-fuild">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Tên ngân hàng</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="Tên ngân hàng" required="" name="tenBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Số điện thoại</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="Số điện thoại" required="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="phoneBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Hình ảnh</span>
+                                </div>
+                                <div class="col-md-8 flex-box">
+                                    <div class="ml-4">
+                                        <button type="button" class="btn btn-sm btn-primary btn-open-file-add">Tải ảnh lên</button>
+                                        <input type="file" accept="image/*" class="input-file-hidden-add" name="imgBank">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Email</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="email" placeholder="Email" class=" form-control" name="emailBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Địa chỉ</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="addressBank" class="form-control" placeholder="Địa chỉ" required=""></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Thông tin</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="infomationBank" class="form-control" placeholder="Thông tin"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Chính sách</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="policyBank" class="form-control" placeholder="Chính sách"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">Hoạt động</span>
+                                </div>
+                                <div class="col-md-8"> 
+                                    <textarea name="activeBank" class="form-control" placeholder="Hoạt động"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" >Thêm ngân hàng</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- back to top -->
     <div class="back_to_top">
@@ -135,5 +345,77 @@
 
 
 @section('footer-js')
+    <script type="text/javascript" src="{{ asset('datatables/js/jquery.dataTables.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('datatables/js/dataTables.bootstrap4.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
+    <script type="text/javascript">
+        var $url_path = '{!! url('/') !!}';
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        // bank
+        var table_3 = $('#Table_Bank').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] }
+            ],
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('admin.showAllbank') !!}',
+            order:[],
+            columns: [
+                { data: 'nn_sdt', name: 'nn_sdt' },
+                { data: 'avatar', name: 'avatar' },
+                { data: 'nn_ten', name: 'nn_ten' },
+                { data: 'nn_diachi', name: 'nn_diachi'},
+                { data: 'nn_email', name: 'nn_email' }, 
+                { data: 'action', name: 'action' },       
+            ]
+        });
+
+        $('#resetModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var idUni = button.data('id')
+            var nameUni = button.data('name')
+            $(".nameUniReset").text(nameUni);
+            let $url = $url_path+"/resetPassBank/"+idUni;
+            $(".btn-reset-pass").attr("href",$url);
+        })
+
+        $('#detailModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var recipient = button.data('id')
+            $.ajax({
+                url:"{!! route('admin.getBankInfo') !!}",
+                method: "GET",
+                data:{
+                    "idBank": recipient,
+                },
+                success:function(data)
+                {
+                    $(".tenBank").val(data['tenBank']);
+                    $(".phoneBank").val(data['phoneBank']);
+                    $(".imgBank").empty();
+                    if(data['imgBank'] != ""){
+                        $(".imgBank").append(`<img src="${data['imgBank']}" alt="">`);
+                    }
+                    $(".emailBank").val(data['emailBank']);
+                    $(".addressBank").val(data['addressBank']);
+                    $(".infomationBank").val(data['infomationBank']);
+                    $(".policyBank").val(data['policyBank']);
+                    $(".activeBank").val(data['activeBank']);
+                    
+                    let $url = $url_path+"/fixBank/"+data['idBank'];
+                    $(".form-fix-school").attr("action", $url);
+                }
+            });
+        })
+        $(".btn-open-file").click(function() {
+            $(".input-file-hidden").click();
+        })
+        $(".btn-open-file-add").click(function() {
+            $(".input-file-hidden-add").click();
+        })
+    </script>
 @stop

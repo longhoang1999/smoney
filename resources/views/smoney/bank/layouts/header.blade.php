@@ -104,6 +104,12 @@
                                 <a href="{{ route('bank.schoolinfo') }}" class="item-information">
                                     Thông tin nhà trường
                                 </a>
+                                <a href="{{ route('bank.loanwait') }}" class="item-information">
+                                    Khoản vay chờ xử lý
+                                </a>
+                                <a href="{{ route('bank.feedBackLoanStudent') }}" class="item-information">
+                                    Phản hồi đề xuất
+                                </a>
                                 <a href="{{ route('bank.loaninfo') }}" class="item-information">
                                     Thông tin khoản vay
                                 </a>
