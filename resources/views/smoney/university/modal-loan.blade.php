@@ -1,8 +1,6 @@
 <?php 
     use Illuminate\Support\Arr;
-
  ?>
-<div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalLoan_1Label">
@@ -71,8 +69,11 @@
                             <p class="m-0 text-tab-1">Ngân hàng yêu cầu vay:</p>
                         </div>
                         <div class="col-md-8 mb-3 mt-3">
-                            <span class="font-weight-bold text-tab-1-span">
-                                {{ $hs->nameBank }}</span>
+                            @foreach($hs->bank as $value)
+                                <span class="font-weight-bold text-tab-1-span">
+                                    {{ $value->nn_ten }}</span>
+                                <br>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -127,10 +128,12 @@
                         <div class="col-md-4 mb-3">
                             <p class="m-0 text-tab-2">Số điện thoại khác:</p>
                         </div>
-                        <div class="col-md-8 mb-3">                            
+                        <div class="col-md-8 mb-3">
+                        @if($hs->otherSdt != null)                           
                             @foreach($hs->otherSdt as $hsk_otherPhone)
                                 <span class="text-block text-tab-2-span">{{ $hsk_otherPhone }}</span>
                             @endforeach
+                        @endif
                         </div>
                         <hr>
                         <div class="col-md-4 mb-3">
@@ -513,4 +516,3 @@
             <button type="button" class="btn btn-danger btn-success-refuse">Từ chối</button>
       </div>
     </div>
-</div>

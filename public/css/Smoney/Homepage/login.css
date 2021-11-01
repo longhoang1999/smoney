@@ -415,6 +415,10 @@ label[for="input-address"]{
     text-align: center;
     margin-top: .5rem;
     cursor: pointer;
+    display: block;
+}
+.login-by-fb:hover,.login-by-google:hover{
+    color: white;
 }
 .login-by-fb{
     background-color: #0f1e5f;

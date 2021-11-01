@@ -1,0 +1,57 @@
+.blockSelectNormal{
+	padding: 0 9rem;
+	width: 50%;
+}
+
+/*data table*/
+#Table_KhoanVay_End_wrapper, #Table_KhoanVay_OutDate_wrapper{
+    padding: 0 9rem;
+}
+#Table_KhoanVay_End_filter, #Table_KhoanVay_OutDate_filter{
+    float: right;
+}
+#Table_KhoanVay_End, #Table_KhoanVay_OutDate{
+    width: 100% !important;
+    margin: 0;
+}
+
+.info-loan-normal{
+    width: 80%;
+ }
+
+.rowLoanEnd{
+	cursor: pointer;
+}
+.inputMoneyOutDate{
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+    min-height: 3rem;
+}
+.moneyOutDate{
+    right: -20rem;
+    top: 4px;
+    transition: all .5s;
+    position: absolute;
+    width: 18rem;
+}
+.MoneyOutDateChild{
+    display: flex;
+    position: relative;
+}
+.btn-show-input{
+    height: 70%;
+    width: 2.4rem;
+    color: white;
+    border: none;
+    background: #249fbb;
+    border-radius: 4px;
+}
+.btn-show-input:focus, .btn-show-input:active{
+    border: none;
+    outline: none;
+}
+.titleMoneyOutDate{
+    display: flex;
+    align-items: center;
+}

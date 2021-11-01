@@ -103,7 +103,11 @@
                                 <a href="{{ route('schhool.pending') }}" class="item-information">
                                     Khoản vay đang chờ xử lý
                                 </a>
-                                <a href="{{ route('schhool.unpaid') }}" class="item-information">
+                                <a href="{{ route('schhool.approvedProfile') }}" class="item-information">
+                                    Những hồ sơ đã duyệt
+                                </a>
+
+                                <!-- <a href="{{ route('schhool.unpaid') }}" class="item-information">
                                     Khoản vay chưa thanh toán
                                 </a>
                                 <a href="{{ route('schhool.paid') }}" class="item-information">
@@ -114,7 +118,7 @@
                                 </a>
                                 <a href="{{ route('schhool.workinfor') }}" class="item-information">
                                     Thông tin việc làm
-                                </a>
+                                </a> -->
                                 <a href="{{ route('student.logout') }}" class="item-information">
                                     Đăng xuất
                                 </a>

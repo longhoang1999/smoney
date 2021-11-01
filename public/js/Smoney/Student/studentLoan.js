@@ -57,12 +57,13 @@ $(document).ready(function(){
 
 
     // set up input range
-  	var rangeElement = document.querySelector("input[type='range']")
-  	$("input[type='range']").attr("min",min);
-  	$("input[type='range']").attr("max",max);
-  	$("input[type='range']").attr("value",cur);
+  	var rangeElement = document.querySelector(".range__slider_child input[type='range']")
+  	$(".range__slider_child input[type='range']").attr("min",min);
+  	$(".range__slider_child input[type='range']").attr("max",max);
+  	$(".range__slider_child input[type='range']").attr("value",cur);
   	$(".show-money").html(asMoney(cur))
-  	$("input[type='range']").attr("style",generateBackground($("input[type='range']")));
+  	$(".range__slider_child input[type='range']").
+  		attr("style",generateBackground($(".range__slider_child input[type='range']")));
 
     rangeElement.addEventListener('input', updateSlider)
   	function asMoney(value) {
@@ -77,15 +78,18 @@ $(document).ready(function(){
     	return 'background: linear-gradient(to right, #50299c, #7a00ff ' + percentage + '%, #d3edff ' + percentage + '%, #dee1e2 100%)'
   	}
   	function updateSlider () {
-    	$(".show-money").html(asMoney($("input[type='range']").val()))
-    	$("input[type='range']").attr("style",generateBackground($("input[type='range']")));
+    	$(".show-money").html(asMoney($(".range__slider_child input[type='range']").val()))
+    	$(".range__slider_child input[type='range']").
+    		attr("style",generateBackground($("input[type='range']")));
   	}
   	$(".plus").click(function() {
-    	$("input[type='range']").val(parseInt($("input[type='range']").val()) + 50000)
+    	$(".range__slider_child input[type='range']").
+    		val(parseInt($("input[type='range']").val()) + 50000)
     	updateSlider()
   	})
   	$(".sub").click(function() {
-    	$("input[type='range']").val(parseInt($("input[type='range']").val()) - 50000)
+    	$(".range__slider_child input[type='range']").
+    		val(parseInt($("input[type='range']").val()) - 50000)
     	updateSlider()
   	})
   // end set up input range

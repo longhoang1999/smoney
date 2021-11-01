@@ -2,7 +2,6 @@
     use Illuminate\Support\Arr;
 
  ?>
-<div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalLoan_1Label">
@@ -127,10 +126,12 @@
                         <div class="col-md-4 mb-3">
                             <p class="m-0 text-tab-2">Số điện thoại khác:</p>
                         </div>
-                        <div class="col-md-8 mb-3">                            
+                        <div class="col-md-8 mb-3">    
+                        @if($hs->otherSdt)                        
                             @foreach($hs->otherSdt as $hsk_otherPhone)
                                 <span class="text-block text-tab-2-span">{{ $hsk_otherPhone }}</span>
                             @endforeach
+                        @endif
                         </div>
                         <hr>
                         <div class="col-md-4 mb-3">
@@ -495,7 +496,7 @@
                     </div>
                     <div class="col-md-6">
                         <span class="font-weight-bold font-italic text-danger">
-                            {{ number_format($hs->loanProposal['money']) }} VNĐ
+                            {{ number_format($hs->loanProposal[$hs->chooseBank]['money']) }} VNĐ
                         </span>
                     </div>
                 </div>
@@ -505,7 +506,7 @@
                     </div>
                     <div class="col-md-6">
                         <span class="font-weight-bold font-italic text-danger">
-                            {{ $hs->loanProposal['interestRate'] }} % / tháng
+                            {{ $hs->loanProposal[$hs->chooseBank]['interestRate'] }} % / tháng
                         </span>
                     </div>
                 </div>
@@ -515,7 +516,7 @@
                     </div>
                     <div class="col-md-6">
                         <span class="font-weight-bold font-italic text-danger">
-                            {{ $hs->loanProposal['loanMonth'] }} tháng
+                            {{ $hs->loanProposal[$hs->chooseBank]['loanMonth'] }} tháng
                         </span>
                     </div>
                 </div>
@@ -526,8 +527,10 @@
                     <div class="col-md-6">
                         <span class="font-weight-bold font-italic text-danger">
                             <?php 
-                                $moneyPayAMonth = $hs->loanProposal['moneyPayAMonth'];
-                                $aMonthProfit = $hs->loanProposal['aMonthProfit'];
+                                $moneyPayAMonth 
+                                    = $hs->loanProposal[$hs->chooseBank]['moneyPayAMonth'];
+                                $aMonthProfit 
+                                    = $hs->loanProposal[$hs->chooseBank]['aMonthProfit'];
                                 $sumMoney = $moneyPayAMonth + $aMonthProfit;
 
                                 $showString = number_format($sumMoney)." VNĐ ( ".
@@ -545,7 +548,9 @@
                     <div class="col-md-6">
                         <span class="font-weight-bold font-italic text-danger">
                             <?php 
-                                $allLoanFinally = round($sumMoney * $hs->loanProposal['loanMonth']);
+                                $allLoanFinally 
+                                    = round($sumMoney 
+                                        * $hs->loanProposal[$hs->chooseBank]['loanMonth']);
                                 echo number_format($allLoanFinally)." VNĐ";
                              ?>
                         </span>
@@ -593,40 +598,6 @@
         </div>
       </div>
     </div>
-</div>
-
-<style>
-    .btn-decision-title{
-        font-size: 18px;
-    }
-    .block-btn-decision{
-        width: 70%;
-        padding: 1.2rem;
-        border-radius: 2px;
-        background: #9cffc8;
-        text-align: justify;
-    }
-    .block-send-day, .block-reason-refusal{
-        display: none;
-        width: 70%;
-        margin-top: 1rem;
-    }
-    .block-send-day .row, .block-reason-refusal .row{
-        align-items: flex-end;
-    }
-    #inputDoB{
-        cursor: pointer;
-    }
-    .flatpickr-wrapper{
-        width: 100%;
-    }
-    input.inputDateLoan.input.active {
-        cursor: pointer;
-    }
-    .flatpickr-calendar.hasTime.animate.static.arrowBottom.arrowLeft.open {
-        top: -21.5rem;
-    }
-</style>
 
 <script type="text/javascript">
     flatpickr('.inputDateLoan', {

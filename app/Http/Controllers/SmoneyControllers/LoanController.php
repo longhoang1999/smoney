@@ -78,7 +78,7 @@ class LoanController extends Controller
             foreach($findHSDone as $value){
                 $svHoSo = SinhVienHoSo::where("_id",$value->idsaveSV)->first();
                 $findNhaTruong = NhaTruong::where("nt_id",$value->chooseSchool)->select("nt_ten","nt_diachi","nt_ma")->first();
-                $findNganHang = NganHang::where("nn_id",$value->idBank)->select("nn_ten")->first();
+                $findNganHang = NganHang::whereIn("nn_id",$value->idBank)->select("nn_ten")->get();
 
                 $value['hoten'] = $svHoSo->hoten;
                 $value['sdt'] = $svHoSo->sdt;
@@ -94,7 +94,7 @@ class LoanController extends Controller
                 $value['gioitinh'] = $svHoSo->gioitinh;
                 $value['university'] = $svHoSo->university;
                 $value['uni'] = $findNhaTruong;
-                $value['nameBank'] = $findNganHang->nn_ten;
+                $value['bank'] = $findNganHang;
             }
             return view('smoney.student.applyloan')->with([
                 'name' => $findStudent->hoten,
@@ -108,8 +108,7 @@ class LoanController extends Controller
         }
     }
 
-    public function loanRequest(Request $req,$idNN){
-        $choseBank = NganHang::where("nn_id",$idNN)->first();
+    public function loanRequest(){
         $userLogin = Auth::user();
         $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
 
@@ -157,7 +156,7 @@ class LoanController extends Controller
                 'university' => $inforUniArr,
                 'parents' => $findStudent->parents,
                 'yourjob' => $findStudent->yourjob,
-                'choseBank' => $choseBank,
+                'choseBank' => $findStudent->arrSelect,
             ]);
         }
         else {
@@ -471,7 +470,7 @@ class LoanController extends Controller
                     $findHS->profileStatusInUni = "wait";
                     $findHS->profileStatusInBank = "wait";
 
-                    $IdsaveSV = $this->copyAndCustomStucent($req->data['maHS']);
+                    $IdsaveSV = $this->copyAndCustomStudent($req->data['maHS']);
                     $findHS->idsaveSV = $IdsaveSV;
                     $findHS->save();
                     $result = (object) array('response' => 'success');
@@ -503,7 +502,7 @@ class LoanController extends Controller
             ])->render();
         return [$idHS,$body,$hsk_numberSchool];
     }
-    public function copyAndCustomStucent($maHS){
+    public function copyAndCustomStudent($maHS){
         $user = Auth::user();
         $findStudent = Student::where("_id",$user->tks_sotk)->first();
         $findHS = HoSoKhoanVay::where("_id",$maHS)->first();
@@ -725,7 +724,7 @@ class LoanController extends Controller
     public function getInfoHoso(Request $req){
         $findHS = HoSoKhoanVay::where("_id",$req->maHS)->first();
         $nameSchool = NhaTruong::where("nt_id",$findHS->chooseSchool)->select("nt_ten")->first();
-        $bank = NganHang::where("nn_id",$findHS->idBank)->first();
+        $bank = NganHang::whereIn("nn_id",$findHS->idBank)->get();
         $body = view('smoney/student/infohosomodal')->with([
                 'hsk_money' => $findHS->hsk_money,
                 'hsk_purpose' => $findHS->hsk_purpose,
@@ -750,22 +749,30 @@ class LoanController extends Controller
         $findHS->save();
         return back()->with("success","Bạn đã hủy bỏ khoản vay");
     }
-    public function confirmLoan(Request $req,$idHS){
+    public function confirmLoan(Request $req, $idHS, $idBank){
         $findHS = HoSoKhoanVay::where("_id",$idHS)->first();
         if($findHS->randomCode == $req->loanCode){
             $findHS->yourDecision = "yes";
             $findHS->randomCode = "";
+            $findHS->chooseBank = $idBank;
             $findHS->save();
             return back()->with("success","Bạn đã xác nhận khoản vay thành công");
         }else{
             return back()->with("error","Bạn nhập sai mã xác nhận. Vui lòng xem lại email của bạn");
         }
     }
-
-
     public function deleteHoSo($idHS){
         echo $idHS;
     }
+    public function SaveIDBankRequest(Request $req){
+        $userLogin = Auth::user();
+        $findStudent = Student::where("_id",$userLogin->tks_sotk)->first();
+        $findStudent->arrSelect = $req->arrSelect;
+        $findStudent->save();
+        return "true";
+    }
+
+
     // cut string to array
     public function cutArrray($string)
     {

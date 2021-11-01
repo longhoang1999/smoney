@@ -29,7 +29,10 @@
             background-repeat: no-repeat;
             background-size: contain;
         }
-
+        .block-btn-decision{
+            margin: auto;
+            text-align: center;
+        }
     </style>
 @stop
 @section('content')

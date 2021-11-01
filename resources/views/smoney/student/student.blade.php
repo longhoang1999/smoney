@@ -171,7 +171,7 @@
             </div>
            
             <div class="btn-send-loan-request">
-                Gửi yêu cầu
+                Tìm kiếm ngân hàng
             </div>
         </div>
 
@@ -180,16 +180,20 @@
             <table class="table-loan-choose-company">
                 <thead>
                     <tr>
+                        <th class="table-header" colspan="6">Bạn hãy chọn ngân hàng gửi hồ sơ (tối đa 3 ngân hàng)</th>
+                    </tr>
+                    <tr>
                         <th class="table-header">Sản phẩm</th>
                         <th class="table-header">Lãi suât (năm)</th>
                         <th class="table-header">Vay tối đa</th>
                         <th class="table-header">Khả năng thành công</th>
-                        <th class="table-header">Đăng ký</th>
+                        <th class="table-header">Tư vấn</th>
+                        <th class="table-header">Chọn</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($bankAll as $value)
-                    <tr>
+                    <tr data-id="{{ $value->nn_id }}">
                         <td class="table-content">
                             <img src="{{ asset($value->nn_avatar) }}" alt="" width="100" class="mb-2">
                             <br>
@@ -221,48 +225,25 @@
                             <span class="font-weight-bold">50%</span>
                         </td>
                         <td class="table-content">
-                            <!-- <a href="#" class="contact-credit">Liên hệ tư vấn 
-                                <span>(2)</span>
-                            </a> -->
-                            <a href="{{ route('student.loanRequest',$value->nn_id) }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
-                            <a href="#" class="btn btn-block btn-sm btn-danger">Liên hệ tư vấn</a>
+                            <a href="#" class="btn-contact">Liên hệ tư vấn</a>
+                        </td>
+                        <td class="table-content">
+                            <button class="btn-choose">
+                                <i class="far fa-check-circle"></i>
+                                Chọn
+                            </button>
                         </td>
                     </tr>
                     @endforeach
-                    <!-- <tr>
-                        <td class="table-content">
-                            <img src="{{ asset('img-smoney/img-students/thebank_vietcombank.jpg') }}" alt="" width="100" class="mb-2">
-                            <br>
-                            <span class="introduce_credit mb-3">Vay tiêu dùng cá nhân Vietcombank Vay tiêu dùng cá nhân</span>
-                            <div class="votes_credit">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="comment_credit mt-2 mb-1">
-                                <a href="#">1 nhận xét</a>
-                            </div>
+                    <tr>
+                        <td class="table-content" colspan="6">
+                            <button class="btn-apply-for-loan">
+                                <i class="fab fa-leanpub"></i>
+                                Đăng ký vay
+                            </button>
+                            <a href="#" class="link-apply-for-loan" hidden=""></a>
                         </td>
-                        <td class="table-content">
-                            <span class="percent-credit font-weight-bold">10,8%</span>
-                            <br>
-                            <span class="content-credit">
-                                47137 người đã đăng ký (áp dụng từ 04/06/2021)
-                            </span>
-                        </td>
-                        <td class="table-content">
-                            <span class="font-weight-bold">300 Triệu</span>
-                        </td> 
-                        <td class="table-content">
-                            <span class="font-weight-bold">70%</span>
-                        </td>
-                        <td class="table-content">
-                            <a href="{{ route('student.applyLoan') }}" class="btn btn-block btn-sm btn-warning">Đăng ký vay</a>
-                            <a href="#" class="btn btn-block btn-sm btn-danger">Liên hệ tư vấn</a>
-                        </td>
-                    </tr> -->
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -832,6 +813,14 @@
 
 
 @section('footer-js')
+<script type="text/javascript">
+    var $url_path = '{!! url('/') !!}';
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/frontend/jquery.circliful.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendors/wow/js/wow.min.js') }}"></script>

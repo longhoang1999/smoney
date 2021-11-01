@@ -11,7 +11,7 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 class Student extends Eloquent
 {
     protected $connection='mongodb';
-    protected $collection='Sinhvien_2';
+    protected $collection='Sinhvien';
     public $timestamps = false;
     protected $fillable = ['masv','hoten','avatar','code','gioitinh','ngaysinh','diachi','sdt','otherSdt','email','diem','lophc','chuyennganh','loaict','stk','truong','cccd','keyforgot'];
 }

@@ -113,6 +113,9 @@
                                 <a href="{{ route('bank.loaninfo') }}" class="item-information">
                                     Thông tin khoản vay
                                 </a>
+                                <a href="{{ route('bank.loanpaid') }}" class="item-information">
+                                    Khoản vay đã thanh toán
+                                </a>
                                 <a href="{{ route('student.logout') }}" class="item-information">
                                     Đăng xuất
                                 </a>

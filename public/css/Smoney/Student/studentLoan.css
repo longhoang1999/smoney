@@ -92,14 +92,6 @@
     display: flex;
     align-items: center;
 }
-.infomation-content-left,.infomation-content-rigit{
-    width: 50%;
-    padding: .5rem;
-    padding-left: 0;
-}
-.infomation-content{
-    display: flex;
-}
 .block-item-content input{
     background: transparent;
     color: white;
@@ -112,16 +104,22 @@
     font-weight: 500;
 }
 .block-title{
-    /*color: #222222;*/
-    color: #ffffff;
-    font-weight: 500;
-    margin-top: 1.5rem;
-    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+.block-title p{
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 .div-block{
-    padding: .5rem 1rem;
-    background: transparent;
+    padding: .5rem 2rem;
+    background: white;
     border-radius: 5px;
+    margin: 2rem 0;
+
 }
 .line{
     width: 100%;
@@ -139,11 +137,54 @@
     width: 100%;
     padding: .2rem 0.4rem;
 }
-.btn-open-change{
-    text-decoration: underline;
-    margin-left: 1.5rem;
-    cursor: pointer;
+.infomation-content span, .infomation-content p{
+    color: #222222;
 }
+.infomation-content table{
+    width: 100%;
+    border-spacing: 0;
+    margin-bottom: 2rem;
+}
+.infomation-content table td:first-child{
+    width: 35%;
+}
+.infomation-content table td:last-child{
+    display: flex;
+    flex-direction: column;
+}
+.infomation-content table td{
+    padding: 0.7rem 1.2rem; 
+}
+.infomation-content table tr:nth-child(even) {
+    background-color: #E7EFF8;
+}
+.block-name-uni{
+    display: flex;
+}
+.block-name-uni-left p{
+    color: #007bff!important;
+    font-weight: bold;
+    margin: 0;
+    background: #fff;
+    transform: translateY(2px);
+    display: inline-block;
+    padding-right: 15px;
+}
+.block-name-uni-left{
+    border-bottom: 1px solid #007bff;
+    display: block;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
 .block-item-content select {
     width: 80%;
     border-radius: 3px;
@@ -501,7 +542,7 @@ span.show-money {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 40vw;
+  width: 70vw;
   height: 100px;
   max-width: 1000px;
   position: relative;
@@ -526,15 +567,14 @@ span.show-money {
   top: 50%;
   transform: translateY(-50%);
   background-color: #2C3E50;
-  width: 4vw;
+  width: 7vw;
   height: 5px;
-  max-width: 50px;
 }
 .input::before {
-  left: calc(-4vw + 12.5px);
+  left: calc(-5vw + -17.5px);
 }
 .input::after {
-  right: calc(-4vw + 12.5px);
+  right: calc(-7vw + 14.5px);
 }
 .input.active {
   background-color: #2C3E50;
@@ -581,7 +621,7 @@ span.show-money {
 }
 .input span::before {
   content: attr(data-info);
-  top: -65px;
+  top: -70px;
   width: 70px;
   transform: translateX(-5px) rotateZ(-45deg);
   font-size: 12px;
@@ -618,4 +658,11 @@ span.show-money {
 }
 .fade{
     overflow-y: auto;
+}
+.block_choose_date input{
+    border-radius: 2px !important;
+    padding: 1rem .5rem !important;
+}
+.block_choose_date .input.active{
+    background: #e9ecef;
 }

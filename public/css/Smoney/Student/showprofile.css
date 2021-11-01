@@ -1,0 +1,21 @@
+.loan-header {
+    background: #6066f4;
+    color: white;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    padding-left: 5rem;
+    font-size: 30px;
+    font-weight: bold;
+}
+body{
+    background: #d5d6f1;
+}
+.text-title-child{
+    color: #007bff !important;
+    margin: 0;
+    margin-left: 2rem;
+    font-style: italic;
+    font-weight: bold;
+
+}

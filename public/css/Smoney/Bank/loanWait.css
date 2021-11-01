@@ -185,3 +185,36 @@ input[readonly=""]{
   width: 80%;
   margin: auto;
 }
+
+
+
+.btn-decision-title{
+    font-size: 18px;
+}
+.block-btn-decision{
+    width: 70%;
+    padding: 1.2rem;
+    border-radius: 2px;
+    background: #9cffc8;
+    text-align: justify;
+}
+.block-send-day, .block-reason-refusal{
+    display: none;
+    width: 70%;
+    margin-top: 1rem;
+}
+.block-send-day .row, .block-reason-refusal .row{
+    align-items: flex-end;
+}
+#inputDoB{
+    cursor: pointer;
+}
+.flatpickr-wrapper{
+    width: 100%;
+}
+input.inputDateLoan.input.active {
+    cursor: pointer;
+}
+.flatpickr-calendar.hasTime.animate.static.arrowBottom.arrowLeft.open {
+    top: -21.5rem;
+}

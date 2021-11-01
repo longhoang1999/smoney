@@ -67,13 +67,6 @@
                                 @endif
                             </span>
                         </div>
-                        <div class="col-md-4 mb-3 mt-3">
-                            <p class="m-0 text-tab-1">Ngân hàng yêu cầu vay:</p>
-                        </div>
-                        <div class="col-md-8 mb-3 mt-3">
-                            <span class="font-weight-bold text-tab-1-span">
-                                {{ $hs->nameBank }}</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -127,10 +120,12 @@
                         <div class="col-md-4 mb-3">
                             <p class="m-0 text-tab-2">Số điện thoại khác:</p>
                         </div>
-                        <div class="col-md-8 mb-3">                            
+                        <div class="col-md-8 mb-3">  
+                        @if($hs->otherSdt)                         
                             @foreach($hs->otherSdt as $hsk_otherPhone)
                                 <span class="text-block text-tab-2-span">{{ $hsk_otherPhone }}</span>
                             @endforeach
+                        @endif
                         </div>
                         <hr>
                         <div class="col-md-4 mb-3">

@@ -174,7 +174,9 @@ class StudentController extends Controller
         ]);
         if($req->password === $req->confirm){
             $checkExist = TaiKhoanSmoney::where("tks_sdt",$req->phone)->first();
-            if(!$checkExist){
+            $checkExistEmail = TaiKhoanSmoney::where("tks_email",$req->email)->first();
+
+            if(!$checkExist && !$checkExistEmail){
                 // create new student
                 $newStudent = new Student();
                 $newStudent->hoten = $req->fullname;
@@ -192,6 +194,7 @@ class StudentController extends Controller
                 $newAccount = new TaiKhoanSmoney();
                 $newAccount->tks_sotk = $newStudent->_id;
                 $newAccount->tks_tentk = $req->fullname;
+                $newAccount->tks_email = $req->email;
                 $newAccount->tks_sdt = $req->phone;
                 $newAccount->ths_mk = Hash::make($req->password);
                 $newAccount->save();
@@ -751,7 +754,10 @@ class StudentController extends Controller
         $user->tks_tentk = $req->fullname;
         $user->save();
 
-        $findStudent->cccd = $req->cccd;
+        $findCmnn = Student::where("cccd",$req->cccd)->select("_id")->first();
+        if(!$findCmnn){
+            $findStudent->cccd = $req->cccd;
+        }
         $findStudent->ngaysinh = $req->date;
         $findStudent->gioitinh = $req->gender;
         // array_filter remove null element
@@ -859,16 +865,16 @@ class StudentController extends Controller
         $findHS = HoSoKhoanVay::where("_id",$req->idHS)->first();
         $findSV = SinhVienHoSo::where("_id",$findHS->idsaveSV)->select('email')->first();
 
-        $findBank = NganHang::where("nn_id",$findHS->idBank)->select("nn_ten")->first();
+        $findBank = NganHang::where("nn_id",$req->idBank)->select("nn_ten")->first();
         $permitted_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomCode = substr(str_shuffle($permitted_chars), 0, 10);
         $findHS->randomCode = $randomCode;
         $findHS->save();
         $body = view('smoney/student/sendmailconfirm',
             [
-                'money' => $findHS->loanProposal['money'],
-                'interestRate' => $findHS->loanProposal['interestRate'],
-                'loanMonth' => $findHS->loanProposal['loanMonth'],
+                'money' => $findHS->loanProposal[$req->idBank]['money'],
+                'interestRate' => $findHS->loanProposal[$req->idBank]['interestRate'],
+                'loanMonth' => $findHS->loanProposal[$req->idBank]['loanMonth'],
                 'nameBank' => $findBank->nn_ten,
                 'code' => $randomCode
             ]

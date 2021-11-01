@@ -118,29 +118,6 @@ li.menu-service {
     right: 20%;
     border-radius: 5px;
 }
-.more-notification,.information-more{
-    position: absolute;
-    display: block;
-    width: 15rem;
-    background: #f8e2e2;
-    border-left: 2px solid #e14c4c;
-    border-radius: 5px;
-    top: 110%;
-    left: 30%;
-    display: none;
-}
-.item-notification,.item-information{
-    padding: 0 10px;
-    display: block;
-    font-size: 14px;
-    color: #E14C4C;
-    font-weight: 600;
-    line-height: 2rem;
-}
-.item-notification:hover,.item-information:hover{
-    color: white;
-    background-color: #bb3d3d;
-}
 .info-avatar{
     height: 40px;
     width: 40px;

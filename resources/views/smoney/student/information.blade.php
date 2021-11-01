@@ -54,12 +54,20 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-9 div-block">
-                <p class="text-uppercase block-title">
-                    Thông tin cá nhân
-                    <small class="btn-open-change mr-4" data-toggle="modal" data-target="#changeInforModel">Chỉnh sửa thông tin</small>
-                    <small class="btn-open-change" data-toggle="modal" data-target="#changePassModel">Đổi mật khẩu</small>
-                </p>
+            <div class="col-md-9 div-block mt-0">
+                <div class="block-title">
+                    <p class="text-uppercase text-primary m-0">Thông tin cá nhân</p>
+                    <div class="btn-title">
+                        <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal" data-target="#changeInforModel">
+                            <i class="fas fa-pen"></i>
+                            Chỉnh sửa
+                        </button>
+
+                        <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal" data-target="#changePassModel">
+                            Đổi mật khẩu
+                        </button>
+                    </div>
+                </div>
 
                 <!-- div notification -->
                 @if ($errors->any())
@@ -91,347 +99,372 @@
                     </ul>
                 </div>
                 @endif
-                <!-- /div notification -->                
+                <!-- /div notification --> 
+
                 <div class="infomation-content">
-                    <div class="infomation-content-left">
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Họ và tên: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>{{ $name }}</p>
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Email: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>{{ $email }}</p>
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số căn cước công dân: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>{{ $cccd }}</p>
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Ngày sinh: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>{{ date("d/m/Y", strtotime($ngaysinh)) }}</p>
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Giới tính: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>{{ $gender }}</p>
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số tài khoản: </span>
-                            </div>
-                            <div class="block-item-content not-flex">
+                    <table>
+                        <tr>
+                            <td>
+                                <span>Họ và tên</span>
+                            </td>
+                            <td>
+                                <span>{{ $name }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Email</span>
+                            </td>
+                            <td>
+                                <span>{{ $email }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số căn cước công dân</span>
+                            </td>
+                            <td>
+                                <span>{{ $cccd }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Ngày sinh</span>
+                            </td>
+                            <td>
+                                <span>{{ date("d/m/Y", strtotime($ngaysinh)) }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Giới tính</span>
+                            </td>
+                            <td>
+                                <span>{{ $gender }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số tài khoản</span>
+                            </td>
+                            <td>
                                 @if($sotk != null)
                                     @foreach($sotk as $value)
-                                        <p>{{ $value }}</p>
+                                        <span>{{ $value }}</span>
                                     @endforeach
                                 @else
-                                    <p>Trống</p>
+                                    <span>Trống</span>
                                 @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="infomation-content-rigit">
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số điện thoại:</span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>{{ $phone }}</p>
-                            </div>
-                        </div>
-
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Số điện thoại khác:</span>
-                            </div>
-                            <div class="block-item-content not-flex">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số điện thoại</span>
+                            </td>
+                            <td>
+                                <span>{{ $phone }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số điện thoại khác</span>
+                            </td>
+                            <td>
                                 @if($otherSdt != null)
                                     @foreach($otherSdt as $value)
-                                        <p>{{ $value }}</p>
+                                        <span>{{ $value }}</span>
                                     @endforeach
                                 @else
-                                    <p>Trống</p>
+                                    <span>Trống</span>
                                 @endif
-                            </div>
-                        </div>
-
-                        <div class="block-item">
-                            <div class="block-item-title">  
-                                <span>Địa chỉ thường chú: </span>
-                            </div>
-                            <div class="block-item-content not-flex">
-                                <p>{{ $addressString }}</p>
-                            </div>
-                        </div>
-
-                        <div class="block-item">
-                            <div class="block-item-title">  
-                                <span>Nơi ở hiện tại: </span>
-                            </div>
-                            <div class="block-item-content not-flex">
-                                <p>{{ $addressNowString }}</p>
-                            </div>
-                        </div>
-                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Địa chỉ thường chú</span>
+                            </td>
+                            <td>
+                                <span>{{ $addressString }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Nơi ở hiện tại</span>
+                            </td>
+                            <td>
+                                <span>{{ $addressNowString }}</span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
             <!-- Trường -->
-            <div class="line"></div>
+            <!-- <div class="line"></div> -->
             <div class="row justify-content-between" style="width: 100%;">
                 <div class="col-md-12 div-block">
-                    <div class="block-infomation-university">
-                        <p class="text-uppercase block-title">
-                            Thông tin cơ sở đào tạo
-                            <ins class="ml-3 add-education-facility">Thêm mới</ins>
-                        </p>
-                        @if($university != null)
-                            @foreach($university as $value)
-                                <div class="block-numberic">
-                                    <div class="number mr-5">{{ $value["index"] }}</div>
-                                    <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#editUni_{{ $value['index'] }}" >Chỉnh sửa</button>
-                                    <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteUniModel" data-id="{{ $value['id'] }}" data-name="{{ $value['name'] }}">Xóa</button>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Tên cơ sở: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $value['name'] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Mã sinh viên: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $value['studentCode'] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Chuyên ngành: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $value['specialized'] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Lớp hành chính: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $value['nameClass'] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Loại chương trình đào tạo: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $value['typeProgram'] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Email sinh viên do trường cung cấp: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $value['emailStudent'] }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="block-item">
-                                <span class="font-italic">============ Bạn chưa khai báo thông tin về cơ sở đào tạo mà bạn theo học ============</span>
-                            </div>
-                        @endif
+                    <div class="block-title">
+                        <p class="text-uppercase text-primary m-0">Thông tin cơ sở đào tạo</p>
+                        <div class="btn-title">
+                            <button type="button" class="btn btn-outline-success mr-2 add-education-facility">
+                                <i class="fas fa-plus-circle"></i>
+                                Thêm mới
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <!-- ================== -->
-                <div class="line"></div>
-                <!-- ================== -->
-                <div class="col-md-12 div-block">
-                    <div class="block-infomation-university">
-                        <p class="text-uppercase block-title">
-                            Thông tin người bảo trợ
-                            <ins class="ml-3 add-family">Thêm mới</ins>
-                            <br>
-                            <small class="font-italic text-lowercase">Cung cấp thông tin người bảo trợ sẽ tăng khả năng vay thành công của bạn</small>
-                        </p>
-                        @if($parents != null)
-                            @for($i = 0; $i < count($parents); $i++)
-                                <div class="block-numberic">
-                                    <div class="number mr-5">{{ $i + 1 }}</div>
-                                    <button data-toggle="modal" data-target="#editParent_{{ $i }}" type="button" class="btn btn-sm btn-light ">Chỉnh sửa</button>
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteParentModal" data-id="{{ $i }}" data-name="{{ $parents[$i]['fullname'] }}">Xóa</button>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Họ tên: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $parents[$i]["fullname"] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Số điện thoại: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $parents[$i]["phone"] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Số căn cước công dân: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $parents[$i]["cccd"] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Giới tinh: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $parents[$i]["gender"] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Số tài khoản: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $parents[$i]["stk"] }}</p>
-                                    </div>
-                                </div>
-                                <div class="block-item">
-                                    <div class="block-item-title">
-                                        <span>Quan hệ với sinh viên: </span>
-                                    </div>
-                                    <div class="block-item-content">
-                                        <p>{{ $parents[$i]["relationship"] }}</p>
-                                    </div>
-                                </div>
-                            @endfor
-                        @else
-                            <div class="block-item">
-                                <div class="block-item-title">
-                                    <span class="font-italic">============ Bạn chưa khai báo thông tin về người bảo trợ của bạn ============</span>
+
+                    @if($university != null)
+                    @foreach($university as $value)
+                        <div class="infomation-content">
+                            <div class="block-name-uni">
+                                <div class="block-name-uni-left">
+                                    <p>{{ $value["index"] }}. {{ $value['name'] }}</p>
                                 </div>
                             </div>
-                        @endif
-                    </div>
-                </div>
-                <!-- ================== -->
-                <div class="line"></div>
-                <!-- ================== -->
-                <div class="col-md-12 div-block">
-                    <p class="text-uppercase block-title">
-                        Thông tin việc làm của bạn
-                        <ins class="ml-3 fix-infor-job" data-toggle="modal" data-target="#fixInforJob">Chỉnh sửa</ins>
-                        <br>
-                        <small class="font-italic text-lowercase">Cung cấp thông tin việc làm sẽ tăng khả năng vay thành công của bạn</small>
-                    </p>
-                    @if($yourjob != null)
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Tình trạng việc làm của bạn: </span>
-                            </div>
-                            <div class="block-item-content">
-                                <p>
-                                    @if($yourjob['jobstatus'] == "1")
-                                        Đang đi làm thuê
-                                    @elseif($yourjob['jobstatus'] == "2")
-                                        Tự kinh doanh
-                                    @elseif($yourjob['jobstatus'] == "3")
-                                        Không đi làm
-                                    @endif
-                                </p>
+                            <table class="mb-0">
+                                <tr>
+                                    <td>
+                                        <span>Mã sinh viên</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $value['studentCode'] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Chuyên ngành</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $value['specialized'] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Lớp hành chính</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $value['nameClass'] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Loại chương trình đào tạo</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $value['typeProgram'] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Email sinh viên do trường cung cấp</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $value['emailStudent'] }}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="block-btn-uni mb-4">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editUni_{{ $value['index'] }}">
+                                    <i class="fas fa-pen"></i>
+                                    Chỉnh sửa
+                                </button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUniModel" data-id="{{ $value['id'] }}" data-name="{{ $value['name'] }}">
+                                    Xóa
+                                </button>
                             </div>
                         </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Thời gian bạn làm việc: </span>
-                            </div>
-                            <div class="block-item-content">
-                                @if($yourjob['jobstatus'] != "3")
-                                    @if($yourjob['timeJob']  == "1")
-                                        <p>Fulltime</p>
-                                    @elseif($yourjob['timeJob']  == "2")
-                                        <p>Parttime</p>
-                                    @elseif($yourjob['timeJob']  == "3")
-                                        <p>Fieldtrip</p>
-                                    @endif
-                                @else
-                                    <p class="font-italic">Trống - do bạn không đi làm</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Tên cơ sở bạn làm việc: </span>
-                            </div>
-                            <div class="block-item-content">
-                                @if($yourjob['jobstatus'] != "3")
-                                    <p>{{ $yourjob['nameCompany'] }}</p>
-                                @else
-                                    <p class="font-italic">Trống - do bạn không đi làm</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Địa chỉ nơi bạn làm việc: </span>
-                            </div>
-                            <div class="block-item-content">
-                                @if($yourjob['jobstatus'] != "3")
-                                    <p>{{ $yourjob['addressCompany'] }}</p>
-                                @else
-                                    <p class="font-italic">Trống - do bạn không đi làm</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="block-item">
-                            <div class="block-item-title">
-                                <span>Chia sẻ mức lương trung bình của bạn: </span>
-                            </div>
-                            <div class="block-item-content">
-                                @if($yourjob['jobstatus'] != "3")
-                                    <p>{{ number_format($yourjob['money']) }} VNĐ</p>
-                                @else
-                                    <p class="font-italic">Trống - do bạn không đi làm</p>
-                                @endif
-                            </div>
-                        </div>
+                    @endforeach
                     @else
                         <div class="block-item">
-                            <div class="block-item-title">
-                                <span class="font-italic fz-14">=============Bạn chưa cập nhật nội dung việc làm với hệ thống==============</span>
-                            </div>
+                            <span class="font-italic text-primary">============ Bạn chưa khai báo thông tin về cơ sở đào tạo mà bạn theo học ============</span>
                         </div>
                     @endif
                 </div>
+
+                <!-- ================== -->
+                <!-- <div class="line"></div> -->
+                <!-- ================== -->
+
+                <div class="col-md-12 div-block">
+                    <div class="block-title">
+                        <p class="text-uppercase text-primary m-0">Thông tin người bảo trợ</p>
+                        <div class="btn-title">
+                            <button type="button" class="btn btn-outline-success mr-2 add-family">
+                                <i class="fas fa-plus-circle"></i>
+                                Thêm mới
+                            </button>
+                        </div>
+                    </div>
+
+                    @if($parents != null)
+                    @for($i = 0; $i < count($parents); $i++)
+                        <div class="infomation-content">
+                            <div class="block-name-uni">
+                                <div class="block-name-uni-left">
+                                    <p>{{ $i + 1 }}. {{ $parents[$i]["fullname"] }}</p>
+                                </div>
+                            </div>
+                            <table class="mb-0">
+                                <tr>
+                                    <td>
+                                        <span>Số điện thoại</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $parents[$i]["phone"] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số căn cước công dân</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $parents[$i]["cccd"] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Giới tính</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $parents[$i]["gender"] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số tài khoản</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $parents[$i]["stk"] }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Quan hệ với sinh viên</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $parents[$i]["relationship"] }}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="block-btn-uni mb-4">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editParent_{{ $i }}">
+                                    <i class="fas fa-pen"></i>
+                                    Chỉnh sửa
+                                </button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteParentModal" data-id="{{ $i }}" data-name="{{ $parents[$i]['fullname'] }}">
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    @endfor
+                    @else
+                        <div class="block-item">
+                            <span class="font-italic text-primary">============ Bạn chưa khai báo thông tin về người bảo trợ của bạn ============</span>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- ================== -->
+                <!-- <div class="line"></div> -->
+                <!-- ================== -->
+
+                <div class="col-md-12 div-block">
+                    <div class="block-title">
+                        <p class="text-uppercase text-primary m-0">Thông tin việc làm của bạn</p>
+                        <div class="btn-title">
+                            <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal" data-target="#fixInforJob">
+                                <i class="fas fa-pen"></i>
+                                Chỉnh sửa
+                            </button>
+                        </div>
+                    </div>
+
+                    @if($yourjob != null)
+                        <div class="infomation-content">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span>Tình trạng việc làm của bạn</span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            @if($yourjob['jobstatus'] == "1")
+                                                Đang đi làm thuê
+                                            @elseif($yourjob['jobstatus'] == "2")
+                                                Tự kinh doanh
+                                            @elseif($yourjob['jobstatus'] == "3")
+                                                Không đi làm
+                                            @endif
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Thời gian bạn làm việc</span>
+                                    </td>
+                                    <td>
+                                        @if($yourjob['jobstatus'] != "3")
+                                            @if($yourjob['timeJob']  == "1")
+                                                <span>Fulltime</span>
+                                            @elseif($yourjob['timeJob']  == "2")
+                                                <span>Parttime</span>
+                                            @elseif($yourjob['timeJob']  == "3")
+                                                <span>Fieldtrip</span>
+                                            @endif
+                                        @else
+                                            <span class="font-italic">Trống - do bạn không đi làm</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Tên cơ sở bạn làm việc</span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            @if($yourjob['jobstatus'] != "3")
+                                                <span>{{ $yourjob['nameCompany'] }}</span>
+                                            @else
+                                                <span class="font-italic">Trống - do bạn không đi làm</span>
+                                            @endif
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Địa chỉ nơi bạn làm việc</span>
+                                    </td>
+                                    <td>
+                                        @if($yourjob['jobstatus'] != "3")
+                                            <span>{{ $yourjob['addressCompany'] }}</span>
+                                        @else
+                                            <span class="font-italic">Trống - do bạn không đi làm</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Chia sẻ mức lương trung bình của bạn</span>
+                                    </td>
+                                    <td>
+                                        @if($yourjob['jobstatus'] != "3")
+                                            <span>
+                                                {{ number_format($yourjob['money']) }} VNĐ
+                                            </span>
+                                        @else
+                                            <span class="font-italic">Trống - do bạn không đi làm</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    @else
+                        <div class="block-item">
+                            <span class="font-italic text-primary">=============Bạn chưa cập nhật nội dung việc làm với hệ thống==============</span>
+                        </div>
+                    @endif
+                </div>
+                <!-- ================== -->
             </div>
         </div>
     </div>

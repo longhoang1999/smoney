@@ -185,35 +185,106 @@ li.menu-service {
     right: 20%;
     border-radius: 5px;
 }
-.more-notification,
-.information-more {
+.more-notification{
     position: absolute;
     display: block;
-    width: 13rem;
-    background: #f8e2e2;
-    border-left: 2px solid #e14c4c;
+    width: 20rem;
     border-radius: 5px;
+    overflow-y: auto;
+    max-height: 30rem;
     top: 110%;
     left: 30%;
     display: none;
 }
+.more-notification a{
+    border-bottom: 1px solid #afafaf;
+}
+.information-more{
+    position: absolute;
+    display: block;
+    width: 15rem;
+    border-radius: 5px;
+    overflow: hidden;
+    top: 110%;
+    left: 30%;
+    display: none;
+}
+.information-more a{
+    display: block;
+}
+.information-more a:hover{
+    color: white;
+}
 .item-notification,
 .item-information {
     padding: 0 10px;
-    display: block;
     font-size: 14px;
-    color: #e14c4c;
     font-weight: 600;
     line-height: 2rem;
 }
 .item-information{
     padding: .2rem 1rem !important;
 }
-.item-notification:hover,
-.item-information:hover {
+/* css thanh thông báo */
+/* màu theo type */
+.item-danger{
+    background: #f8e2e2;
+    border-left: 4px solid #e14c4c;
+    color: #e14c4c;
+}
+.item-danger:hover{
     color: white;
     background-color: #bb3d3d;
 }
+
+.item-info{
+    background: #d4ffcf;
+    border-left: 4px solid #11bd75;
+    color: #1a682b;
+}
+.item-info:hover{
+    color: white;
+    background-color: #1a682b;
+}
+.item-warning{
+    background: #fdff9f;
+    border-left: 4px solid #ffd401;
+    color: #937c0d;
+}
+.item-warning:hover{
+    color: white;
+    background-color: #937c0d;
+}
+
+.item-notification{
+    display: flex;
+}
+.item-notification .notification-title{
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+.item-notification .notification-content{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+.notification-content span,.notification-content small{
+    line-height: 1.2rem !important;
+}
+.notification-content span{
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+.item-notification img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+
 .info-avatar {
     border: 1px solid #c5c5c5;
     height: 40px;
@@ -416,7 +487,6 @@ li.menu-service {
 }
 .btn-send-loan-request {
     margin-top: 1.5rem;
-    width: 150px;
 }
 /* loan nearly */
 .loan-nearly {
@@ -832,7 +902,7 @@ li.menu-service {
 .table-header{
     background: #00AEEF;
     text-align: center;
-    width: 20%;
+    width: 18%;
     font-size:  15px;
     color: white;
     border: 1px solid #C2C4C6;
@@ -865,6 +935,8 @@ li.menu-service {
 }
 .loan-choose-company{
     display: none;
+    max-height: 40rem;
+    overflow-y: auto;
 }
 
 .main-infomation{
@@ -924,4 +996,42 @@ li.menu-service {
 }
 .header-logo-name{
     display: flex;
+}
+
+.table-loan-choose-company tbody td img{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+.table-content .btn-contact{
+    padding: .3rem 1rem;
+    background: rebeccapurple;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.table-content .btn-contact:hover{
+    opacity: .8;
+}
+.table-content .btn-choose{
+    border: none;
+    padding: .3rem .5rem;
+    background: #1dd51d;
+    color: white;
+    border-radius: 3px;
+}
+.table-content .btn-choose:focus, .table-content .btn-choose:active{
+    border: none;
+    outline: none;
+}
+.table-content .btn-apply-for-loan{
+    border: none;
+    padding: .3rem 1.5rem;
+    background: #7637f1;
+    color: white;
+    border-radius: 3px;
+    float: right;
+}
+.table-content .btn-apply-for-loan:focus, .table-content .btn-apply-for-loan:active{
+    border: none;
+    outline: none;
 }

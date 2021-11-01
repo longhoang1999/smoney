@@ -1,3 +1,8 @@
+<?php 
+    use App\Models\SmoneyModels\Notification;
+    $findNo = Notification::where("no_id_to" , Auth::user()->tks_sotk)->get();
+ ?>
+
 <!-- Come back -->
 <div id="header">
     <div class="come-back ">
@@ -81,13 +86,22 @@
                                 <i class="fas fa-bell"></i>
                                 <div class="bell-danger"></div>
                             </div>
+                            <!--  item-info | item-warning | item-danger -->
                             <div class="more-notification">
-                                <a href="#" class="item-notification">
-                                    Khoản vay 20.000.000đ đến hạn thanh toán
+                                @foreach($findNo as $no)
+                                <a href="{{ url('/').'/'.$no->no_link }}" 
+                                    class="item-notification {{ $no->no_type }}
+                                ">
+                                    <div class="notification-title">
+                                        <img src="{{ asset('img-smoney/smoney.png') }}" alt="">
+                                    </div>
+                                    <div class="notification-content">
+                                        <small>Từ: Trường ĐHHN</small>
+                                        <span>{{ $no->no_content }}</span>
+                                        <small class="font-italic">10:00 12-10-2021</small>
+                                    </div>
                                 </a>
-                                <a href="#" class="item-notification">
-                                    Khoản vay 20.000.000đ đến hạn thanh toán
-                                </a>
+                                @endforeach
                             </div>
                         </div>
                         <!-- avatar user -->
@@ -110,11 +124,14 @@
                                 <a href="{{ route('student.information') }}" class="item-information">
                                     Thông tin tài khoản
                                 </a>
-                                <!-- <a href="" class="item-information">
-                                    Yêu cầu khoản vay
-                                </a> -->
                                 <a href="{{ route('student.applyLoan') }}" class="item-information">
                                     Hồ sơ khoản vay
+                                </a>
+                                <a href="{{ route('student.infoLoan') }}" class="item-information">
+                                    Thông tin khoản vay
+                                </a>
+                                <a href="{{ route('student.paidLoan') }}" class="item-information">
+                                    Thông tin đã thanh toán
                                 </a>
                                 <a href="{{ route('student.logout') }}" class="item-information">
                                     Đăng xuất

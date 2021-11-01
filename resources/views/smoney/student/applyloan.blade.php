@@ -23,6 +23,7 @@
 @include('smoney/student/layouts/header')
 <?php 
     use App\Models\SmoneyModels\NhaTruong;
+    use App\Models\SmoneyModels\NganHang;
     use Illuminate\Support\Arr;
 ?>
 
@@ -96,6 +97,8 @@
                                     <div class="block-status block-status-warning">Đang chờ</div>
                                 @elseif($hs->profileStatusInBank == "pass")
                                     <div class="block-status block-status-confirm">Đã duyệt</div>
+                                @elseif($hs->profileStatusInBank == "paid")
+                                    <div class="block-status block-status-confirm">Đã trả nợ</div>
                                 @elseif($hs->profileStatusInBank == "refuse")
                                     <div class="block-status block-status-danger">Từ chối</div>
                                 @endif
@@ -156,7 +159,13 @@
                         @endif
                     @endif
                     ">
-                        <span data-year="Phản hồi ngân hàng" data-info="{{ $hs->nameBank }}"></span>
+                        <span data-year="Phản hồi ngân hàng" 
+                            data-info=" 
+                                @foreach($hs->bank as $value)
+                                    {{ $value->nn_ten }}
+                                @endforeach
+                             "
+                        ></span>
                     </div>
                     <div class="input 
                     @if(isset($hs->yourDecision) && !isset($hs->two_sides_accept))
@@ -175,7 +184,13 @@
                         @endif
                     @endif
                      ">
-                        <span data-year="Khoản vay lưu thông" data-info="{{ $hs->nameBank }}"></span>
+                        <span data-year="Phản hồi ngân hàng" 
+                            data-info=" 
+                                @foreach($hs->bank as $value)
+                                    {{ $value->nn_ten }}
+                                @endforeach
+                             "
+                        ></span>
                     </div>
                 </div>
             </div>
@@ -194,100 +209,116 @@
             </div>
         @endif
 
-        @if(isset($hs->feedbackContentBank) && $hs->feedbackContentBank != null)
+        @if(isset($hs->loanProposal) && $hs->loanProposal != null)
             <hr>
             <!-- Thông báo ngân hàng-->
-            <p class="font-weight-bold">Thông báo ngân hàng</p>
-            <div class="ml-4">
-                @if($hs->profileStatusInBank == "pass")
-                    <span class="text-info">{{ $hs->feedbackContentBank }}</span>
-                @elseif($hs->profileStatusInBank == "refuse")
-                    <span class="text-danger">{{ $hs->feedbackContentBank }}</span>
-                @endif
-            </div>
-            @if(isset($hs->loanProposal) && $hs->loanProposal != null)
-                <div class="container loan-proposal">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            Số tiền ngân hàng cho bạn vay:
-                        </div>
-                        <div class="col-md-6 font-weight-bold">
-                            {{ number_format($hs->loanProposal['money']) }} VNĐ
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            Lãi suất cho khoản vay của bạn:
-                        </div>
-                        <div class="col-md-6 font-weight-bold">
-                            {{ $hs->loanProposal['interestRate'] }} % / tháng
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            Kì hạn cho khoản vay của bạn:
-                        </div>
-                        <div class="col-md-6 font-weight-bold">
-                            {{ $hs->loanProposal['loanMonth'] }} tháng
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            Số tiền bạn phải trả trong 1 tháng
-                        </div>
-                        <div class="col-md-6 font-weight-bold">
-                            <?php 
-                                $moneyPayAMonth = $hs->loanProposal['moneyPayAMonth'];
-                                $aMonthProfit = $hs->loanProposal['aMonthProfit'];
-                                $sumMoney = $moneyPayAMonth + $aMonthProfit;
-
-                                $showString = number_format($sumMoney)." VNĐ ( ".
-                                    number_format($moneyPayAMonth)." VNĐ - gốc + ".
-                                    number_format($aMonthProfit)." VNĐ - lãi)";
-                                echo $showString;
-                             ?>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            Tổng số tiền bạn phải trả trong suốt kì hạn
-                        </div>
-                        <!-- wrong -->
-                        <div class="col-md-6 font-weight-bold">
-                            <?php 
-                                $allLoanFinally = round($sumMoney * $hs->loanProposal['loanMonth']);
-                                echo number_format($allLoanFinally)." VNĐ";
-                             ?>
-                        </div>
-                    </div>
-                    @if(!isset($hs->yourDecision))
-                    <div class="row mb-3">
-                        <div class="col-md-6 text-right">
-                            <button class="btn btn-success" data-id="{{ $hs->_id }}" data-toggle="modal" data-target="#loanConfirmation" data-backdrop="static" data-keyboard="false">Xác nhận vay</button>
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-danger" data-id="{{ $hs->_id }}" data-toggle="modal" data-target="#refuseModalLoan">Từ chối vay</button>
-                        </div>
-                    </div>
-                    @elseif(isset($hs->yourDecision) && $hs->yourDecision == 'cancel')
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-danger" disabled="">Đã từ chối</button>
-                        </div>
-                    </div>
-                    @elseif(isset($hs->yourDecision) && $hs->yourDecision == 'yes')
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-success" disabled="">Đã chấp nhận</button>
-                        </div>
-                    </div>
-                    @endif
+            <?php  $arrBank = array_keys($hs->loanProposal); ?>
+            @for($i = 0; $i < count($arrBank); $i++)
+                <?php 
+                    //Tìm tên ngân hàng
+                    $findBank = NganHang::where("nn_id", $arrBank[$i])
+                        ->select("nn_ten")->first();
+                 ?>
+                <p class="font-weight-bold">Thông báo ngân hàng {{ $findBank->nn_ten }}</p>
+                <div class="ml-4">
+                    <span class="text-info">
+                        {{ $hs->loanProposal[$arrBank[$i]]['feedbackContentBank'] }}
+                    </span>
                 </div>
-            @endif
+
+                <!-- Đề xuất khoản vay -->
+                @if(isset($hs->loanProposal[$arrBank[$i]]['money']))
+                    <div class="container loan-proposal">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                Số tiền ngân hàng cho bạn vay:
+                            </div>
+                            <div class="col-md-6 font-weight-bold">
+                                {{ number_format($hs->loanProposal[$arrBank[$i]]['money']) }} VNĐ
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                Lãi suất cho khoản vay của bạn:
+                            </div>
+                            <div class="col-md-6 font-weight-bold">
+                                {{ $hs->loanProposal[$arrBank[$i]]['interestRate'] }} % / tháng
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                Kì hạn cho khoản vay của bạn:
+                            </div>
+                            <div class="col-md-6 font-weight-bold">
+                                {{ $hs->loanProposal[$arrBank[$i]]['loanMonth'] }} tháng
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                Số tiền bạn phải trả trong 1 tháng
+                            </div>
+                            <div class="col-md-6 font-weight-bold">
+                                <?php 
+                                    $moneyPayAMonth = 
+                                        $hs->loanProposal[$arrBank[$i]]['moneyPayAMonth'];
+                                    $aMonthProfit =
+                                        $hs->loanProposal[$arrBank[$i]]['aMonthProfit'];
+
+                                    $sumMoney = $moneyPayAMonth + $aMonthProfit;
+
+                                    $showString = number_format($sumMoney)." VNĐ ( ".
+                                        number_format($moneyPayAMonth)." VNĐ - gốc + ".
+                                        number_format($aMonthProfit)." VNĐ - lãi)";
+                                    echo $showString;
+                                 ?>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                Tổng số tiền bạn phải trả trong suốt kì hạn
+                            </div>
+                            <!-- wrong -->
+                            <div class="col-md-6 font-weight-bold">
+                                <?php 
+                                    $allLoanFinally  = round($sumMoney * 
+                                            $hs->loanProposal[$arrBank[$i]]['loanMonth']);
+                                    echo number_format($allLoanFinally)." VNĐ";
+                                 ?>
+                            </div>
+                        </div>
+                        @if(!isset($hs->yourDecision))
+                        <div class="row mb-3">
+                            <div class="col-md-6 text-right">
+                                <button class="btn btn-success" data-bank = {{ $arrBank[$i] }} data-id="{{ $hs->_id }}" data-toggle="modal" data-target="#loanConfirmation" data-backdrop="static" data-keyboard="false">Xác nhận vay</button>
+                            </div>
+                            <!-- <div class="col-md-6">
+                                <button class="btn btn-danger" data-id="{{ $hs->_id }}" data-toggle="modal" data-target="#refuseModalLoan">Từ chối vay</button>
+                            </div> -->
+                        </div>
+                        @elseif(isset($hs->yourDecision) && $hs->yourDecision == 'cancel')
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-danger" disabled="">Đã từ chối</button>
+                            </div>
+                        </div>
+                        @elseif(isset($hs->yourDecision) && $hs->yourDecision == 'yes')
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-6">
+                                @if($hs->chooseBank == $arrBank[$i])
+                                    <button class="btn btn-success" disabled="">Đã chấp nhận</button>
+                                @else
+                                    <button class="btn btn-danger" disabled="">Đã từ chối</button>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                @endif
+            @endfor
             @if(isset($hs->two_sides_accept)  && isset($hs->bank_reason_refusal))
                 <p class="font-weight-bold mt-3">
                     Khoản vay bị từ chối do lý do: 
@@ -298,6 +329,12 @@
                     Khoản vay đã được lưu thông vào ngày: 
                     <span class="text-info">
                         {{ date("d/m/Y H:i", strtotime($hs->date_accept)) }}
+                    </span>
+                </p>
+                <p class="font-weight-bold mt-3">
+                    Khoản vay hết hạn vào ngày: 
+                    <span class="text-info">
+                        {{ date("d/m/Y H:i", strtotime($hs->date_expired)) }}
                     </span>
                 </p>
             @endif
@@ -363,8 +400,11 @@
                             <p class="m-0 text-tab-1">Ngân hàng yêu cầu vay:</p>
                         </div>
                         <div class="col-md-8 mb-3 mt-3">
-                            <span class="font-weight-bold text-tab-1-span">
-                                {{ $hs->nameBank }}</span>
+                            @foreach($hs->bank as $value)
+                                <span class="font-weight-bold text-tab-1-span">
+                                    {{ $value->nn_ten }}</span>
+                                <br>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -419,10 +459,12 @@
                         <div class="col-md-4 mb-3">
                             <p class="m-0 text-tab-2">Số điện thoại khác:</p>
                         </div>
-                        <div class="col-md-8 mb-3">                            
-                            @foreach($hs->otherSdt as $hsk_otherPhone)
-                                <span class="text-block text-tab-2-span">{{ $hsk_otherPhone }}</span>
-                            @endforeach
+                        <div class="col-md-8 mb-3">   
+                            @if($hs->otherSdt != null)                  
+                                @foreach($hs->otherSdt as $hsk_otherPhone)
+                                    <span class="text-block text-tab-2-span">{{ $hsk_otherPhone }}</span>
+                                @endforeach 
+                            @endif
                         </div>
                         <hr>
                         <div class="col-md-4 mb-3">
@@ -815,7 +857,7 @@
 </div>
 
 <!-- refuseModalLoan -->
-<div class="modal fade" id="refuseModalLoan" tabindex="-1" role="dialog" aria-labelledby="refuseModalLoanLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="refuseModalLoan" tabindex="-1" role="dialog" aria-labelledby="refuseModalLoanLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -834,7 +876,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- /refuseModalLoan -->
 
 <!-- loanConfirmation -->
@@ -898,19 +940,20 @@
     })
 
 
-    $('#refuseModalLoan').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var recipient = button.data('id')
-        var modal = $(this)
-        let $url = $url_path + "/confirm-delete/"+recipient;
-        modal.find('.confirm-delete').attr("href",$url)
-    })
+    // $('#refuseModalLoan').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget)
+    //     var recipient = button.data('id')
+    //     var modal = $(this)
+    //     let $url = $url_path + "/confirm-delete/"+recipient;
+    //     modal.find('.confirm-delete').attr("href",$url)
+    // })
 
     $('#loanConfirmation').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var recipient = button.data('id');
+        var idHS = button.data('id');
+        var idBank = button.data('bank');
         var modal = $(this);
-        let $url = $url_path + "/confirm-loan/"+recipient;
+        let $url = `${$url_path}/confirm-loan/${idHS}/${idBank}`;
         modal.find('.form-comfirm-loan').attr("action",$url);
 
         // send gmail
@@ -918,7 +961,8 @@
             url:"{!! route('student.sendMailConfirm') !!}",
             method: "GET",
             data:{
-                "idHS": recipient
+                "idHS": idHS,
+                "idBank": idBank
             },
             success:function(data)
             {

@@ -506,3 +506,7 @@ span.success{
     background-color: #c0f7b5;
     color: #108a1e;
 }
+
+.rowNomalLoan{
+    cursor: pointer;
+}

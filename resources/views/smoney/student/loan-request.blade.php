@@ -572,7 +572,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
 <script type="text/javascript" src="{{ asset('js/Smoney/Student/loanRequest.js') }}"></script>
 <script type="text/javascript">
-    var idBank = "{{ $choseBank->nn_id }}";
+    var idBank = [];
+    @foreach($choseBank as $value)
+        idBank.push({{ $value }});
+    @endforeach
+    
     @if($name == null || $phone == null || $cccd == null || $gender == null || $addressString == null || $email == null || $ngaysinh == null || $sotk == null || $addressNowString == null || $university == null || $yourjob == null)
         $('#modalRequiredInfo').modal({backdrop: 'static', keyboard: false})  
     @endif

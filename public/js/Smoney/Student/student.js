@@ -118,3 +118,56 @@ function scrollFunction() {
     // });
     // header.init();
 }());
+
+var countSelect = 0, arrSelect = [];
+$(".table-loan-choose-company .table-content").on("click", ".btn-choose", function(){
+	let rowTr = $(this).parent().parent();
+	if(!rowTr.hasClass("selected")){
+		if(countSelect < 3){
+			rowTr.find("td").css("background", "#c4ffc4");
+			rowTr.addClass("selected");
+			$(this).css("background","#1da91d");
+			countSelect += 1;
+		}else{
+			alert("Bạn chỉ có thể chọn tối đa 3 ngân hàng");
+		}
+	}else{
+		rowTr.find("td").css("background", "#fff");
+		rowTr.removeClass("selected");
+		$(this).css("background","#1dd51d");
+		countSelect -= 1;
+	}
+})
+
+$(".table-content .btn-apply-for-loan").click(function() {
+	getIdBack();
+	if(arrSelect.length > 0){
+		$.ajax({
+	        url: `${$url_path}/save-id-back-request`,
+	        method: "POST",
+	        data:{
+	            "arrSelect": arrSelect
+	        },
+	        success:function(data)
+	        {
+	            if(data.trim() == "true"){
+	            	let link = `${$url_path}/loan-request`;
+	            	$(".table-content .link-apply-for-loan").attr("href", link);
+	            	$(".table-content .link-apply-for-loan")[0].click();
+	            }
+	        }
+	    });
+	}else{
+		alert("Hãy chọn ngân hàng nơi gửi hồ sơ của bạn");
+	}
+    
+})
+
+function getIdBack() {
+	let arrTr = $(".table-loan-choose-company tbody tr");
+	for(let i = 0 ; i < arrTr.length ; i++){
+		if(arrTr[i].className == "selected" ){
+			arrSelect.push(arrTr[i].getAttribute("data-id"));
+		}
+	}
+}

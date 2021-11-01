@@ -9,6 +9,7 @@
             <i class="fas fa-caret-down"></i>
         </div>
     </div>
+    @foreach($bank as $value)
     <div class="block-info-content block-bank-infor">
         <div class="block-info-left container">
             <div class="row">
@@ -18,7 +19,7 @@
                 </div>
                 <div class="col-md-8">
                     <p class="font-weight-bold">
-                        {{ $bank->nn_ten }}
+                        {{ $value->nn_ten }}
                     </p>
                 </div>
                 <!-- Địa chỉ trụ sở chính -->
@@ -27,7 +28,7 @@
                 </div>
                 <div class="col-md-8">
                     <p class="font-weight-bold">
-                        {{ $bank->nn_diachi }}
+                        {{ $value->nn_diachi }}
                     </p>
                 </div>
                 <!-- Địa chỉ trụ sở chính -->
@@ -36,7 +37,7 @@
                 </div>
                 <div class="col-md-8">
                     <p class="font-weight-bold">
-                        {{ $bank->nn_email }}
+                        {{ $value->nn_email }}
                     </p>
                 </div>
                 <!-- Lãi suất -->
@@ -76,7 +77,7 @@
                 </div>
                 <div class="col-md-8">
                     <p class="font-weight-bold">
-                        
+                        {{ $value->nn_thongtin }} 
                     </p>
                 </div>
                 <!-- Chính sách -->
@@ -85,7 +86,7 @@
                 </div>
                 <div class="col-md-8">
                     <p class="font-weight-bold">
-                        
+                        {{ $value->nn_chinhsach }} 
                     </p>
                 </div>
                 <!-- Hoạt động -->
@@ -94,12 +95,13 @@
                 </div>
                 <div class="col-md-8">
                     <p class="font-weight-bold">
-                        
+                        {{ $value->nn_hoatdong }} 
                     </p>
                 </div>
             </div>
         </div>
     </div>
+    @endforeach
 </div>
 <hr class="info-hoso">
 <div class="block-perant info-hoso">

@@ -84,7 +84,8 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- modal detail -->
 <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-
+    <div class="modal-dialog modal-xl">
+    </div>
 </div>
 
 <!-- back to top -->
@@ -136,8 +137,8 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
                 },
                 success:function(data)
                 {
-                    $("#modalDetail").empty();
-                    $("#modalDetail").append(data);
+                    $("#modalDetail .modal-dialog.modal-xl").empty();
+                    $("#modalDetail .modal-dialog.modal-xl").append(data);
                 }
             });
         })

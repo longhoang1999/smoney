@@ -140,14 +140,14 @@
                             @endif
                         </div>
                     </form>
-                    <div class="login-by-fb">
+                    <a class="login-by-fb" href="{{url('/getInfo-facebook/facebook')}}">
                         <i class="fab fa-facebook-square"></i>
                         <span>Đăng nhập bằng facebook</span>
-                    </div>
-                    <div class="login-by-google">
+                    </a>
+                    <a target="_blank" class="login-by-google" href="{{url('/getInfo-google/google')}}">
                         <i class="fab fa-google"></i>
                         <span>Đăng nhập bằng google</span>
-                    </div>
+                    </a>
                     <div class="tab-register">
                         <span>Đăng ký tài khoản</span>
                     </div>
