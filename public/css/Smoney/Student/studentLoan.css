@@ -176,15 +176,6 @@
     width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
 .block-item-content select {
     width: 80%;
     border-radius: 3px;
@@ -231,7 +222,7 @@ span.success{
 }
 .btn-plus {
     width: 120px;
-    height: 30px;
+    padding: 0.2rem;
     border-radius: 3px;
     align-items: center;
     justify-content: space-around;
@@ -312,10 +303,7 @@ span.success{
     border: none;
 }
 
-#edit-info .modal-content {
-    background-color: #1a60ff !important;
-    padding: 20px;
-}
+
 .add-education-facility, .add-family{
     cursor: pointer;
 }
@@ -552,7 +540,7 @@ span.show-money {
 .input {
   width: 25px;
   height: 25px;
-  background-color: #2C3E50;
+  background-color: #316fd3;
   position: relative;
   border-radius: 50%;
 }
@@ -566,7 +554,7 @@ span.show-money {
   z-index: -1;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #2C3E50;
+  background-color: #316fd3;
   width: 7vw;
   height: 5px;
 }
@@ -574,16 +562,20 @@ span.show-money {
   left: calc(-5vw + -17.5px);
 }
 .input::after {
-  right: calc(-7vw + 14.5px);
+  right: calc(-7vw + 13.5px);
 }
 .input.active {
-  background-color: #2C3E50;
+  background-color: #316fd3;
 }
 .input.active::before {
-  background-color: #2C3E50;
+  background-color: #316fd3;
 }
 .input.active::after {
-  background-color: #AEB6BF;
+    background-color: #91b2e6;
+    height: 3px;
+}
+.input.active ~ .input::before, .input.active ~ .input::after{
+    height: 3px;   
 }
 .input.active span {
   font-weight: 700;
@@ -595,7 +587,8 @@ span.show-money {
   font-size: 15px;
 }
 .input.active ~ .input, .input.active ~ .input::before, .input.active ~ .input::after {
-  background-color: #AEB6BF;
+    background-color: #91b2e6;
+/*    height: 3px;*/
 }
 .input span {
   width: 1px;
@@ -606,6 +599,7 @@ span.show-money {
   transform: translate(-50%, -50%);
   visibility: hidden;
 }
+
 .input span::before, .input span::after {
   visibility: visible;
   position: absolute;
@@ -618,6 +612,7 @@ span.show-money {
   top: 25px;
   transform: translateX(-50%);
   font-size: 14px;
+  color: #214d93;
 }
 .input span::before {
   content: attr(data-info);
@@ -626,6 +621,7 @@ span.show-money {
   transform: translateX(-5px) rotateZ(-45deg);
   font-size: 12px;
   text-indent: -10px;
+  color: #214d93;
 }
 
 .description-flex-container {
@@ -665,4 +661,12 @@ span.show-money {
 }
 .block_choose_date .input.active{
     background: #e9ecef;
+}
+
+
+.header-title{
+    background: #66aaff;
+}
+.header-title span{
+    color: white !important;
 }

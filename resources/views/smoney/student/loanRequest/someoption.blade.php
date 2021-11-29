@@ -98,6 +98,7 @@
     $(".option").parent().find(`li.square-item[data-value=${data}]`).addClass("square-select");
   }
 
+  
   $(".timeline-two").removeClass("active");
   if(!$(".timeline-two").hasClass("done")){
     $(".timeline-two").addClass("done");

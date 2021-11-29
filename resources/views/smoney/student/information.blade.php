@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{{ asset('cropperjs/croppie.css') }}">
 <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/Smoney/Student/custom-information.css') }}" rel="stylesheet" />
 <style>
     .banner{
         background: url('{{ asset("img-smoney/img-students/bg-title.png")  }}') no-repeat;
@@ -620,6 +621,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="edit-info-header">Thêm một cơ sở đào tạo mới</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="education-facilities-new">
@@ -690,8 +692,9 @@
                             <input type="email" class="font-weight-bold" name="emailStudent">
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-light mt-3" type="submit">Thêm cơ sở đào
-                        tạo</button>
+                    <div class="block-btn-center">
+                        <button class="btn btn-primary mt-3" type="submit">Thêm cơ sở đào tạo</button>
+                    </div>
                 </form>
             </div>
             <div class="family-info">
@@ -749,7 +752,9 @@
                             <input type="text" required="" name="relationship">
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-light mt-3" type="submit">Thêm thông tin người bảo trợ</button>
+                    <div class="block-btn-center">
+                        <button class="btn btn-primary mt-3" type="submit">Thêm thông tin người bảo trợ</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -1050,10 +1055,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Xác nhận đổi mật khẩu</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <div class="block-btn-center">
+                        <button type="submit" class="btn btn-primary mr-2">Xác nhận đổi mật khẩu</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -1062,7 +1067,7 @@
 
 <!-- Chỉnh sửa thông tin cá nhân -->
 <div class="modal fade" id="changeInforModel" tabindex="-1" role="dialog" aria-labelledby="changeInforModelLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="changeInforModelLabel">Chỉnh sửa thông tin cá nhân của bạn</h5>
@@ -1074,221 +1079,206 @@
             <div class="modal-body">
                 <form action="{{ route('student.updateInformation') }}" method="post" class="form-change-info">
                     @csrf
-                    <div class="container-fuild">
-                        <!-- Họ và tên -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Họ và tên:</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" value="{{ $name }}" name="fullname" required="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <small class="font-italic text-danger">Lưu ý: Nếu muốn sửa địa chỉ email bạn phải xác nhận thay đổi email trong hòm thư email cũ của bạn</small>
-                            </div>
-                        </div>
-                        <!-- Email -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Email:</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="email" value="{{ $email }}" name="email" required="">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <small class="font-italic text-danger">Lưu ý: Số điện thoại chính là điều kiện để bạn login vào hệ thống</small>
-                            </div>
-                        </div>
-                        <!-- Main Phone -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Số điện thoại chính:</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" value="{{ $phone }}" name="phone" 
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="">
-                            </div>
-                        </div>
-
-                        <!-- Số căn cước công dân -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Số căn cước công dân:</span>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" value="{{ $cccd }}" name="cccd" 
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="">
-                            </div>
-                        </div>
-
-                        <!-- Ngày sinh -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Ngày sinh:</span>
-                            </div>
-                            <div class="col-md-8 block_choose_date">
-                                <input type="text" value="{{ $ngaysinh }}" id="inputDoB" name="date" required="" placeholder="Chọn ngày tháng">
-                            </div>
-                        </div>
-
-                        <!-- Giới tính -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Giới tính:</span>
-                            </div>
-                            <div class="col-md-8">
-                                <select name="gender" id="selecct-gender">
-                                    <option value="" hidden="">--  Giới tính</option>
-                                    <option
-                                        @if($gender == 'Nam')
-                                            selected
+                    <small class="font-italic text-danger">
+                        Lưu ý: Nếu muốn sửa địa chỉ email bạn phải xác nhận thay đổi email trong hòm thư email cũ của bạn
+                    </small>
+                    <br>
+                    <small class="font-italic text-danger">
+                        Lưu ý: Số điện thoại chính là điều kiện để bạn login vào hệ thống
+                    </small>
+                    
+                    <div class="infomation-content">
+                        <div class="block-personal-infor">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span>Họ và tên</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" value="{{ $name }}" name="fullname" required="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Email</span>
+                                    </td>
+                                    <td>
+                                        <input type="email" value="{{ $email }}" name="email" required="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số điện thoại chính</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" value="{{ $phone }}" name="phone" 
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số căn cước công dân</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" value="{{ $cccd }}" name="cccd" 
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Ngày sinh</span>
+                                    </td>
+                                    <td >
+                                        <div class="block_choose_date">
+                                            <input type="text" value="{{ $ngaysinh }}" id="inputDoB" name="date" required="" placeholder="Chọn ngày tháng">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Giới tính</span>
+                                    </td>
+                                    <td >
+                                        <select name="gender" id="selecct-gender">
+                                            <option value="" hidden="">--  Giới tính</option>
+                                            <option
+                                                @if($gender == 'Nam')
+                                                    selected
+                                                @endif
+                                            value="Nam">Nam</option>
+                                            <option 
+                                                @if($gender == 'Nữ')
+                                                    selected
+                                                @endif
+                                            value="Nữ">Nữ</option>
+                                            <option 
+                                                @if($gender == 'Khác')
+                                                    selected
+                                                @endif
+                                            value="Khác">Khác</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số tài khoản</span>
+                                        <div class="btn-plus btn-plus-stk">
+                                            Thêm mới
+                                            <i class="fas fa-plus-circle"></i>
+                                        </div>
+                                    </td>
+                                    <td >
+                                        <div class="parent-input-stk">
+                                            @if($sotk != null)
+                                                @foreach($sotk as $value)
+                                                    <input type="text" value="{{ $value }}" name="stk[]" >
+                                                @endforeach
+                                            @else
+                                               <input type="text" name="stk[]" placeholder="Ví dụ: 0123456789 - Agribank - Chi nhánh Hà Nội">
+                                            @endif 
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số điện thoại khác</span>
+                                        <div class="btn-plus btn-plus-other">
+                                            Thêm mới
+                                            <i class="fas fa-plus-circle"></i>
+                                        </div>
+                                    </td>
+                                    <td >
+                                        <div class="parent-input-other">
+                                            @if($otherSdt != null)
+                                                @foreach($otherSdt as $value)
+                                                    <input type="text" name="otherPhone[]" value="{{ $value }}" 
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                                @endforeach
+                                            @else
+                                                <input type="text" name="otherPhone[]" 
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                                    placeholder="Số điện thoại khác" 
+                                                >
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Địa chỉ thường chú</span>
+                                    </td>
+                                    <td >
+                                        @if($addressString != null)
+                                        <p class="font-italic">Địa chỉ thường chú cũ: <span class="text-info">{{ $addressString }}</span></p>
                                         @endif
-                                    value="Nam">Nam</option>
-                                    <option 
-                                        @if($gender == 'Nữ')
-                                            selected
+                                        <button class="btn btn-sm btn-info btn-fix-address" type="button">Sửa</button>
+                                        <div class="choose-address">
+                                            <div class="choose-address-select">
+                                                <select name="select_province" id="select_province" class="font-weight-bold">
+                                                    <option hidden="" value="">Thành phố / Tỉnh</option>
+                                                    @foreach($province_address as $value)
+                                                        <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="choose-address-select">
+                                                <select name="select_district" id="select_district" class="font-weight-bold">
+                                                    <option hidden="" value="">Quận / Huyện</option>
+                                                </select>
+                                            </div>
+                                            <div class="choose-address-select">
+                                                <select name="select_ward" id="select_ward" class="font-weight-bold">
+                                                    <option hidden="" value="">Phường / Xã</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <input type="text" name="number_house" id="input-number-house" placeholder="Số nhà, đường (thôn, xóm)">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Nơi ở hiện tại</span>
+                                    </td>
+                                    <td >
+                                        @if($addressNowString != null)
+                                        <p class="font-italic">Nơi ở hiện tại cũ: <span class="text-info">{{ $addressNowString }}</span></p>
                                         @endif
-                                    value="Nữ">Nữ</option>
-                                    <option 
-                                        @if($gender == 'Khác')
-                                            selected
-                                        @endif
-                                    value="Khác">Khác</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Số tài khoản -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Số tài khoản:</span>
-                                <div class="btn-plus btn-plus-stk">
-                                    Thêm mới
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="parent-input-stk">
-                                    @if($sotk != null)
-                                        @foreach($sotk as $value)
-                                            <input type="text" value="{{ $value }}" name="stk[]" >
-                                        @endforeach
-                                    @else
-                                       <input type="text" name="stk[]" placeholder="Ví dụ: 0123456789 - Agribank - Chi nhánh Hà Nội">
-                                    @endif 
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Other Phone -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Số điện thoại khác:</span>
-                                <div class="btn-plus btn-plus-other">
-                                    Thêm mới
-                                    <i class="fas fa-plus"></i>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="parent-input-other">
-                                    @if($otherSdt != null)
-                                        @foreach($otherSdt as $value)
-                                            <input type="text" name="otherPhone[]" value="{{ $value }}" 
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
-                                        @endforeach
-                                    @else
-                                        <input type="text" name="otherPhone[]" 
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            placeholder="Số điện thoại khác" 
-                                        >
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Address -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Địa chỉ thường chú:</span>
-                            </div>
-                            <div class="col-md-8">
-                                @if($addressString != null)
-                                <p class="font-italic">Địa chỉ thường chú cũ: <span class="text-info">{{ $addressString }}</span></p>
-                                @endif
-                                <button class="btn btn-sm btn-info btn-fix-address" type="button">Sửa</button>
-                                <div class="choose-address">
-                                    <div class="choose-address-select">
-                                        <select name="select_province" id="select_province" class="font-weight-bold">
-                                            <option hidden="" value="">Thành phố / Tỉnh</option>
-                                            @foreach($province_address as $value)
-                                                <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="choose-address-select">
-                                        <select name="select_district" id="select_district" class="font-weight-bold">
-                                            <option hidden="" value="">Quận / Huyện</option>
-                                        </select>
-                                    </div>
-                                    <div class="choose-address-select">
-                                        <select name="select_ward" id="select_ward" class="font-weight-bold">
-                                            <option hidden="" value="">Phường / Xã</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <input type="text" name="number_house" id="input-number-house" placeholder="Số nhà, đường (thôn, xóm)">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Address Now -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <span class="font-weight-bold">Nơi ở hiện tại:</span>
-                            </div>
-                            <div class="col-md-8">
-                                @if($addressNowString != null)
-                                <p class="font-italic">Nơi ở hiện tại cũ: <span class="text-info">{{ $addressNowString }}</span></p>
-                                @endif
-                                <button class="btn btn-sm btn-info btn-fix-addressNow" type="button">Sửa</button>
-                                <div class="choose-address-now">
-                                    <div class="choose-address-select">
-                                        <select name="select_provinceNow" id="select_province-now" class="font-weight-bold">
-                                            <option hidden="" value="">Thành phố / Tỉnh</option>
-                                            @foreach($province_address as $value)
-                                                <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="choose-address-select">
-                                        <select name="select_districtNow" id="select_district-now" class="font-weight-bold">
-                                            <option hidden="" value="">Quận / Huyện</option>
-                                        </select>
-                                    </div>
-                                    <div class="choose-address-select">
-                                        <select name="select_wardNow" id="select_ward-now" class="font-weight-bold">
-                                            <option hidden="" value="">Phường / Xã</option>
-                                        </select>
-                                    </div>
-                                    <input type="text" name="numberHouseNow" id="inputNumberHouseNow" placeholder="Số nhà, đường (thôn, xóm)">
-                                </div>
-                            </div>
+                                        <button class="btn btn-sm btn-info btn-fix-addressNow" type="button">Sửa</button>
+                                        <div class="choose-address-now">
+                                            <div class="choose-address-select">
+                                                <select name="select_provinceNow" id="select_province-now" class="font-weight-bold">
+                                                    <option hidden="" value="">Thành phố / Tỉnh</option>
+                                                    @foreach($province_address as $value)
+                                                        <option value="{{ $value->provinceid  }}">{{ $value->type }} {{ $value->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="choose-address-select">
+                                                <select name="select_districtNow" id="select_district-now" class="font-weight-bold">
+                                                    <option hidden="" value="">Quận / Huyện</option>
+                                                </select>
+                                            </div>
+                                            <div class="choose-address-select">
+                                                <select name="select_wardNow" id="select_ward-now" class="font-weight-bold">
+                                                    <option hidden="" value="">Phường / Xã</option>
+                                                </select>
+                                            </div>
+                                            <input type="text" name="numberHouseNow" id="inputNumberHouseNow" placeholder="Số nhà, đường (thôn, xóm)">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
+                    
                     <button class="submit-hide">Submit check validate</button>
                 </form>
+                <div class="block-btn-center">
+                    <button class="btn btn-primary btn-submit-form mr-2" type="button">Xác nhận chỉnh sửa</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
             </div>
-            
-            <div class="modal-footer">
-                <button class="btn btn-primary btn-submit-form" type="button">Xác nhận chỉnh sửa</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-            </div>
-            
         </div>
     </div>
 </div>

@@ -115,4 +115,16 @@
   $(".btn-plus-account-number").click(function() {
     $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập thêm câu lạc bộ, đoàn thể">');
   })
+
+
+  $(".timeline-two").removeClass("active");
+  if(!$(".timeline-two").hasClass("done")){
+    $(".timeline-two").addClass("done");
+  }
+  $(".timeline-three").removeClass("done");
+  if(!$(".timeline-three").hasClass("active")){
+    $(".timeline-three").addClass("active");
+  }
+  $(".timeline-four").removeClass("active");
+  $(".timeline-four").removeClass("done");
 </script>

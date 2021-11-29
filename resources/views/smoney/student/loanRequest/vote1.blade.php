@@ -13,7 +13,7 @@
   <span class="main-nottop-title-detail">Chúng tôi muốn lắng nghe ý kiến và đánh giá của bạn</span>
   <div class="block-question">
     <!--question  -->
-    <div class="question question-two required-icon">Ý kiến của bạn</div>
+    <div class="question question-two required-icon">Những thông tin khác mà bạn muốn gửi về cho chúng tôi</div>
     <textarea class="input-text hight-200 opinion" placeholder="Nhập ý kiến của bạn"></textarea>
 
     <div class="question question-two required-icon">Đánh giá của bạn</div>

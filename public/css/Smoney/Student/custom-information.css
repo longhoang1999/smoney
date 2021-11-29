@@ -1,0 +1,84 @@
+/*modal changeInforModel*/
+#changeInforModel .modal-header{
+	color: #fff;
+	background-color: #316fd3;
+}
+#changeInforModel .modal-content{
+	border: none;
+}
+#changeInforModel button.close{
+	background-color: #2c6acf;
+	color: white;
+}
+#changeInforModel input{
+	border-bottom: 1px solid #d4d1d1;
+    width: 90%;
+    background: transparent;
+    width: 100%;
+    margin-bottom: 5px;
+}
+#changeInforModel select{
+	width: 15%;
+}
+#changeInforModel .btn-fix-address,#changeInforModel .btn-fix-addressNow{
+	width: 4rem;
+}
+.choose-address, .choose-address-now{
+	width: 20rem;
+}
+#changeInforModel .block-btn-center{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+
+/*modal changePassModel*/
+#changePassModel .modal-header{
+	color: #fff;
+	background-color: #316fd3;
+}
+#changePassModel .modal-content{
+	border: none;
+}
+#changePassModel button.close{
+	background-color: #2c6acf;
+	color: white;
+}
+#changePassModel .block-btn-center{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+#edit-info .modal-header{
+	color: #fff;
+	background-color: #316fd3;
+}
+#edit-info span{
+	color:  #495057;
+}
+.education-facilities-new .block-item-content select {
+    border: 1px solid #cdcdcd;
+}
+#edit-info .modal-header{
+    padding: 16px;
+}
+#edit-info .education-facilities-new,#edit-info .family-info{
+    padding: 16px;
+}
+.block-btn-center{
+	width: 100%;
+	text-align: center;
+}
+.family-info input {
+    display: block;
+    border-bottom: 1px solid #d4d1d1;
+    width: 80%;
+}
+.family-info .block-item-content select {
+    display: block;
+    width: 80%;
+    color: #1a60ff;
+    border: 1px solid #d4d1d1;
+}

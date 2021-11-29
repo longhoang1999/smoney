@@ -1,0 +1,179 @@
+.modal-project .modal-header{
+	color: #fff;
+	background-color: #316fd3;
+}
+.modal-project .modal-content{
+	border: none;
+}
+.modal-project button.close{
+	background-color: #2c6acf;
+	color: white;
+}
+.modal-project .flex-parent{
+	background: #f1f5f9;
+}
+.modal-project .color-blue{
+	color: #286dca;
+}
+
+.model-success{
+	display: flex;
+}
+.model-icon{
+	margin-right: 5px;
+    color: white;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 11px;
+}
+.icon-success{
+	background-color: #31b98c;
+}
+.icon-refuse{
+	background-color: #d01313;
+}
+.infomation-content table td button{
+	width: 10rem;
+}
+.flex-center{
+	justify-content: center;
+}
+#myTab {
+	margin-bottom: 1rem;
+	justify-content: center;
+}
+.nav-item .active, #myTabContent .active{
+	background-color: white !important;
+}
+.nav-tabs{
+	border-bottom: 0;
+}
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    border-color: #ffffff #ffffff #ffffff;
+}
+.nav-item .active {
+    border-width: 0 !important;
+    border-bottom: 2px solid #0b5ac3 !important;
+    color: #0b5ac3 !important;
+}
+#myTabContent .active{
+	min-height: 15rem;
+}
+.btn-handle-loan{
+	display: flex;
+	justify-content: center;
+}
+
+
+/*modal modalRequiredInfo*/
+#modalRequiredInfo .modal-header{
+	color: #fff;
+	background-color: #316fd3;
+}
+#modalRequiredInfo .modal-content{
+	border: none;
+}
+#modalRequiredInfo button.close{
+	background-color: #2c6acf;
+	color: white;
+}
+#modalRequiredInfo .btn-refress{
+	display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.3rem 1rem;
+    border: none;
+    outline: none;
+    color: white;
+    background: #31b98c;
+    border-radius: 2px;
+    font-size: 16px;
+    margin-right: 1rem;
+}
+#modalRequiredInfo .btn-fix-personal{
+	display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.3rem 1rem;
+    border: none;
+    outline: none;
+    color: #316fd3;
+    background: white;
+    border-radius: 2px;
+    font-size: 16px;
+    margin-right: 1rem;
+}
+#modalRequiredInfo .btn-refress:hover,
+#modalRequiredInfo .btn-fix-personal:hover
+{
+	opacity: 0.8;
+}
+#modalRequiredInfo .status-message{
+	background-color: #f5f5f5;
+	padding: 1rem;
+	border-radius: 3px;
+}
+
+#modalRequiredInfo .block-name-uni-left {
+    border-bottom: 1px solid #007bff;
+    display: block;
+    width: 100%;
+}
+#modalRequiredInfo .block-name-uni-left p {
+    color: #007bff!important;
+    font-weight: bold;
+    margin: 0;
+    background: #fff;
+    transform: translateY(2px);
+    display: inline-block;
+    padding-right: 15px;
+}
+#modalRequiredInfo .block-info{
+	margin-top: 3rem;
+}
+#modalRequiredInfo .block-name-uni{
+	display: flex;
+    align-items: flex-end;
+}
+#modalRequiredInfo .infomation-content table td:first-child {
+    width: 35%;
+}
+#modalRequiredInfo .infomation-content table td:last-child{
+    display: flex;
+    flex-direction: column;
+}
+#modalRequiredInfo .infomation-content table td {
+    padding: 0.5rem 1.2rem;
+}
+#modalRequiredInfo .infomation-content table tr:nth-child(even) {
+    background-color: #E7EFF8;
+}
+#modalRequiredInfo table{
+	width: 100%;
+	margin-top: 1rem;
+}
+#modalRequiredInfo .infomation-content span{
+	font-size: 14px;
+}
+#modalRequiredInfo .table-header{
+	text-align: left;
+}
+#modalRequiredInfo .text-gray{
+	color: #969ba1;
+}
+#modalRequiredInfo .modal-body{
+	padding-bottom: 5rem;
+}
+#modalRequiredInfo .img-fluid {
+    max-width: 10rem;
+    border: 1px solid #b9b9b9;
+    height: 6rem;
+    object-fit: cover;
+    border-radius: 3px;
+}

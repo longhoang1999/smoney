@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/test4.css') }}">
 <link href="{{ asset('dropzone/css/dropzone.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<link rel="stylesheet" href="{{ asset('css/Smoney/Student/apply-loan-custom.css') }}">
 <style>
     .square-select::before{
       content: '';
@@ -129,8 +130,14 @@
                         <span>Thông tin khoản vay của bạn</span>
                     </div>
                     <div class="modal-head-btn">
-                        <button class="btn btn-warning btn-refress">Làm mới</button>
-                        <a href="{{ route('student.information') }}" target="_blank" class="btn btn-info">Chỉnh sửa thông tin cá nhân</a>
+                        <button class="btn-refress">
+                            <i class="fas fa-sync-alt"></i>
+                            Làm mới
+                        </button>
+                        <a href="{{ route('student.information') }}" target="_blank" class="btn-fix-personal">
+                            <i class="fas fa-pen"></i>
+                            Chỉnh sửa thông tin cá nhân
+                        </a>
                     </div>
                     @if($name != null && $phone != null && $cccd != null && $gender != null && $addressString != null && $email != null && $ngaysinh != null && $sotk != null && $addressNowString != null && $university != null && $yourjob != null)
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -138,397 +145,431 @@
                 </h5>   
             </div>
             <div class="modal-body">
-                <h5 class="text-primary modal-title-heading">Hãy đảm bảo thông tin cá nhân của bạn đầy đủ trước khi thực hiện yêu cầu vay !!</h5>
+                <div class="status-message">
+                    <h5 class="text-primary modal-title-heading">Hãy đảm bảo thông tin cá nhân của bạn đầy đủ trước khi thực hiện yêu cầu vay !!</h5>
 
-                @if($name == null || $phone == null || $cccd == null || $gender == null || $addressString == null || $email == null || $ngaysinh == null || $sotk == null || $addressNowString == null || $university == null || $yourjob == null)
-                    <div class="mb-4 modal-title-comfirm">
-                        <p class="m-0 text-info">Bạn nhập thiếu thông tin, hãy click nút <span class="text-primary">"Chỉnh sửa thông tin cá nhân"</span> phía trên để bổ sung thông tin cá nhân của bạn</p>
-                        <p class="mb-1 text-info">Các trường thông tin bị thiếu</p>
-                        <div class="empty-infor">
-                            @if($name == null) 
-                                <p class="m-0 text-danger">* Tên sinh viên</p>
-                            @endif
-                            @if($phone == null) 
-                                <p class="m-0 text-danger">* Số điện thoại sinh viên</p>
-                            @endif
-                            @if($cccd == null) 
-                                <p class="m-0 text-danger">* Số căn cước công dân sinh viên</p>
-                            @endif
-                            @if($gender == null) 
-                                <p class="m-0 text-danger">* Giới tính sinh viên</p>
-                            @endif
-                            @if($addressString == null) 
-                                <p class="m-0 text-danger">* Địa chỉ thường chú sinh viên</p>
-                            @endif
-                            @if($email == null) 
-                                <p class="m-0 text-danger">* Email sinh viên</p>
-                            @endif
-                            @if($ngaysinh == null) 
-                                <p class="m-0 text-danger">* Ngày tháng năm sinh của sinh viên</p>
-                            @endif
-                            @if($sotk == null) 
-                                <p class="m-0 text-danger">* Số tài khoản của sinh viên</p>
-                            @endif
-                            @if($addressNowString == null) 
-                                <p class="m-0 text-danger">* Nơi ở hiện tại của sinh viên</p>
-                            @endif
-                            @if($university == null) 
-                                <p class="m-0 text-danger">* Thông tin về cơ sở đào tạo của sinh viên</p>
-                            @endif
-                            @if($yourjob == null) 
-                                <p class="m-0 text-danger">* Thông tin về tình trạng việc làm của sinh viên</p>
-                            @endif
+                    @if($name == null || $phone == null || $cccd == null || $gender == null || $addressString == null || $email == null || $ngaysinh == null || $sotk == null || $addressNowString == null || $university == null || $yourjob == null)
+                        <div class="mb-4 modal-title-comfirm">
+                            <p class="m-0 text-info">Bạn nhập thiếu thông tin, hãy click nút <span class="text-primary">"Chỉnh sửa thông tin cá nhân"</span> phía trên để bổ sung thông tin cá nhân của bạn</p>
+                            <p class="mb-1 text-info">Các trường thông tin bị thiếu</p>
+                            <div class="empty-infor">
+                                @if($name == null) 
+                                    <p class="m-0 text-danger">* Tên sinh viên</p>
+                                @endif
+                                @if($phone == null) 
+                                    <p class="m-0 text-danger">* Số điện thoại sinh viên</p>
+                                @endif
+                                @if($cccd == null) 
+                                    <p class="m-0 text-danger">* Số căn cước công dân sinh viên</p>
+                                @endif
+                                @if($gender == null) 
+                                    <p class="m-0 text-danger">* Giới tính sinh viên</p>
+                                @endif
+                                @if($addressString == null) 
+                                    <p class="m-0 text-danger">* Địa chỉ thường chú sinh viên</p>
+                                @endif
+                                @if($email == null) 
+                                    <p class="m-0 text-danger">* Email sinh viên</p>
+                                @endif
+                                @if($ngaysinh == null) 
+                                    <p class="m-0 text-danger">* Ngày tháng năm sinh của sinh viên</p>
+                                @endif
+                                @if($sotk == null) 
+                                    <p class="m-0 text-danger">* Số tài khoản của sinh viên</p>
+                                @endif
+                                @if($addressNowString == null) 
+                                    <p class="m-0 text-danger">* Nơi ở hiện tại của sinh viên</p>
+                                @endif
+                                @if($university == null) 
+                                    <p class="m-0 text-danger">* Thông tin về cơ sở đào tạo của sinh viên</p>
+                                @endif
+                                @if($yourjob == null) 
+                                    <p class="m-0 text-danger">* Thông tin về tình trạng việc làm của sinh viên</p>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                @else
-                    <div class="mb-4 modal-title-comfirm">
-                        <p class="mb-1 text-success">Các trường thông tin của bạn đã đủ. Bạn có thể yêu cầu khoản vay của mình</p>
-                    </div>
-                @endif
+                    @else
+                        <div class="mb-4 modal-title-comfirm">
+                            <p class="mb-1 text-success">Các trường thông tin của bạn đã đủ. Bạn có thể yêu cầu khoản vay của mình</p>
+                        </div>
+                    @endif
+                </div>
                 <div class="block-info">
-                    <div class="block-title">
-                         <p class="font-weight-bold text-uppercase">
-                            <span>Thông tin cá nhân</span>
-                            <span class="text-lowercase text-danger font-italic">(bắt buộc)</span>
-                        </p>
-                        <div class="hide-block-icon hide-block-info">
-                            <i class="fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                    <div class="block-info-content block-personal-infor">
-                        <div class="block-info-left container">
-                            <div class="row">
-                                <!-- Họ và tên -->
-                                <div class="col-md-4">
-                                    <p>Họ và tên: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $name }}</p>
-                                </div>
-                                <!-- Số căn cước công dân -->
-                                <div class="col-md-4">
-                                    <p>Số điện thoại: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $phone }}</p>
-                                </div>
-                                <!-- Số căn cước công dân -->
-                                <div class="col-md-4">
-                                    <p>Số căn cước công dân: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $cccd }}</p>
-                                </div>
-                                <!-- Giới tính -->
-                                <div class="col-md-4">
-                                    <p>Giới tính: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $gender }}</p>
-                                </div>
-                                <!-- Địa chỉ thường chú -->
-                                <div class="col-md-4">
-                                    <p>Địa chỉ thường chú: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $addressString }}</p>
-                                </div>
+                    <div class="infomation-content">
+                        <div class="block-name-uni block-title">
+                            <div class="block-name-uni-left">
+                                <p class="text-uppercase">
+                                    Thông tin cá nhân
+                                    <small class="text-lowercase text-danger font-italic">
+                                        (bắt buộc)
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="hide-block-icon hide-block-info">
+                                <i class="fas fa-caret-down"></i>
                             </div>
                         </div>
-                        <div class="block-info-right container">
-                            <div class="row">
-                                <!-- Email -->
-                                <div class="col-md-4">
-                                    <p>Email: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $email }}</p>
-                                </div>
-                                <!-- Ngày sinh -->
-                                <div class="col-md-4">
-                                    <p>Ngày sinh: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ date("d/m/Y", strtotime($ngaysinh)) }}</p>
-                                </div>
-                                <!-- Số tài khoản -->
-                                <div class="col-md-4">
-                                    <p>Số tài khoản: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    @if($sotk != null)
-                                        @foreach($sotk as $value)
-                                            <p class="font-weight-bold m-0">{{ $value }}</p>
-                                        @endforeach
-                                    @else
-                                        <p class="font-weight-bold m-0">Trống</p>
-                                    @endif
-                                </div>
-                                <!-- Số tài khoản -->
-                                <div class="col-md-4">
-                                    <p>Số điện thoại khác: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    @if($otherSdt != null)
-                                        @foreach($otherSdt as $value)
-                                            <p class="font-weight-bold m-0">{{ $value }}</p>
-                                        @endforeach
-                                    @else
-                                        <p class="font-weight-bold m-0">Trống</p>
-                                    @endif
-                                </div>
-                                <!-- Nơi ở hiện tại -->
-                                <div class="col-md-4">
-                                    <p>Nơi ở hiện tại: </p>
-                                </div>
-                                <div class="col-md-8">
-                                    <p class="font-weight-bold">{{ $addressNowString }}</p>
-                                </div>
-                            </div>
+                        <div class="block-personal-infor">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span>Họ và tên</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $name }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số điện thoại</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $phone }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số căn cước công dân</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $cccd }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Giới tính</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $gender }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Địa chỉ thường chú</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $addressString }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Email</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $email }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Ngày sinh</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ date("d/m/Y", strtotime($ngaysinh)) }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số tài khoản</span>
+                                    </td>
+                                    <td>
+                                        @if($sotk != null)
+                                            @foreach($sotk as $value)
+                                                <span>{{ $value }}</span>
+                                            @endforeach
+                                        @else
+                                            <span>Trống</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Số điện thoại khác</span>
+                                    </td>
+                                    <td>
+                                        @if($otherSdt != null)
+                                            @foreach($otherSdt as $value)
+                                                <span>{{ $value }}</span>
+                                            @endforeach
+                                        @else
+                                            <span>Trống</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Nơi ở hiện tại</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ $addressNowString }}</span>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <hr>
+
                 <div class="block-uni">
-                    <div class="block-title">
-                        <p class="font-weight-bold text-uppercase">
-                            <span class="title-modal-Choseuni">Thông tin cơ sở đào tạo</span>
-                            <span class="text-lowercase text-danger font-italic">(bắt buộc)</span>
-                        </p>
-                        <div class="hide-block-icon hide-block-uni">
-                            <i class="fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                    @if($university != null)
-                    @foreach($university as $value)
-                        <div class="block-info-content block-school-infor" data-id="{{ $value['id'] }}">
-                            <div class="block-info-left container">
-                                <div class="row">
-                                    <!-- Tên cơ sở -->
-                                    <div class="col-md-4">
-                                        <p>Tên cơ sở: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $value['name'] }}</p>
-                                    </div>
-                                    <!-- Chuyên ngành -->
-                                    <div class="col-md-4">
-                                        <p>Chuyên ngành: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $value['specialized'] }}</p>
-                                    </div>
-                                    <!-- Loại chương trình đào tạo: -->
-                                    <div class="col-md-4">
-                                        <p>Loại chương trình đào tạo: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $value['typeProgram'] }}</p>
-                                    </div>
-                                </div>
+                    <div class="infomation-content">
+                        <div class="block-name-uni block-title">
+                            <div class="block-name-uni-left">
+                                <p class="text-uppercase">
+                                    Thông tin cơ sở đào tạo
+                                    <small class="text-lowercase text-danger font-italic">
+                                        (bắt buộc)
+                                    </small>
+                                </p>
                             </div>
-                            <div class="block-info-right container">
-                                <div class="row">
-                                    <!-- Mã sinh viên -->
-                                    <div class="col-md-4">
-                                        <p>Mã sinh viên: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $value['studentCode'] }}</p>
-                                    </div>
-                                    <!-- Mã sinh viên -->
-                                    <div class="col-md-4">
-                                        <p>Lớp hành chính: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $value['nameClass'] }}</p>
-                                    </div>
-                                    <!-- Email sinh viên do trường cung cấp: -->
-                                    <div class="col-md-4">
-                                        <p>Email sinh viên do trường cung cấp: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        @if($value['emailStudent'] != null)
-                                            <p class="font-weight-bold">{{ $value['emailStudent'] }}</p>
-                                        @else
-                                            <p class="font-weight-bold">Trống</p>
-                                        @endif
-                                    </div>
-                                </div>
+                            <div class="hide-block-icon hide-block-uni">
+                                <i class="fas fa-caret-down"></i>
                             </div>
                         </div>
-                    @endforeach
-                    @else
-                        <div class="block-info-content">
-                            <span class="font-italic">============ Bạn chưa khai báo thông tin về cơ sở đào tạo mà bạn theo học ============</span>
-                        </div>
-                    @endif
-                </div>
-                <hr>
-                <div class="block-perant">
-                    <div class="block-title">
-                        <p class="font-weight-bold text-uppercase">
-                            <span>Thông tin người bảo trợ</span>
-                            <span class="text-lowercase text-info font-italic">(Không bắt buộc)</span>
-                        </p>
-                        <div class="hide-block-icon hide-block-parents">
-                            <i class="fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                    @if($parents != null)
-                    @for($i = 0; $i < count($parents); $i++)
-                        <div class="block-info-content block-parent-infor">
-                            <div class="block-info-left container">
-                                <div class="row">
-                                    <!-- Họ tên -->
-                                    <div class="col-md-4">
-                                        <p>Họ tên: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{  $parents[$i]["fullname"] }}</p>
-                                    </div>
-                                    <!-- Số căn cước công dân -->
-                                    <div class="col-md-4">
-                                        <p>Số căn cước công dân: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $parents[$i]["cccd"] }}</p>
-                                    </div>
-                                    <!-- Số tài khoản -->
-                                    <div class="col-md-4">
-                                        <p>Số tài khoản: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $parents[$i]["stk"] }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="block-info-right container">
-                                <div class="row">
-                                    <!-- Số điện thoại -->
-                                    <div class="col-md-4">
-                                        <p>Số điện thoại: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $parents[$i]["phone"] }}</p>
-                                    </div>
-                                    <!-- Giới tinh -->
-                                    <div class="col-md-4">
-                                        <p>Giới tinh: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $parents[$i]["gender"] }}</p>
-                                    </div>
-                                    <!-- Quan hệ với sinh viên -->
-                                    <div class="col-md-4">
-                                        <p>Quan hệ với sinh viên: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">{{ $parents[$i]["relationship"] }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endfor
-                    @else
-                        <div class="block-info-content">
-                            <span class="font-italic">============ Bạn chưa khai báo thông tin về người bảo trợ của bạn ============</span>
-                        </div>
-                    @endif
-                </div>
-                <hr>
-                <div class="block-perant">
-                    <div class="block-title">
-                        <p class="font-weight-bold text-uppercase">
-                            <span>Thông tin việc làm của bạn</span>
-                            <span class="text-lowercase text-danger font-italic">(bắt buộc)</span>
-                        </p>
-                        <div class="hide-block-icon hide-block-yourjob">
-                            <i class="fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                    @if($yourjob != null)
-                        <div class="block-info-content block-job-infor">
-                            <div class="block-info-left container">
-                                <div class="row">
-                                    <!-- Tình trạng việc làm của bạn -->
-                                    <div class="col-md-4">
-                                        <p>Tình trạng việc làm của bạn: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="font-weight-bold">
-                                            @if($yourjob['jobstatus'] == "1")
-                                                Đang đi làm thuê
-                                            @elseif($yourjob['jobstatus'] == "2")
-                                                Tự kinh doanh
-                                            @elseif($yourjob['jobstatus'] == "3")
-                                                Không đi làm
+                        @if($university != null)
+                        @foreach($university as $value)
+                            <div class="block-school-infor" data-id="{{ $value['id'] }}">
+                                <table>
+                                    <tr class="table-header">
+                                        <td>
+                                            <span>Tên cơ sở</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $value['name'] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Chuyên ngành</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $value['specialized'] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Loại chương trình đào tạo</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $value['typeProgram'] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Mã sinh viên</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $value['studentCode'] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Lớp hành chính</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $value['nameClass'] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Email sinh viên do trường cung cấp</span>
+                                        </td>
+                                        <td>
+                                            @if($value['emailStudent'] != null)
+                                                <span>{{ $value['emailStudent'] }}</span>
+                                            @else
+                                                <span>Trống</span>
                                             @endif
-                                        </p>
-                                    </div>
-                                    <!-- Tên cơ sở bạn làm việc -->
-                                    <div class="col-md-4">
-                                        <p>Tên cơ sở bạn làm việc: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        @if($yourjob['jobstatus'] != "3")
-                                            <p class="font-weight-bold">{{ $yourjob['nameCompany'] }}</p>
-                                        @else
-                                            <p class="font-weight-bold">Trống - do bạn không đi làm</p>
-                                        @endif
-                                    </div>
-                                    <!-- Mức lương trung bình của bạn -->
-                                    <div class="col-md-4">
-                                        <p>Mức lương trung bình của bạn: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        @if($yourjob['jobstatus'] != "3")
-                                            <p class="font-weight-bold">{{ number_format($yourjob['money']) }} VNĐ</p>
-                                        @else
-                                            <p class="font-weight-bold">Trống - do bạn không đi làm</p>
-                                        @endif
-                                    </div>
-                                </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                            <div class="block-info-right container">
-                                <div class="row">
-                                    <!-- Thời gian bạn làm việc -->
-                                    <div class="col-md-4">
-                                        <p>Thời gian bạn làm việc: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        @if($yourjob['jobstatus'] != "3")
-                                            @if($yourjob['timeJob']  == "1")
-                                                <p class="font-weight-bold">Fulltime</p>
-                                            @elseif($yourjob['timeJob']  == "2")
-                                                <p class="font-weight-bold">Parttime</p>
-                                            @elseif($yourjob['timeJob']  == "3")
-                                                <p class="font-weight-bold">Fieldtrip</p>
-                                            @endif
-                                        @else
-                                            <p class="font-weight-bold">Trống - do bạn không đi làm</p>
-                                        @endif
-                                    </div>
-                                    <!-- Địa chỉ nơi bạn làm việc -->
-                                    <div class="col-md-4">
-                                        <p>Địa chỉ nơi bạn làm việc: </p>
-                                    </div>
-                                    <div class="col-md-8">
-                                        @if($yourjob['jobstatus'] != "3")
-                                            <p class="font-weight-bold">{{ $yourjob['addressCompany'] }}</p>
-                                        @else
-                                            <p class="font-weight-bold">Trống - do bạn không đi làm</p>
-                                        @endif
-                                    </div>
-                                </div>
+                        @endforeach
+                        @else
+                            <div class="block-school-infor mt-3 mb-4">
+                                <span>Bạn chưa khai báo thông tin này</span>
                             </div>
-                        </div>
-                    @else
-                        <div class="block-info-content">
-                            <span class="font-italic fz-14">=============Bạn chưa cập nhật nội dung việc làm với hệ thống==============</span>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
+                
+                <div class="block-perant">
+                    <div class="infomation-content">
+                        <div class="block-name-uni block-title">
+                            <div class="block-name-uni-left">
+                                <p class="text-uppercase">
+                                    Thông tin người bảo trợ
+                                    <small class="text-lowercase text-gray font-italic">
+                                        (Không bắt buộc)
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="hide-block-icon hide-block-parents">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                        @if($parents != null)
+                        @for($i = 0; $i < count($parents); $i++)
+                            <div class="block-parent-infor">
+                                <table>
+                                    <tr class="table-header">
+                                        <td>
+                                            <span>Họ tên</span>
+                                        </td>
+                                        <td>
+                                            <span>{{  $parents[$i]["fullname"] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Số căn cước công dân</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $parents[$i]["cccd"] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Số tài khoản</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $parents[$i]["stk"] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Số điện thoại</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $parents[$i]["phone"] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Giới tính</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $parents[$i]["gender"] }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Quan hệ với sinh viên</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ $parents[$i]["relationship"] }}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        @endfor
+                        @else
+                            <div class="block-parent-infor mt-3 mb-4">
+                                <span>Bạn chưa khai báo thông tin này</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                
+                <div class="block-job">
+                    <div class="infomation-content">
+                        <div class="block-name-uni block-title">
+                            <div class="block-name-uni-left">
+                                <p class="text-uppercase">
+                                    Thông tin việc làm của bạn
+                                    <small class="text-lowercase text-danger font-italic">
+                                        (Bắt buộc)
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="hide-block-icon hide-block-yourjob">
+                                <i class="fas fa-caret-down"></i>
+                            </div>
+                        </div>
+                        @if($yourjob != null)
+                            <div class="block-job-infor">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span>Tình trạng việc làm của bạn</span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                @if($yourjob['jobstatus'] == "1")
+                                                    Đang đi làm thuê
+                                                @elseif($yourjob['jobstatus'] == "2")
+                                                    Tự kinh doanh
+                                                @elseif($yourjob['jobstatus'] == "3")
+                                                    Không đi làm
+                                                @endif
+                                            </span>     
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Tên cơ sở bạn làm việc</span>
+                                        </td>
+                                        <td>
+                                            @if($yourjob['jobstatus'] != "3")
+                                                <span>{{ $yourjob['nameCompany'] }}</span>
+                                            @else
+                                                <span>Trống - do bạn không đi làm</span>
+                                            @endif    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Mức lương trung bình của bạn</span>
+                                        </td>
+                                        <td>
+                                            @if($yourjob['jobstatus'] != "3")
+                                                <span>
+                                                    {{ number_format($yourjob['money']) }} VNĐ
+                                                </span>
+                                            @else
+                                                <span>Trống - do bạn không đi làm</span>
+                                            @endif   
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Thời gian bạn làm việc</span>
+                                        </td>
+                                        <td>
+                                            @if($yourjob['jobstatus'] != "3")
+                                                @if($yourjob['timeJob']  == "1")
+                                                    <span>Fulltime</span>
+                                                @elseif($yourjob['timeJob']  == "2")
+                                                    <span>Parttime</span>
+                                                @elseif($yourjob['timeJob']  == "3")
+                                                    <span>Fieldtrip</span>
+                                                @endif
+                                            @else
+                                                <span>Trống - do bạn không đi làm</span>
+                                            @endif  
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span>Địa chỉ nơi bạn làm việc</span>
+                                        </td>
+                                        <td>
+                                            @if($yourjob['jobstatus'] != "3")
+                                                <span>
+                                                    {{ $yourjob['addressCompany'] }}
+                                                </span>
+                                            @else
+                                                <span>Trống - do bạn không đi làm</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        @else
+                            <div class="block-job-infor mt-3 mb-4">
+                                <span>Bạn chưa khai báo thông tin này</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -600,32 +641,228 @@
         });
     })
     @if(isset($dataComplete))
+        let dataComplete = JSON.parse('{{ $dataComplete }}'.replace(/&quot;/g,'"'));
         $.ajax({
             url:"{!! route('student.loadTimeline') !!}",
             method: "GET",
-            data:{"page": "{{ $dataComplete->pagepresent }}"},
+            data:{"page": dataComplete.pagepresent},
             success:function(data)
             {
               $(".main").empty();
               $(".main").append(data);
-              fillDataComplete('{{ $dataComplete->pagepresent }}');
+              fillDataComplete(dataComplete);
             }
         });
-        function fillDataComplete(pagepresent){
-            switch(pagepresent){
+        function fillDataComplete(dataComplete){
+            switch(dataComplete.pagepresent){
                 case 'thongtinkhoanvay1':{
                     // hsk_money
-                    $("input[type='range']").attr("value",'{{ $dataComplete->hsk_money }}');
-                    $(".show-money").html(asMoney('{{ $dataComplete->hsk_money }}'))
+                    $("input[type='range']").attr("value",dataComplete.hsk_money);
+                    $(".show-money").html(asMoney(dataComplete.hsk_money))
                     $("input[type='range']").attr("style",generateBackground($("input[type='range']")));
                     // hsk_purpose
-                    $(".loan-purpose").val('{{ $dataComplete->hsk_purpose }}');
-                    $(".loan-purpose").parent().find(`li.square-item[data-value=${'{{ $dataComplete->hsk_purpose }}'}]`).addClass("square-select");
+                    $(".loan-purpose").val(dataComplete.hsk_purpose);
+                    $(".loan-purpose").parent().find(`li.square-item[data-value=
+                        ${dataComplete.hsk_purpose}
+                    ]`).addClass("square-select");
                     // hsk_duration
-                    $(".loan-duration").val('{{ $dataComplete->hsk_duration }}');
-                    $(".loan-duration").parent().find(`li.square-item[data-value=${'{{ $dataComplete->hsk_duration }}'}]`).addClass("square-select");
-                    maHS = '{{ $dataComplete->_id }}';
+                    $(".loan-duration").val(dataComplete.hsk_duration);
+                    $(".loan-duration").parent().find(`li.square-item[data-value=
+                        ${dataComplete.hsk_duration}
+                    ]`).addClass("square-select");
+                    maHS = dataComplete._id;
+                    break;
                 }
+                case 'cosodaotao5':{
+                    maHS = dataComplete._id ;
+                    $(".choose-school").val(dataComplete.chooseSchool);
+                    $(".choose-school").parent().find(`li.square-item[data-value=
+                        ${dataComplete.chooseSchool}]`)
+                        .addClass("square-select");
+                    break;
+                }
+                case 'cosodaotao4':{
+                    maHS = dataComplete._id ; 
+                    $(".block-show-img .row").empty();
+                    $(".block-show-img .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+                    dataComplete.imgPointAr.forEach(function(item, index){
+                        let urlImg = `{{ url('/') }}/${item}`;
+                        imgAr.push(item);
+                        $(".block-show-img .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+                    })
+                    break;
+                }
+                case 'someoption':{
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    $(".option").val(dataComplete.option);
+                    $(".option").parent().find(`li.square-item[data-value=
+                        ${dataComplete.option}]`)
+                        .addClass("square-select");
+                    break;
+                }
+                case 'option1':{
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    $(".club").val(dataComplete.club);
+                    $(".club").parent().find(`li.square-item[data-value=
+                        ${dataComplete.club}]`)
+                        .addClass("square-select");
+                    break;
+                }
+                case 'option2':{ 
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    $(".multi-account-number").empty();
+                    dataComplete.nameClub.forEach(function(item, index) {
+                      if(item != null)
+                        $(".multi-account-number").append('<input type="text" class="input-text mt-1" placeholder="Nhập câu lạc bộ, đoàn thể" value="'+ item +'">');
+                    })
+                    break;
+                }
+                case 'otherpage1':{ 
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    fillDataOtherPage1(dataComplete.pageObject);
+                    break;
+                }
+                case 'tag1':{ 
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    let ar = document.querySelectorAll("#div1 a");
+                    ar.forEach((item) => {
+                        if(dataComplete.contentTag.indexOf(item.innerText) != -1){
+                            $("#div2").append(item)
+                        }
+                    })
+                    $("#content_tag").val("");
+                    arrayTag = [];
+                    let lenth = $("#div2 a").length;
+                    for (let i = 0; i < lenth; i++) {
+                      arrayTag.push($("#div2 a")[i].text)
+                    }
+                    let content_tag = "";
+                    arrayTag.forEach(function(item, index){
+                      content_tag = content_tag + item + "|";
+                    })
+                    $("#content_tag").val(content_tag);
+                    break;
+                }
+                case 'notification1':{
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    $(".timeline-two").removeClass("active");
+                    if(!$(".timeline-two").hasClass("done")){
+                        $(".timeline-two").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    $(".portal").val(dataComplete.portal);
+                    $(".portal").parent().find(`li.square-item[data-value=${dataComplete.portal}]`).addClass("square-select");
+                    break;
+                }
+                case 'vote1':{ 
+                    $(".timeline-one").removeClass("active");
+                    if(!$(".timeline-one").hasClass("done")){
+                        $(".timeline-one").addClass("done");
+                    }
+                    $(".timeline-two").removeClass("active");
+                    if(!$(".timeline-two").hasClass("done")){
+                        $(".timeline-two").addClass("done");
+                    }
+                    $(".timeline-three").removeClass("active");
+                    if(!$(".timeline-three").hasClass("done")){
+                        $(".timeline-three").addClass("done");
+                    }
+                    // end refress UI
+                    maHS = dataComplete._id ;
+                    $(".opinion").text(dataComplete.opinion);
+                    $("#star_Share").val(dataComplete.star_votes);
+                    refreshStar(dataComplete.star_votes);
+                    break;
+                }
+            }
+        }
+        function fillDataOtherPage1(data){
+            if(data != null ){
+                //  giấy tờ 1
+                if(data[0] != undefined){
+                  $(".block-show-img .row").empty();
+                  $(".block-show-img .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+                  imgAr = data[0]['arrayImg'];
+                  imgAr.forEach(function(item, index) {
+                    let urlImg = `{{ url('/') }}/${item}`;
+                    $(".block-show-img .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+                  })
+                }
+                // giấy tờ 2
+                if(data[1] != undefined){
+                  $(".block-show-img_2 .row").empty();
+                  $(".block-show-img_2 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+                  imgAr_2 = data[1]['arrayImg'];
+                  imgAr_2.forEach(function(item, index) {
+                    let urlImg = `{{ url('/') }}/${item}`;
+                    $(".block-show-img_2 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+                  })
+                }  
+                // giấy tờ 3
+                if(data[2] != undefined){
+                  $(".block-btn-add button").click();
+                  $(".block-show-img_3 .row").empty();
+                  $(".block-show-img_3 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+                  imgAr_3 = data[2]['arrayImg'];
+                  $(".title-ortherpage-3").val(data[2]['title']);
+                  imgAr_3.forEach(function(item, index) {
+                    let urlImg = `{{ url('/') }}/${item}`;
+                    $(".block-show-img_3 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+                  })
+                }
+                // giấy tờ 4
+                if(data[3] != undefined){
+                  $(".block-btn-add button").click();
+                  $(".block-show-img_4 .row").empty();
+                  $(".block-show-img_4 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+                  imgAr_4 = data[3]['arrayImg'];
+                  $(".title-ortherpage-4").val(data[3]['title']);
+                  imgAr_4.forEach(function(item, index) {
+                    let urlImg = `{{ url('/') }}/${item}`;
+                    $(".block-show-img_4 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+                  })
+                }
+                // giấy tờ 5
+                if(data[4] != undefined){
+                  $(".block-btn-add button").click();
+                  $(".block-show-img_5 .row").empty();
+                  $(".block-show-img_5 .row").append(`<span class="col-md-12 main-top-title-detail">Các file ảnh đã upload lên</span>`);
+                  imgAr_5 = data[4]['arrayImg'];
+                  $(".title-ortherpage-5").val(data[4]['title']);
+                  imgAr_5.forEach(function(item, index) {
+                    let urlImg = `{{ url('/') }}/${item}`;
+                    $(".block-show-img_5 .row").append(`<div class="col-md-4 mt-3 item-show-img" data-value="${item}"><a data-fancybox="gallery" href="${urlImg}"><img class="img-fluid" src="${urlImg}" alt=""></a><div class="delete-icon" title="Xóa ảnh"><i class="fas fa-times"></i></div></div>`);
+                  })
+                } 
             }
         }
         function generateBackground(rangeElement) {   
