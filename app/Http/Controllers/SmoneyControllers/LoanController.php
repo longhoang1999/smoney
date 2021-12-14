@@ -505,6 +505,10 @@ class LoanController extends Controller
                     $findHS->idsaveSV = $IdsaveSV;
                     $findHS->save();
                     $result = (object) array('response' => 'success');
+                
+                    // tạo thông báo
+                    $this->makeNotifi($findHS->hsk_id_student, $findHS->chooseSchool);
+
                     return response()->json($result);
                 }
                 case 'savedRequest': {
@@ -533,6 +537,31 @@ class LoanController extends Controller
             ])->render();
         return [$idHS,$body,$hsk_numberSchool];
     }
+    public function makeNotifi($idStudent, $idUni ){
+        // to student
+        $NotificationController = app('App\Http\Controllers\SmoneyControllers\NotificationController');
+        $NotificationController->makeNotification(
+            'Chúng tôi đã nhận được yêu cầu của bạn!',
+            TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+            $idStudent,
+            'apply-loan',
+            '1',
+            '2',
+            'item-info'
+        );
+        // to uni
+        $nameStudent = Student::where("_id", $idStudent)->select("hoten")->first()->hoten;
+        $NotificationController->makeNotification(
+            'Bạn có một khoản vay từ sinh viên '.$nameStudent.' cần xác thực',
+            TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+            $idUni,
+            'school-pending',
+            '1',
+            '3',
+            'item-info'
+        );
+    }
+
     public function copyAndCustomStudent($maHS){
         $user = Auth::user();
         $findStudent = Student::where("_id",$user->tks_sotk)->first();
@@ -894,6 +923,46 @@ class LoanController extends Controller
             $findHS->randomCode = "";
             $findHS->chooseBank = $idBank;
             $findHS->save();
+
+            // noti for student
+            $NotificationController = app('App\Http\Controllers\SmoneyControllers\NotificationController');
+            $nameBank = NganHang::where("nn_id", $idBank)->select("nn_ten")->first()->nn_ten;
+            $NotificationController->makeNotification(
+                'Bạn đã xác nhận đề xuất khoản vay của ngân hàng '.$nameBank.'',
+                TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+                $findHS->hsk_id_student,
+                'apply-loan',
+                '1',
+                '2',
+                'item-info'
+            );
+            // noti for bank offer
+            $nameStudent = Student::where("_id", $findHS->hsk_id_student)
+                            ->select("hoten")->first()->hoten;
+            $NotificationController->makeNotification(
+                'Sinh viên '.$nameStudent.' đã chấp nhận đề xuất vay của ngân hàng',
+                TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+                $idBank,
+                'feed-back-loan-student',
+                '1',
+                '4',
+                'item-info'
+            );
+            // noti for other bank offer
+            $keyBank = array_keys($findHS->loanProposal);
+            foreach($keyBank as $key){
+                if($key != $idBank && isset($findHS->loanProposal[$key]['money'])){
+                    $NotificationController->makeNotification(
+                        'Sinh viên '.$nameStudent.' đã từ chối đề xuất vay của ngân hàng',
+                        TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+                        $key,
+                        'feed-back-loan-student',
+                        '1',
+                        '4',
+                        'item-danger'
+                    );
+                }
+            }
             return back()->with("success","Bạn đã xác nhận khoản vay thành công");
         }else{
             return back()->with("error","Bạn nhập sai mã xác nhận. Vui lòng xem lại email của bạn");

@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 // model
 use App\Models\SmoneyModels\TaiKhoanSmoney;
 use App\Models\SmoneyModels\Student;
@@ -157,7 +157,7 @@ class UniversityController extends Controller
                         return "3 tháng";
                     }else if($allLoanOfUni->hsk_duration == "2"){
                         return "6 tháng";
-                    }else if($allLoanOfUni->hsk_duration == "2"){
+                    }else if($allLoanOfUni->hsk_duration == "3"){
                         return "12 tháng";
                     }
                 }
@@ -214,9 +214,15 @@ class UniversityController extends Controller
                         return "3 tháng";
                     }else if($allLoanOfUni->hsk_duration == "2"){
                         return "6 tháng";
-                    }else if($allLoanOfUni->hsk_duration == "2"){
+                    }else if($allLoanOfUni->hsk_duration == "3"){
                         return "12 tháng";
                     }
+                }
+            )
+            ->addColumn(
+                'dateFeedback',
+                function ($allLoanOfUni) {
+                    return date("h:i A d/m/Y", strtotime($allLoanOfUni->feedbackUniDate));
                 }
             )
             ->addColumn(
@@ -238,7 +244,70 @@ class UniversityController extends Controller
                 }
             )
             
-            ->rawColumns(['nameStudent','studentCode','duration','uniStatus','moneyRequest','action'])
+            ->rawColumns(['nameStudent','studentCode','duration','uniStatus','moneyRequest','dateFeedback','action'])
+            ->make(true);
+    }
+
+    public function infoRefusedProfile(){
+        $userLogin = Auth::user();
+        $findUniversity = NhaTruong::where("nt_id",$userLogin->tks_sotk)->first();
+        $allLoanOfUni = HoSoKhoanVay::where("chooseSchool",strval($findUniversity->nt_id))
+                ->where("hsk_send_status","true")
+                ->where("profileStatusInUni","refuse")
+                ->get();          
+        return DataTables::of($allLoanOfUni)
+            ->addColumn(
+                'nameStudent',
+                function ($allLoanOfUni) {
+                    $findStudent = SinhVienHoSo::where("maHS",$allLoanOfUni->_id)->select("hoten")->first();
+                    return $findStudent->hoten;
+                }
+            )
+            ->addColumn(
+                'studentCode',
+                function ($allLoanOfUni) {
+                    $findStudent = SinhVienHoSo::where("maHS",$allLoanOfUni->_id)->select("university")->first();
+                    return $findStudent->university['studentCode'];
+                }
+            )
+            ->addColumn(
+                'duration',
+                function ($allLoanOfUni) {
+                    if($allLoanOfUni->hsk_duration == "1"){
+                        return "3 tháng";
+                    }else if($allLoanOfUni->hsk_duration == "2"){
+                        return "6 tháng";
+                    }else if($allLoanOfUni->hsk_duration == "3"){
+                        return "12 tháng";
+                    }
+                }
+            )
+            ->addColumn(
+                'dateFeedback',
+                function ($allLoanOfUni) {
+                    return date("h:i A d/m/Y", strtotime($allLoanOfUni->feedbackUniDate));
+                }
+            )
+            ->addColumn(
+                'uniStatus',
+                function ($allLoanOfUni) {
+                    return "<div class='tag tag-gardien-danger'>Đã từ chối</div>";
+                }
+            )
+            ->addColumn(
+                'moneyRequest',
+                function ($allLoanOfUni) {
+                    return number_format($allLoanOfUni->hsk_money)." VNĐ";
+                }
+            )
+            ->addColumn(
+                'action',
+                function ($allLoanOfUni) {
+                    return "<div class='tag tag-border-blue' data-toggle='modal' data-target='#modalDetail' data-id='".$allLoanOfUni->_id."'>Chi tiết</div></a>";
+                }
+            )
+            
+            ->rawColumns(['nameStudent','studentCode','duration','uniStatus','moneyRequest','dateFeedback','action'])
             ->make(true);
     }
 
@@ -266,8 +335,14 @@ class UniversityController extends Controller
         $value['uni'] = $findNhaTruong;
         $value['bank'] = $findNganHang;
 
+        if(isset($req->showTimeLine))
+            $showTimeLine = $req->showTimeLine;
+        else
+            $showTimeLine = '';
+
         $body =  view('smoney.university.modal-loan')->with([
-            'hs' => $value
+            'hs' => $value,
+            'showTimeLine' => $showTimeLine
         ])->render();
         return $body;
     }
@@ -276,25 +351,53 @@ class UniversityController extends Controller
     
         $findHS = HoSoKhoanVay::where("_id",$idHS)->first();
         $findUniversity = NhaTruong::where("nt_id", $findHS->chooseSchool)->first();
+        $nameStudent = Student::where("_id", $findHS->hsk_id_student)
+                        ->select("hoten")
+                        ->first()
+                        ->hoten;
         if($findHS){
             if($req->statusFeedback == "true"){
                 $findHS->profileStatusInUni = "pass";
                 $content = "Nhà trường ".$findUniversity->nt_ten." đã chấp nhận khoản vay";
+                $contentUni = "Nhà trường đã chấp nhận khoản vay từ sinh vên '".$nameStudent."'";
+                $contentBank = "Bạn nhận được yêu cầu vay từ sinh viên '".$nameStudent."'";
                 $type = "item-info";
             }
             if($req->statusFeedback == "false"){
                 $findHS->profileStatusInUni = "refuse";
                 $content = "Nhà trường ".$findUniversity->nt_ten." đã từ chối khoản vay";
+                $contentUni = "Nhà trường đã từ chối khoản vay từ sinh vên '".$nameStudent."'";
                 $type = "item-danger";
             }
             $findHS->feedbackContentUni = $req->feedbackContent;
+            $findHS->feedbackUniDate = Carbon::now()->toDateTimeString();
             $findHS->save();
 
+            // noti for student
             $NotificationController->makeNotification(
                 $content, $findUniversity->nt_id, $findHS->hsk_id_student, 
                 'apply-loan', "3", "2", $type
             );
-
+            // noti for uni
+            $NotificationController->makeNotification(
+                $contentUni, 
+                TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+                $findUniversity->nt_id,
+                'school-approved-profile',
+                '1', '3', $type
+            );
+            if($req->statusFeedback == "true"){
+                // noti for bank
+                foreach($findHS->idBank as $idBank){
+                    $NotificationController->makeNotification(
+                        $contentBank, 
+                        TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+                        $idBank,
+                        'bank-loan-wait',
+                        '1', '4', $type
+                    );
+                }
+            };
             return back()->with("success","Cập nhật thành công");
         }else{
             return back()->with("error","Có lỗi hồ sơ");

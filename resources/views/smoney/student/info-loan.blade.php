@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/applyloan_2.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/loaninfo.css') }}">
+<link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
 <style>
     .banner-2 {
         background: url('{{ asset('img-smoney/bank/aaaa.png') }}') no-repeat;
@@ -60,7 +61,7 @@
                 <tr>
                     <th>Tên sinh viên</th>
                     <th>Số tiền vay (VNĐ)</th>
-                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Lãi suất (%/tháng)</th>
                     <th>Sinh viên Trường</th>
                     <th>Ngày vay</th>
                     <th>Kỳ hạn (tháng)</th>
@@ -75,7 +76,7 @@
     <!-- student - block - content -->
     <div class="content">
         <div class="content-title">
-            <h1>Thông tin khoản vay sắp hết kì hạn</h1>
+            <h1>Thông tin khoản vay sắp hết kỳ hạn</h1>
         </div>
         <!-- table -->
         <table class="content-table" id="Table_KhoanVay_End">
@@ -83,7 +84,7 @@
                 <tr>
                     <th>Tên sinh viên</th>
                     <th>Số tiền vay (VNĐ)</th>
-                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Lãi suất (%/tháng)</th>
                     <th>Kỳ hạn (tháng)</th>
                     <th>Sinh viên Trường</th>
                     <th>Hạn trả sau</th>
@@ -105,7 +106,7 @@
                 <tr>
                     <th>Tên sinh viên</th>
                     <th>Số tiền vay (VNĐ)</th>
-                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Lãi suất (%/tháng)</th>
                     <th>Kỳ hạn (tháng)</th>
                     <th>Sinh viên Trường</th>
                     <th>Đã quá hạn</th>
@@ -123,7 +124,7 @@
 
 
 <!-- modal -->
-<div class="modal fade" id="detailLoanNormal" tabindex="-1" role="dialog" aria-labelledby="detailLoanNormalLable" aria-hidden="true">
+<div class="modal fade customModal" id="detailLoanNormal" tabindex="-1" role="dialog" aria-labelledby="detailLoanNormalLable" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     
 

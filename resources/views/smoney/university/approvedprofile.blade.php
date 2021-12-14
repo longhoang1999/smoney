@@ -10,6 +10,8 @@
 integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" 
 crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/studentLoan.css') }}">
 <style>
     .banner-2{
         background: url('{{ asset("img-smoney/university/aaa.png")  }}');
@@ -67,23 +69,41 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             <tr>
                 <th>Họ tên</th>
                 <th>Mã sinh viên</th>
-                <th>Khoản vay</th>
-                <th>Kì hạn</th>
-                <th>Nhà trường</th>
+                <th>Khoản vay yêu cầu</th>
+                <th>Kỳ hạn khai báo</th>
+                <th>Phản hồi nhà trường</th>
+                <th>Ngày phải hồi</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
          </tbody>
     </table>
-    <!-- paging -->
-    <div class="paging">
-
+</div>
+<div class="content">
+    <div class="content-title">
+       <h1>Những hồ sơ đã từ chối</h1>
     </div>
+    <!-- table -->
+    <table class="content-table" id="Table_KhoanVay_Refuse">
+        <thead>
+            <tr>
+                <th>Họ tên</th>
+                <th>Mã sinh viên</th>
+                <th>Khoản vay yêu cầu</th>
+                <th>Kỳ hạn khai báo</th>
+                <th>Phản hồi nhà trường</th>
+                <th>Ngày phải hồi</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+         </tbody>
+    </table>
 </div>
 
 <!-- modal detail -->
-<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+<div class="modal fade customModal" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
 
     </div>
@@ -122,6 +142,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
                 { data: 'moneyRequest', name: 'moneyRequest' },   
                 { data: 'duration', name: 'duration' }, 
                 { data: 'uniStatus', name: 'uniStatus' }, 
+                { data: 'dateFeedback', name: 'dateFeedback' }, 
                 { data: 'action', name: 'action' },   
             ]
         });
@@ -135,6 +156,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
                 method: "GET",
                 data:{
                     "idHS": recipient,
+                    "showTimeLine" : "showTimeLine"
                 },
                 success:function(data)
                 {
@@ -146,5 +168,24 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             });
         })
         
+        
+        var table = $('#Table_KhoanVay_Refuse').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] }
+            ],
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('school.infoRefusedProfile') !!}',
+            order:[],
+            columns: [
+                { data: 'nameStudent', name: 'nameStudent' }, 
+                { data: 'studentCode', name: 'studentCode' }, 
+                { data: 'moneyRequest', name: 'moneyRequest' },   
+                { data: 'duration', name: 'duration' }, 
+                { data: 'uniStatus', name: 'uniStatus' }, 
+                { data: 'dateFeedback', name: 'dateFeedback' }, 
+                { data: 'action', name: 'action' },   
+            ]
+        });
     </script>
 @stop

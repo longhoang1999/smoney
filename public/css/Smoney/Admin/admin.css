@@ -211,7 +211,6 @@ li.menu-service {
     right: 20%;
     border-radius: 5px;
 }
-.more-notification,
 .information-more {
     position: absolute;
     display: block;
@@ -223,7 +222,6 @@ li.menu-service {
     left: 30%;
     display: none;
 }
-.item-notification,
 .item-information {
     padding: 0 10px;
     display: block;
@@ -235,7 +233,6 @@ li.menu-service {
 .item-information {
     padding: 0.2rem 1rem;
 }
-.item-notification:hover,
 .item-information:hover {
     color: white;
     background-color: #bb3d3d;
@@ -1100,4 +1097,97 @@ li.menu-service {
     padding: .3rem;
     color: white;
     border-radius: 4px;
+}
+.address{
+    width: 15rem;
+}
+
+
+
+
+/*thông báo*/
+.more-notification{
+    background: white;
+    padding: 1rem 0.5rem;
+    box-shadow: 0px 0px 7px #b1a9a9;
+    position: absolute;
+    display: block;
+    width: 20rem;
+    border-radius: 5px;
+    overflow-y: auto;
+    max-height: 30rem;
+    top: 110%;
+    left: 30%;
+    display: none;
+}
+.more-notification-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+.item-notification {
+    position: relative;
+    border-bottom: 1px solid #afafaf;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+.bell-danger-unread{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #0051b7;
+    top: 15%;
+    right: 10px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+.item-notification .notification-title{
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+.item-notification img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.item-notification .notification-content{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+/* màu theo type */
+.item-danger{
+    background: #f8e2e2;
+    border-left: 4px solid #e14c4c;
+    color: #e14c4c;
+}
+.item-danger:hover{
+    color: white;
+    background-color: #bb3d3d;
+}
+
+.item-info{
+    background: #d4ffcf;
+    border-left: 4px solid #11bd75;
+    color: #1a682b;
+}
+.item-info:hover{
+    color: white;
+    background-color: #00a324;
+}
+.item-warning{
+    background: #fdff9f;
+    border-left: 4px solid #ffd401;
+    color: #937c0d;
+}
+.item-warning:hover{
+    color: white;
+    background-color: #937c0d;
+}
+.item-notification{
+    display: flex;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
 }

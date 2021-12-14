@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/Smoney/Bank/loanWait.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
     <link rel="stylesheet" href="{{ asset('css/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
     <style>
         .banner-2 {
             background: url('{{ asset('img-smoney/bank/aaaa.png') }}');
@@ -84,7 +85,7 @@
                     <th>Tên sinh viên</th>
                     <th>Khoản vay (VNĐ)</th>
                     <th>Lãi suất (% / tháng)</th>
-                    <th>Kì hạn (tháng)</th>
+                    <th>Kỳ hạn (tháng)</th>
                     <th>Trường xác nhận</th>
                     <th>Actions</th>
                 </tr>
@@ -105,7 +106,7 @@
     </div>
 
     <!-- modal detail -->
-    <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal fade customModal" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
         </div>
     </div>

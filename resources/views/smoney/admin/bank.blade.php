@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
     <style>
         .banner {
             background-image: url('{{ asset('img-smoney/university/school-dashboard-banner.png') }}');
@@ -128,7 +129,7 @@
     </div>
 
     <!-- resetModal -->
-    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true">
+    <div class="modal fade customModal" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -150,7 +151,7 @@
     </div>
 
     <!-- modal chỉnh sửa -->
-    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal fade customModal" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -244,7 +245,7 @@
     </div>
 
     <!-- modal add bank -->
-    <div class="modal fade" id="addNewBankModal" tabindex="-1" role="dialog" aria-labelledby="addNewBankModalLabel" aria-hidden="true">
+    <div class="modal fade customModal" id="addNewBankModal" tabindex="-1" role="dialog" aria-labelledby="addNewBankModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

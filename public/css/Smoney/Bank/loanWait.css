@@ -1,16 +1,21 @@
-.btn-decision{
+.block-refuse-right.btn-decision{
 	text-align: center;
 }
 .form-refuse{
 	display: flex;
-    align-items: flex-end;
-    justify-content: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20rem;
+}
+.btn-decision{
+  text-align: center;
 }
 .block-refuse-left{
 	flex-basis: 40%;
 }
 .block-refuse-right{
-	margin-left: 2rem;
+	margin-top: 2rem;
+  text-align: right;
 }
 #loan-reason{
 	min-height: 8rem;
@@ -28,10 +33,10 @@
 	padding-bottom: 10rem;
 }
 .form-success input[type='text'], .form-success input[type='number']{
-	border: 1px solid gray;
-    width: 60%;
-    padding: .2rem 1rem;
-    border-radius: 3px;
+	border: 1px solid #bfbbbb;
+  width: 60%;
+  padding: 0.4rem 1rem;
+  border-radius: 3px;
 }
 /*input range*/
 .range {
@@ -192,11 +197,8 @@ input[readonly=""]{
     font-size: 18px;
 }
 .block-btn-decision{
-    width: 70%;
-    padding: 1.2rem;
-    border-radius: 2px;
-    background: #9cffc8;
-    text-align: justify;
+  padding: 0 10rem;
+  text-align: justify;
 }
 .block-send-day, .block-reason-refusal{
     display: none;

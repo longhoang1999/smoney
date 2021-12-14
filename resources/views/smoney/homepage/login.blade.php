@@ -144,7 +144,7 @@
                         <i class="fab fa-facebook-square"></i>
                         <span>Đăng nhập bằng facebook</span>
                     </a>
-                    <a target="_blank" class="login-by-google" href="{{url('/getInfo-google/google')}}">
+                    <a class="login-by-google" href="{{url('/getInfo-google/google')}}">
                         <i class="fab fa-google"></i>
                         <span>Đăng nhập bằng google</span>
                     </a>

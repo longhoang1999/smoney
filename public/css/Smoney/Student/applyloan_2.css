@@ -7,6 +7,9 @@ h4{
     background: rgb(12,53,255);
     background: linear-gradient(180deg, rgba(12,53,255,1) 0%, rgba(25,93,255,1) 30%, rgba(46,160,255,1) 56%, rgba(67,202,255,1) 82%, rgba(115,211,254,1) 100%);
 }
+a.nav-link {
+    color: #777;
+}
 .loan-nearly-slide{
 	min-height: 0;
 }
@@ -28,18 +31,8 @@ h4{
 span.text-block{
 	display: block;
 }
-#myTab a{
-	color: #666666;
-}
 #modalLoan_1 .modal-body{
     min-height: 28rem;
-}
-.nav-item .active{
-	border-width: 0 !important;
-	border-bottom: 1px solid #0d2e80 !important;
-}
-.nav-item .active, #myTabContent .active{
-	background-color: #b7ecad !important;
 }
 #myTabContent .active{
 	min-height: 24rem;

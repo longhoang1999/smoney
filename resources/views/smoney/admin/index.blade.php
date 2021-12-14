@@ -173,6 +173,7 @@
         var table = $('#Table_Student').DataTable({
             "columnDefs": [
                 { className: "first blue", "targets": [ 0 ] },
+                { className: "address", "targets": [ 3 ] },
             ],
             processing: true,
             serverSide: true,
@@ -181,7 +182,7 @@
             columns: [
                 { data: 'stt', name: 'stt' },
                 { data: 'hoten', name: 'hoten' },
-                { data: 'sdt', name: 'sdt' },
+                { data: 'sdt_custom', name: 'sdt_custom' },
                 { data: 'diachi', name: 'diachi' },
                 { data: 'university', name: 'university' }
             ]

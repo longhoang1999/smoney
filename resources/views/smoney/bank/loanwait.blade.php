@@ -1,6 +1,6 @@
 @extends('smoney/bank/layouts/index')
 @section('title')
-    Trang Trường
+    Trang ngân hàng
     @parent
 @stop
 @section('header_styles')
@@ -11,6 +11,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/Smoney/Bank/loanWait.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
     <style>
         .banner-2 {
             background: url('{{ asset('img-smoney/bank/aaaa.png') }}');
@@ -86,7 +87,7 @@
                     <th>Tên sinh viên</th>
                     <th>Yêu cầu vay</th>
                     <th>Mục đích vay</th>
-                    <th>Kì hạn</th>
+                    <th>Kỳ hạn khai báo</th>
                     <th>Trường xác nhận</th>
                     <th>Actions</th>
                 </tr>
@@ -94,10 +95,6 @@
             <tbody>
             </tbody>
         </table>
-        <!-- paging -->
-        <div class="paging">
-
-        </div>
     </div>
 
 
@@ -108,8 +105,9 @@
 
 
     <!-- modal detail -->
-    <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
-
+    <div class="modal fade customModal" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+        </div>
     </div>
 @stop
 
@@ -155,8 +153,8 @@
                 },
                 success:function(data)
                 {
-                    $("#modalDetail").empty();
-                    $("#modalDetail").append(data);
+                    $("#modalDetail .modal-dialog.modal-xl").empty();
+                    $("#modalDetail .modal-dialog.modal-xl").append(data);
                 }
             });
         })

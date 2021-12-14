@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/applyloan_2.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/Smoney/Student/loaninfo.css') }}">
+<link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
 <style>
     .banner-2 {
         background: url('{{ asset('img-smoney/bank/aaaa.png') }}') no-repeat;
@@ -24,7 +25,7 @@
     <!-- student - block - title -->
     <div class="banner-2">
         <div class="block-banner-title">
-            Thông tin khoản vay của bạn
+            Thông tin khoản vay đã thanh toán
         </div>
     </div>
 
@@ -79,7 +80,7 @@
 
 
 <!-- modal -->
-<div class="modal fade" id="detailLoanNormal" tabindex="-1" role="dialog" aria-labelledby="detailLoanNormalLable" aria-hidden="true">
+<div class="modal fade customModal" id="detailLoanNormal" tabindex="-1" role="dialog" aria-labelledby="detailLoanNormalLable" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     
 

@@ -29,6 +29,9 @@
     .banner,.block-infomation,.image-avatar{
         background-size: cover;
     }
+    input[type="text"]{
+        color: #495057 !important;
+    }
 </style>
 @stop
 @section('content')
@@ -621,12 +624,13 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="edit-info-header">Thêm một cơ sở đào tạo mới</h5>
+                <h5 class="edit-info-header">Thêm dữ liệu vào hệ thống</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="education-facilities-new">
                 <form method="post" action="{{ route('student.addUniversity') }}">
                     @csrf
+                    <p class="text-primary font-italic font-weight-bold">Cơ sở đào tạo theo học</p>
                     <div class="block-item">
                         <div class="block-item-title">
                             <span>Tên cơ sở: </span>
@@ -700,6 +704,7 @@
             <div class="family-info">
                 <form method="post" action="{{ route('student.addParents') }}">
                     @csrf
+                    <p class="text-primary font-italic font-weight-bold">Thông tin người bảo trợ</p>
                     <div class="block-item">
                         <div class="block-item-title">
                             <span>Họ tên: </span>

@@ -17,6 +17,7 @@ use App\Models\SmoneyModels\TaiKhoanSmoney_Log;
 use App\Models\SmoneyModels\NhaTruong;
 use App\Models\SmoneyModels\NganHang;
 use App\Models\SmoneyModels\Admin;
+use App\Models\SmoneyModels\Notification;
 
 class HomeController extends Controller
 {
@@ -80,8 +81,12 @@ class HomeController extends Controller
 
     public function login()
     {
-        $province_address = DB::table('province_address')->get();
-        return view('smoney.homepage.login',['province_address' => $province_address]);
+        if(!Auth::check()){
+            $province_address = DB::table('province_address')->get();
+            return view('smoney.homepage.login',['province_address' => $province_address]);
+        }else{
+            return redirect()->route('homepage.homepage_old');
+        }
     }
     public function register()
     {
@@ -154,5 +159,11 @@ class HomeController extends Controller
             'province_address' => $province_address,
         );
         return response()->json($result);
+    }
+    public function changeCheckRead(Request $req){
+        $findNoti = Notification::where('no_id', $req->id)->first();
+        $findNoti->no_check_read = "1";
+        $findNoti->save();
+        return "done";
     }
 }

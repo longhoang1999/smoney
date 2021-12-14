@@ -1,63 +1,68 @@
 <?php 
     use Illuminate\Support\Arr;
-
  ?>
-<div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalLoan_1Label">
-            Thông tin hồ sơ của sinh viên - Ngày gửi: {{ date("h:i A d-m-Y", strtotime($hs->created_at)) }}
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="loanInfomation-tab" data-toggle="tab" href="#loanInfomation" role="tab" aria-controls="loanInfomation" aria-selected="true">Tt.Khoản vay</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="userInfomation-tab" data-toggle="tab" href="#userInfomation" role="tab" aria-controls="userInfomation" aria-selected="false">Tt.cá nhân</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="shoolInfomation-tab" data-toggle="tab" href="#shoolInfomation" role="tab" aria-controls="shoolInfomation" aria-selected="false">Tt.Cơ sở đào tạo</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="jobInfomation-tab" data-toggle="tab" href="#jobInfomation" role="tab" aria-controls="jobInfomation" aria-selected="false">Tt.Việc làm</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="optionInfomation-tab" data-toggle="tab" href="#optionInfomation" role="tab" aria-controls="optionInfomation" aria-selected="false">Tùy chọn</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="comfirmInfomation-tab" data-toggle="tab" href="#comfirmInfomation" role="tab" aria-controls="comfirmInfomation" aria-selected="false">Điều khoản</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="loanInfomation" role="tabpanel" aria-labelledby="loanInfomation-tab">
-                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-3 mt-3">
-                            <p class="m-0 text-tab-1">Số tiền yêu cầu vay:</p>
-                        </div>
-                        <div class="col-md-8 mb-3 mt-3">
-                            <span class="font-weight-bold text-primary text-tab-1-span">{{ number_format($hs->hsk_money) }} VNĐ</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-1">Mục đích vay:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-1-span">
+
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="modalLoan_1Label">
+        Thông tin hồ sơ của sinh viên - Ngày gửi: {{ date("h:i A d-m-Y", strtotime($hs->created_at)) }}
+    </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-uppercase color-blue">Chi tiết yêu cầu vay</p>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="loanInfomation-tab" data-toggle="tab" href="#loanInfomation" role="tab" aria-controls="loanInfomation" aria-selected="true">Khoản vay</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="userInfomation-tab" data-toggle="tab" href="#userInfomation" role="tab" aria-controls="userInfomation" aria-selected="false">Cá nhân sinh viên</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="shoolInfomation-tab" data-toggle="tab" href="#shoolInfomation" role="tab" aria-controls="shoolInfomation" aria-selected="false">Cơ sở đào tạo</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="jobInfomation-tab" data-toggle="tab" href="#jobInfomation" role="tab" aria-controls="jobInfomation" aria-selected="false">Việc làm</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="optionInfomation-tab" data-toggle="tab" href="#optionInfomation" role="tab" aria-controls="optionInfomation" aria-selected="false">Các tùy chọn</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="comfirmInfomation-tab" data-toggle="tab" href="#comfirmInfomation" role="tab" aria-controls="comfirmInfomation" aria-selected="false">Điều khoản</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="loanInfomation" role="tabpanel" aria-labelledby="loanInfomation-tab">
+            <table class="customTable">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Số tiền yêu cầu vay</span>
+                        </td>
+                        <td>
+                            <span>{{ number_format($hs->hsk_money) }} VNĐ</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Mục đích vay</span>
+                        </td>
+                        <td>
+                            <span>
                                 @if($hs->hsk_purpose == "1")
                                     Tiền học phí
                                 @endif
                             </span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-1">Kì hạn khai báo:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-1-span">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Kỳ hạn khai báo</span>
+                        </td>
+                        <td>
+                            <span>
                                 @if($hs->hsk_duration == "1")
                                     3 tháng
                                 @elseif($hs->hsk_duration == "2")
@@ -66,153 +71,167 @@
                                     12 tháng
                                 @endif
                             </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="userInfomation" role="tabpanel" aria-labelledby="userInfomation-tab">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Họ tên:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->hoten }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Số điện thoại chính:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->sdt }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Số căn cước công dân:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->cccd }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Ngày sinh:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->ngaysinh }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Email:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->email }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Giới tính:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->gioitinh }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Số tài khoản:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="userInfomation" role="tabpanel" aria-labelledby="userInfomation-tab">
+            <table class="customTable">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Họ tên</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->hoten }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số điện thoại chính</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->sdt }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số căn cước công dân</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->cccd }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Ngày sinh</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->ngaysinh }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Email</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->email }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Giới tính</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->gioitinh }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số tài khoản</span>
+                        </td>
+                        <td>
                             @foreach($hs->stk as $hsk_stk)
-                                <span class="text-block text-tab-2-span">{{ $hsk_stk }}</span>
+                                <span class="text-block">{{ $hsk_stk }}</span>
                             @endforeach
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Số điện thoại khác:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">  
-                        @if($hs->otherSdt)                         
-                            @foreach($hs->otherSdt as $hsk_otherPhone)
-                                <span class="text-block text-tab-2-span">{{ $hsk_otherPhone }}</span>
-                            @endforeach
-                        @endif
-                        </div>
-                        <hr>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Địa chỉ thường chú:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->diachi }}</span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Địa chỉ tạm chú:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">{{ $hs->diachihientai }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="shoolInfomation" role="tabpanel" aria-labelledby="shoolInfomation-tab">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Trường gửi hồ sơ:</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->uni['nt_ten'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Chuyên ngành</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->university['specialized'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Lớp hành chính</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->university['nameClass'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Mã sinh viên</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->university['studentCode'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Địa chỉ email nhà trường cấp</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->university['emailStudent'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Loại chương trình đào tạo</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->university['typeProgram'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Địa chỉ trụ sở chính</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->uni['nt_diachi'] }}
-                            </span>
-                        </div>
-                        <!-- <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Trạng thái tốt nghiệp</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                            </span>
-                        </div> -->
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Bảng điểm</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3 block-image">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số điện thoại khác</span>
+                        </td>
+                        <td>
+                            @if($hs->otherSdt != null)                           
+                                @foreach($hs->otherSdt as $hsk_otherPhone)
+                                    <span class="text-block">{{ $hsk_otherPhone }}</span>
+                                @endforeach
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Địa chỉ thường chú</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->diachi }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Địa chỉ tạm chú</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->diachihientai }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="shoolInfomation" role="tabpanel" aria-labelledby="shoolInfomation-tab">
+            <table class="customTable">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Trường gửi hồ sơ</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->uni['nt_ten'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Chuyên ngành</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->university['specialized'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Lớp hành chính</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->university['nameClass'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Mã sinh viên</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->university['studentCode'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Địa chỉ email nhà trường cấp</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->university['emailStudent'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Loại chương trình đào tạo</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->university['typeProgram'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Địa chỉ trụ sở chính</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->uni['nt_diachi'] }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Bảng điểm</span>
+                        </td>
+                        <td class="block-image">
                             @if(isset($hs->imgPointAr))
                                 @foreach($hs->imgPointAr as $imgPoint)
                                 <a data-fancybox="gallery" href='{{ asset($imgPoint)  }}'>
@@ -222,18 +241,34 @@
                             @else
                                 <span class="text-tab-2-span">Không có thông tin</span>
                             @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="jobInfomation" role="tabpanel" aria-labelledby="jobInfomation-tab">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Tình trạng việc làm:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Câu lạc bộ, đoàn thể của trường</span>
+                        </td>
+                        <td>
+                            @if($hs->option == "1")
+                                @foreach($hs->nameClub as $nameClub)
+                                <span class="text-block">{{ $nameClub }}</span>
+                                @endforeach
+                            @else
+                                <span class="text-block">Không có thông tin</span>
+                            @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="jobInfomation" role="tabpanel" aria-labelledby="jobInfomation-tab">
+            <table class="customTable">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Tình trạng việc làm</span>
+                        </td>
+                        <td>
+                            <span>
                                 @if($hs->yourjob['jobstatus'] == "1")
                                     Đang đi làm thuê
                                 @elseif($hs->yourjob['jobstatus'] == "2")
@@ -242,13 +277,15 @@
                                     Không đi làm
                                 @endif
                             </span>
-                        </div>
-                        @if($hs->yourjob['jobstatus'] != "3")
-                            <div class="col-md-4 mb-3">
-                                <p class="m-0 text-tab-2">Thời gian làm việc:</p>
-                            </div>
-                            <div class="col-md-8 mb-3">
-                                <span class="text-tab-2-span">
+                        </td>
+                    </tr>
+                    @if($hs->yourjob['jobstatus'] != "3")
+                        <tr>
+                            <td>
+                                <span>Thời gian làm việc</span>
+                            </td>
+                            <td>
+                                <span>
                                     @if($hs->yourjob['timeJob']  == "1")
                                         Fulltime
                                     @elseif($hs->yourjob['timeJob']  == "2")
@@ -257,184 +294,178 @@
                                         Fieldtrip
                                     @endif
                                 </span>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <p class="m-0 text-tab-2">Tên cơ sở làm việc:</p>
-                            </div>
-                            <div class="col-md-8 mb-3">
-                                <span class="text-tab-2-span">{{ $hs->yourjob['nameCompany'] }}</span>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <p class="m-0 text-tab-2">Địa chỉ cơ sở làm việc:</p>
-                            </div>
-                            <div class="col-md-8 mb-3">
-                                <span class="text-tab-2-span">{{ $hs->yourjob['addressCompany'] }}</span>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <p class="m-0 text-tab-2">Mức lương TB / tháng:</p>
-                            </div>
-                            <div class="col-md-8 mb-3">
-                                <span class="text-tab-2-span">{{ number_format($hs->yourjob['money']) }} VNĐ</span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="optionInfomation" role="tabpanel" aria-labelledby="optionInfomation-tab">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2">Câu lạc bộ, đoàn thể của trường:</p>
-                        </div>
-                        <div class="col-md-7 mb-3">
-                            @if($hs->option == "1")
-                                @foreach($hs->nameClub as $nameClub)
-                                <span class="text-block text-tab-2-span">{{ $nameClub }}</span>
-                                @endforeach
-                            @else
-                                <span class="text-block text-tab-2-span">Không có thông tin</span>
-                            @endif
-                        </div>
-                        <!-- NG bảo trợ -->
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 text-tab-2-title">Thông tin người bảo trợ</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                        </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Tên cơ sở làm việc</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->yourjob['nameCompany'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Địa chỉ cơ sở làm việc</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->yourjob['addressCompany'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Mức lương TB / tháng</span>
+                            </td>
+                            <td>
+                                <span>{{ number_format($hs->yourjob['money']) }} VNĐ</span>
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="optionInfomation" role="tabpanel" aria-labelledby="optionInfomation-tab">
+            <p class="text-title">Thông tin người bảo trợ</p>
+            @if(isset($hs->parents) && $hs->parents != null)
+                @for($k = 0; $k < count($hs->parents); $k++)    
+                <table class="customTable">
+                    <tbody>
+                        <tr class="header-title">
+                            <td>
+                                <span>Người thứ</span>
+                            </td>
+                            <td>
+                                <span>{{ $k + 1 }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Họ tên</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->parents[$k]['fullname'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số điện thoại</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->parents[$k]['phone'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số căn cước công dân</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->parents[$k]['cccd'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Giới tính</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->parents[$k]['gender'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Số tài khoản</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->parents[$k]['stk'] }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Quan hệ với sinh viên</span>
+                            </td>
+                            <td>
+                                <span>{{ $hs->parents[$k]['relationship'] }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @endfor
+            @endif
 
-                        @if(isset($hs->parents) && $hs->parents != null)
-                        @for($k = 0; $k < count($hs->parents); $k++)               
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3 text-primary">Người thứ {{ $k + 1 }}</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span"></span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Họ tên</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->parents[$k]['fullname'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Số điện thoại</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->parents[$k]['phone'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Số căn cước công dân</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->parents[$k]['cccd'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Giới tính</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->parents[$k]['gender'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Số tài khoản</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->parents[$k]['stk'] }}
-                            </span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Quan hệ với sinh viên</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->parents[$k]['relationship'] }}
-                            </span>
-                        </div>
-                        @endfor
-                        @endif
-
-
-                        <!-- Giấy tờ -->
-                        @if($hs->pageObject != null)
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 text-tab-2-title">Thông tin một số giấy tờ khác</p>
-                        </div>
-                        <div class="col-md-7 mb-3">
-                            <span class="text-tab-2-span"></span>
-                        </div>
-                        <?php $j = 1; ?>
-                        @foreach($hs->pageObject as $pageObject)
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3 text-primary">Giấy tờ thứ thứ {{ $j }}</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span"></span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Tên giấy tờ</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <span class="text-tab-2-span">{{ $pageObject['title'] }}</span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Hình ảnh</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3 block-image">
-                            @foreach($pageObject['arrayImg'] as $img)
-                            <a data-fancybox="gallery" href='{{ asset($img)  }}'>
-                                <img class="img-fluid" src='{{ asset($img)  }}' alt="">
-                            </a>
-                            @endforeach
-                        </div>
-                        <?php $j++; ?>
-                        @endforeach
-                        @endif
-
-                        <!-- Chủ đề quan tâm -->
-                        @if(isset($hs->contentTag) && $hs->contentTag != null)
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 text-tab-2-title">Các chủ để mà bạn quan tâm</p>
-                        </div>
-                        <div class="col-md-7 mb-3">
-                            <span class="text-tab-2-span"></span>
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <p class="m-0 text-tab-2 pl-3 ml-3">Các chủ đề</p>
-                        </div>
-                        <div class="col-md-7 mb-3 pl-3">
-                            <?php 
-                                $pieces = explode("|", $hs->contentTag);
-                                $array = array();
-                                for ($i=0; $i < count($pieces)-1; $i++) {
-                                    $array = Arr::add($array, $i ,$pieces[$i]);
-                                }
-                             ?>
-                            <span class="text-tab-2-span div_drop">
-                                @foreach($array as $ar)
-                                    <a class="ui tag label">{{ $ar }}</a>
-                                @endforeach
-                            </span>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="comfirmInfomation" role="tabpanel" aria-labelledby="comfirmInfomation-tab">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Cổng thông tin liên lạc:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">Liên lạc qua 
+            @if($hs->pageObject != null)
+                <p class="text-title">Thông tin một số giấy tờ khác</p>
+                <?php $j = 1; ?>
+                @foreach($hs->pageObject as $pageObject)
+                    <table class="customTable">
+                        <tbody>
+                            <tr class="header-title">
+                                <td>
+                                    <span>Giấy tờ thứ</span>
+                                </td>
+                                <td>
+                                    <span>{{ $j }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>Tên giấy tờ</span>
+                                </td>
+                                <td>
+                                    <span>{{ $pageObject['title'] }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>Hình ảnh</span>
+                                </td>
+                                <td class="block-image">
+                                    @foreach($pageObject['arrayImg'] as $img)
+                                    <a data-fancybox="gallery" href='{{ asset($img)  }}'>
+                                        <img class="img-fluid" src='{{ asset($img)  }}' alt="">
+                                    </a>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <?php $j++; ?>
+                @endforeach
+            @endif
+            @if(isset($hs->contentTag) && $hs->contentTag != null)
+                <p class="text-title">Các chủ để mà bạn quan tâm</p>
+                <table class="customTable">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>Các chủ đề</span>
+                            </td>
+                            <td>
+                                <?php 
+                                    $pieces = explode("|", $hs->contentTag);
+                                    $array = array();
+                                    for ($i=0; $i < count($pieces)-1; $i++) {
+                                        $array = Arr::add($array, $i ,$pieces[$i]);
+                                    }
+                                 ?>
+                                <span class="text-tab-2-span div_drop">
+                                    @foreach($array as $ar)
+                                        <a class="ui tag label">{{ $ar }}</a>
+                                    @endforeach
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            @endif
+        </div>
+        <div class="tab-pane fade" id="comfirmInfomation" role="tabpanel" aria-labelledby="comfirmInfomation-tab">
+            <table class="customTable">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Cổng thông tin liên lạc</span>
+                        </td>
+                        <td>
+                            <span>Liên lạc qua 
                                 @if($hs->portal == "1")
                                     email
                                 @elseif($hs->portal == "2")
@@ -443,154 +474,304 @@
                                     số điện thoại và email
                                 @endif
                             </span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Ý kiến của bạn:</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->opinion }}
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Số đánh giá</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
-                            <span class="text-tab-2-span">
-                                {{ $hs->star_votes }} <i class="fas fa-star text-warning"></i>
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <p class="m-0 text-tab-2">Điều khoản</p>
-                        </div>
-                        <div class="col-md-8 mb-3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Ý kiến của bạn</span>
+                        </td>
+                        <td>{{ $hs->opinion }}</td>              
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số đánh giá</span>
+                        </td>
+                        <td class="flex-row">
+                            <span>{{ $hs->star_votes }}</span> 
+                            <i class="fas fa-star text-warning"></i>
+                        </td>              
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Điều khoản</span>
+                        </td>
+                        <td class="flex-row">
                             @if($hs->pagepresent == "done")
-                            <span class="text-tab-2-span text-success">
-                                Đã chấp nhận điều khoản sử dụng
-                            </span>
+                                <i class="fas fa-check-circle text-success mr-2"></i>
+                                <span class="text-success">Đã chấp nhận điều khoản sử dụng</span>
                             @else
-                            <span class="text-tab-2-span text-success">
-                                Chưa chấp nhận điều khoản sử dụng
-                            </span> 
+                                <i class="fas fa-times-circle text-danger mr-2"></i>
+                                <span class="text-danger">
+                                    Chưa chấp nhận điều khoản sử dụng
+                                </span> 
                             @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </td>              
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
 
-        <div class="btn-decision">
-            <p>Bạn muốn chấp nhận hay không?</p>
-            <div class="block-btn-decision">
-                <button type="button" class="btn btn-success btn-success-feetback">Xác nhận</button>
-                <button type="button" class="btn btn-danger btn-success-refuse">Từ chối</button>
-            </div>
+    <p class="text-uppercase color-blue">Thông tin cơ bản sinh viên</p>
+    <div class="user-credit-score">
+        <div class="user-credit-avatar mr-3">
+            <a data-fancybox="gallery" href="{{ asset( $hs->avatar ) }}">
+                <img src="{{ asset( $hs->avatar ) }}" alt="">
+            </a>
         </div>
-        <div class="block-success">
-            <form action="{{ route('bank.passWaitLoan') }}" method="post" class="form-success">
-                @csrf
-                <input type="text" hidden="" value="{{ $hs->_id }}" name="idHS">
-                <div class="container-fuild">
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="">Số tiền ngân hàng muốn cho vay (VNĐ):</label>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="range">
-                                <div class="form-group range__value">
-                                    <span class="show-money"></span>
-                                    <div class="range__value_control">
-                                        <div class="plus">
-                                            <i class="fas fa-sort-up"></i>
-                                        </div>
-                                        <div class="sub">
-                                            <i class="fas fa-sort-down"></i>
-                                        </div>
-                                    </div>            
-                                </div>
-                                <div class="form-group range__slider">
-                                    <div class="range__slider_child">
-                                        <span class="money-from">5 triệu</span>
-                                        <input type="range" step="50000" name="money">
-                                        <span class="money-to">20 triệu</span>
+        <div class="user-credit-info">
+            <table class="customTable">
+                <tbody>
+                    <tr>
+                        <td>
+                            <span>Họ và tên</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->hoten }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số CMT/CCCD</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->cccd }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số điện thoại</span>
+                        </td>
+                        <td>
+                            <span>{{ $hs->sdt }}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>Số tài khoản</span>
+                        </td>
+                        <td>
+                            @foreach($hs->stk as $hsk_stk)
+                                <span class="text-block">{{ $hsk_stk }}</span>
+                            @endforeach
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr>
+    <p class="text-uppercase color-blue">Các yêu cầu của sinh viên với ngân hàng</p>
+    <div class="user-credit-score">
+        <table class="customTable">
+            <tbody>
+                <tr>
+                    <td>
+                        <span>Số lần gửi yêu cầu vay tới ngân hàng</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[1] }} lần</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Số lần vay thành công</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[2] }} lần</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Số lần sinh viên hủy đề xuất</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[3] }} lần</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Số lần ngân hàng từ chối</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[4] }} lần</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+    <p class="text-uppercase color-blue">Thông tin khoản vay giữa ngân hàng với sinh viên</p>
+    <div class="user-credit-score">
+        <table class="customTable">
+            <tbody>
+                <tr>
+                    <td>
+                        <span>Số khoản vay đang lưu thông</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[5] }} khoản</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Số khoản vay sắp hết hạn</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[6] }} khoản</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Số khoản vay quá hạn</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[7] }} khoản</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Số khoản vay đã thanh toán xong</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[8] }} khoản</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+    <p class="text-uppercase color-blue">Thông tin khoản vay với các ngân hàng khác trên hệ thống</p>
+    <div class="user-credit-score">
+        <table class="customTable">
+            <tbody>
+                <tr>
+                    <td>
+                        <span>Số khoản vay đang vay tại các ngân hàng khác (chưa thanh toán)</span>
+                    </td>
+                    <td>
+                        <span>{{ $arrReuestStudent[9] }} khoản</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="btn-decision">
+        <p class="font-weight-bold text-danger">Bạn muốn chấp nhận hay không?</p>
+        <div class="block-btn-decision">
+            <button type="button" class="btn btn-success btn-success-feetback">Xác nhận</button>
+            <button type="button" class="btn btn-danger btn-success-refuse">Từ chối</button>
+        </div>
+    </div>
+    <div class="block-success style-block-success">
+        <form action="{{ route('bank.passWaitLoan') }}" method="post" class="form-success">
+            @csrf
+            <input type="text" hidden="" value="{{ $hs->_id }}" name="idHS">
+            <div class="container-fuild">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="">Số tiền ngân hàng muốn cho vay (VNĐ):</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="range">
+                            <div class="form-group range__value">
+                                <span class="show-money"></span>
+                                <div class="range__value_control">
+                                    <div class="plus">
+                                        <i class="fas fa-sort-up"></i>
                                     </div>
+                                    <div class="sub">
+                                        <i class="fas fa-sort-down"></i>
+                                    </div>
+                                </div>            
+                            </div>
+                            <div class="form-group range__slider">
+                                <div class="range__slider_child">
+                                    <span class="money-from">5 triệu</span>
+                                    <input type="range" step="50000" name="money">
+                                    <span class="money-to">20 triệu</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="">Lãi xuất (%):</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input name="interestRate" type="number" step="0.1" placeholder="Lãi xuất(%) / tháng" required="">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="">Kì hạn (tháng):</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input name="loanMonth" type="number" step="1" required="" 
-                                @if($hs->hsk_duration == '1')
-                                    value="3"
-                                @elseif($hs->hsk_duration == '2')
-                                    value="6"
-                                @elseif($hs->hsk_duration == '3')
-                                    value="12"
-                                @endif
-                            placeholder="Kỳ hạn trong (tháng)"> 
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="">Số tiền phải trả trong mỗi tháng (VNĐ):</label>
-                        </div>
-                        <div class="col-md-8 block-btn-math">
-                            <input class="havePayAMonth" type="text" readonly="" placeholder="Trả mỗi tháng (tháng)">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="">Tổng số tiền trả cuối cùng (gốc + lãi) (VNĐ):</label>
-                        </div>
-                        <div class="col-md-8 block-btn-math">
-                            <input class="allLoanFinally" type="text" readonly="" placeholder="Tổng tiền phải trả">
-                            <button type="button" class="btn btn-warning btn-math ml-3">Tính</button>
-                        </div>
-                    </div>
-                    <input type="text" hidden="" class="moneyPayAMonth" name="moneyPayAMonth" required="">
-                    <input type="text" hidden="" class="aMonthProfit" name="aMonthProfit" required="">
-                    <input type="submit" hidden="" class="btn-submit">
                 </div>
-            </form>
-            <div class="btn-trigger container-fuild">
                 <div class="row mb-3">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8 block-success-right">
-                        <button type="button" class="btn btn-info">Gửi</button>
+                    <div class="col-md-4">
+                        <label for="">Lãi xuất (%):</label>
                     </div>
+                    <div class="col-md-8">
+                        <input name="interestRate" type="number" step="0.1" placeholder="Lãi xuất(%) / tháng" required="">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="">Kì hạn (tháng):</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input name="loanMonth" type="number" step="1" required="" 
+                            @if($hs->hsk_duration == '1')
+                                value="3"
+                            @elseif($hs->hsk_duration == '2')
+                                value="6"
+                            @elseif($hs->hsk_duration == '3')
+                                value="12"
+                            @endif
+                        placeholder="Kỳ hạn trong (tháng)"> 
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="">Số tiền phải trả trong mỗi tháng (VNĐ):</label>
+                    </div>
+                    <div class="col-md-8 block-btn-math">
+                        <input class="havePayAMonth" type="text" readonly="" placeholder="Trả mỗi tháng (tháng)">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="">Tổng số tiền trả cuối cùng (gốc + lãi) (VNĐ):</label>
+                    </div>
+                    <div class="col-md-8 block-btn-math">
+                        <input class="allLoanFinally" type="text" readonly="" placeholder="Tổng tiền phải trả">
+                        <button type="button" class="btn btn-warning btn-math ml-3">Tính</button>
+                    </div>
+                </div>
+                <input type="text" hidden="" class="moneyPayAMonth" name="moneyPayAMonth" required="">
+                <input type="text" hidden="" class="aMonthProfit" name="aMonthProfit" required="">
+                <input type="submit" hidden="" class="btn-submit">
+            </div>
+        </form>
+        <div class="btn-trigger container-fuild">
+            <div class="row mb-3">
+                <div class="col-md-4"></div>
+                <div class="col-md-8 block-success-right">
+                    <button type="button" class="btn btn-info pl-5 pr-5">Gửi</button>
                 </div>
             </div>
         </div>
-
-        <div class="block-refuse">
-            <form action="{{ route('bank.refuseWaitLoan') }}" method="post" class="form-refuse">
-                @csrf
-                <input type="text" hidden="" value="{{ $hs->_id }}" name="idHS">
-                <div class="block-refuse-left">
-                    <label for="loan-reason">Lý do bạn từ chối khoản vay:</label>
-                    <textarea id="loan-reason" class="form-control" placeholder="Nhập lý do" required="" name="loanReason"></textarea>
-                </div>
-                <div class="block-refuse-right">
-                    <button type="submit" class="btn btn-info">Gửi</button>
-                </div>
-            </form>
-        </div>
-
-      </div>
     </div>
+
+    <div class="block-refuse style-block-refuse">
+        <form action="{{ route('bank.refuseWaitLoan') }}" method="post" class="form-refuse">
+            @csrf
+            <input type="text" hidden="" value="{{ $hs->_id }}" name="idHS">
+            <div class="block-refuse-left">
+                <label for="loan-reason">Lý do bạn từ chối khoản vay:</label>
+                <textarea id="loan-reason" class="form-control" placeholder="Nhập lý do" required="" name="loanReason"></textarea>
+            </div>
+            <div class="block-refuse-right">
+                <button type="submit" class="btn btn-info pl-5 pr-5">Gửi</button>
+            </div>
+        </form>
+    </div>
+
+  </div>
 </div>
+
 
 <script type="text/javascript">
     // set up input range

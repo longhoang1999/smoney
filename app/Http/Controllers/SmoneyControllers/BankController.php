@@ -101,6 +101,7 @@ class BankController extends Controller
         $allLoanOfBank = HoSoKhoanVay::where("idBank",strval($findBank->nn_id))
                 ->where("hsk_send_status","true")
                 ->where("profileStatusInUni","pass")
+                ->where("chooseBank",null)
                 ->get();  
 
         foreach($allLoanOfBank as $key => $loan){
@@ -140,7 +141,7 @@ class BankController extends Controller
                         return "3 tháng";
                     }else if($allLoanOfBank->hsk_duration == "2"){
                         return "6 tháng";
-                    }else if($allLoanOfBank->hsk_duration == "2"){
+                    }else if($allLoanOfBank->hsk_duration == "3"){
                         return "12 tháng";
                     }
                 }
@@ -168,6 +169,9 @@ class BankController extends Controller
         $svHoSo = SinhVienHoSo::where("_id",$value->idsaveSV)->first();
         $findNhaTruong = NhaTruong::where("nt_id",$value->chooseSchool)->select("nt_ten","nt_diachi")->first();
         
+        $value['avatar'] = Student::where('_id', $svHoSo->idSV)
+                           ->select('avatar')
+                           ->first()->avatar;
         $value['hoten'] = $svHoSo->hoten;
         $value['sdt'] = $svHoSo->sdt;
         $value['email'] = $svHoSo->email;
@@ -183,11 +187,90 @@ class BankController extends Controller
         $value['university'] = $svHoSo->university;
         $value['uni'] = $findNhaTruong;
 
+        // other request 
+        $idBank = Auth::user()->tks_sotk;
+        $requestOfStudent = HoSoKhoanVay::where("hsk_id_student", $svHoSo->idSV)->get();
+        $requestThisBank = 0;
+        $requestSuccessThisBank = 0;
+        $requestRefuseStudent = 0;
+        $requestRefuseBank = 0;
+
+        $currentLoan = 0;
+        $aboutExpireLoan = 0;
+        $outDateLoan = 0;
+        $paidLoan = 0;
+
+        $otherBankLoan = 0;
+
+        foreach($requestOfStudent as $hs){
+            if(in_array($idBank, $hs->idBank)){
+                $requestThisBank ++;
+            }
+            if($hs->chooseBank == $idBank && $hs->two_sides_accept == "true"){
+                $requestSuccessThisBank ++;
+            }
+            if(in_array($idBank, $hs->idBank) && $hs->chooseBank != $idBank 
+                && isset($hs->chooseBank)){
+                $requestRefuseStudent ++;
+            }
+            if( in_array($idBank, $hs->idBank) && 
+                isset($hs->loanProposal) && 
+                !isset($hs->loanProposal[$idBank]['money'])
+            ){
+                $requestRefuseBank ++;
+            }
+            if($hs->chooseBank == $idBank && $hs->profileStatusInBank == "pass"){
+                $currentLoan ++;
+            }
+
+            if(isset($hs->date_expired)){
+                $date_expired = Carbon::createFromFormat('Y-m-d H:i', $hs->date_expired);
+                $timeRemaining = $date_expired->diffInDays(Carbon::now());
+                if($hs->chooseBank == $idBank && $hs->profileStatusInBank == "pass" &&
+                    $date_expired > Carbon::now() && $timeRemaining < 10
+                ){
+                    $aboutExpireLoan ++;
+                }
+            }
+            if(isset($hs->date_expired)){
+                $date_expired = Carbon::createFromFormat('Y-m-d H:i', $hs->date_expired);
+                if($hs->chooseBank == $idBank && $hs->profileStatusInBank == "pass" &&
+                    $date_expired < Carbon::now()
+                ){
+                    $outDateLoan ++;
+                }
+            }
+            if(isset($hs->totalMoney)){
+                if($hs->chooseBank == $idBank && $hs->profileStatusInBank == "paid"){
+                    $paidLoan ++;
+                }
+            }
+            if($hs->chooseBank != $idBank && $hs->two_sides_accept == "true" && $hs->profileStatusInBank == "pass"){
+                $otherBankLoan ++;
+            }
+        }
+
+
+        $arrReuestStudent = [
+            $requestOfStudent, 
+            $requestThisBank,
+            $requestSuccessThisBank,
+            $requestRefuseStudent,
+            $requestRefuseBank,
+            $currentLoan,
+            $aboutExpireLoan,
+            $outDateLoan,
+            $paidLoan,
+            $otherBankLoan
+        ];
+
         $body =  view('smoney.bank.modal-loan')->with([
-            'hs' => $value
+            'hs' => $value,
+            'arrReuestStudent' => $arrReuestStudent
         ])->render();
         return $body;
     }
+
     public function getModalLoanNormal(Request $req){
         $value = HoSoKhoanVay::where("_id",$req->idHS)->first();
 
@@ -249,6 +332,7 @@ class BankController extends Controller
         }else{
             $findHS->loanProposal = $loanProposal;
         }
+        $findHS->feedbackBankDate = Carbon::now()->toDateTimeString();
         $findHS->save();
 
 
@@ -259,6 +343,32 @@ class BankController extends Controller
                 $findHS->save();
             }
         }
+
+        // noti for student
+        $NotificationController = app('App\Http\Controllers\SmoneyControllers\NotificationController');
+        $nameBank = NganHang::where("nn_id", $userLogin->tks_sotk)->select("nn_ten")
+                    ->first()->nn_ten;
+        $NotificationController->makeNotification(
+            'Khoản vay của bạn đa bị từ chối bởi ngân hàng '.$nameBank.'',
+            $userLogin->tks_sotk,
+            $findHS->hsk_id_student,
+            'apply-loan',
+            '4',
+            '2',
+            'item-danger'
+        );
+        // noti for bank
+        $nameStudent = Student::where("_id", $findHS->hsk_id_student)->select("hoten")
+                    ->first()->hoten;
+        $NotificationController->makeNotification(
+            'Bạn đã từ chối khoản vay của sinh viên '.$nameStudent.'',
+            TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+            $userLogin->tks_sotk,
+            'bank-loan-info',
+            '1',
+            '4',
+            'item-danger'
+        );
         return back()->with('success',"Bạn từ chối khoản vay thành công");
     }
     public function passWaitLoan(Request $req){
@@ -295,7 +405,34 @@ class BankController extends Controller
         }else{
             $findHS->loanProposal = $loanProposal;
         }
+        $findHS->feedbackBankDate = Carbon::now()->toDateTimeString();
         $findHS->save();
+
+        // noti for student
+        $NotificationController = app('App\Http\Controllers\SmoneyControllers\NotificationController');
+        $nameBank = NganHang::where("nn_id", $userLogin->tks_sotk)->select("nn_ten")
+                    ->first()->nn_ten;
+        $NotificationController->makeNotification(
+            'Bạn nhận được đề xuất khoản vay của ngân hàng '.$nameBank.'',
+            $userLogin->tks_sotk,
+            $findHS->hsk_id_student,
+            'apply-loan',
+            '4',
+            '2',
+            'item-info'
+        );
+        // noti for bank
+        $nameStudent = Student::where("_id", $findHS->hsk_id_student)->select("hoten")
+                    ->first()->hoten;
+        $NotificationController->makeNotification(
+            'Bạn đã đề xuất khoản vay của sinh viên '.$nameStudent.'',
+            TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+            $userLogin->tks_sotk,
+            'bank-loan-info',
+            '1',
+            '4',
+            'item-info'
+        );
         return back()->with('success',"Bạn đề xuất khoản vay thành công");
     }
     public function feedBackLoanStudent(){
@@ -410,13 +547,68 @@ class BankController extends Controller
             $findHS->date_expired = $date->format('Y-m-d H:i');
             $mes = "Khoản vay đã được lưu thông";
             $log = "success";
+
+            // noti
+            $nameStudent = Student::where("_id", $findHS->hsk_id_student)
+                            ->select("hoten")->first()->hoten;
+            $nameBank = NganHang::where("nn_id", $findHS->chooseBank)
+                            ->select("nn_ten")->first()->nn_ten;
+            $contentBank = "Khoản vay giữa ngân hàng và sinh viên ".$nameStudent." đã lưu thông";
+            $contentStudent = "khoản vay của bạn với ngân hàng ".$nameBank." đã được lưu thông";
+            $contentUni = "Khoản vay giữa sinh viên ".$nameStudent." và ngân hàng ".$nameBank." đã lưu thông";
+            $type = "item-info";
+
         }else if($req->status == "refuse"){
             $findHS->two_sides_accept = "false";
             $findHS->bank_reason_refusal = $req->refuse;
             $mes = "Khoản vay đã được từ chối";
             $log = "error";
+
+            // noti
+            $nameStudent = Student::where("_id", $findHS->hsk_id_student)
+                            ->select("hoten")->first()->hoten;
+            $nameBank = NganHang::where("nn_id", $findHS->chooseBank)
+                            ->select("nn_ten")->first()->nn_ten;
+            $contentBank = "Ngân hàng từ chối khoản vay của sinh viên ".$nameStudent;
+            $contentStudent = "Ngân hàng ".$nameBank." đã từ chối khoản vay của bạn";
+            $type = "item-danger";
         }
         $findHS->save();
+
+
+        // noti for bank
+        $NotificationController = app('App\Http\Controllers\SmoneyControllers\NotificationController');
+        $NotificationController->makeNotification(
+            $contentBank,
+            TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+            $findHS->chooseBank,
+            'bank-loan-info',
+            '1',
+            '4',
+            $type
+        );
+        // noti for student
+        $NotificationController->makeNotification(
+            $contentStudent,
+            $findHS->chooseBank,
+            $findHS->hsk_id_student,
+            'apply-loan',
+            '4',
+            '2',
+            $type
+        );
+        // noti for uni
+        if($req->status == "success"){
+            $NotificationController->makeNotification(
+                $contentUni,
+                TaiKhoanSmoney::where("tks_loaitk", "4")->select("tks_sotk")->first()->tks_sotk,
+                $findHS->chooseSchool,
+                'school-approved-profile',
+                '1',
+                '3',
+                $type
+            );
+        }
         return back()->with($log, $mes);
     }
     public function LoanOfBankPass(){

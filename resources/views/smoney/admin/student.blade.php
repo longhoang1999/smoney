@@ -26,6 +26,8 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+        .avatar-student{width: 3rem;}
+        .avatar-student img{width: 100%}
     </style>
 @stop
 @section('content')
@@ -82,40 +84,27 @@
     <div class="content">
         <div class="item">
             <div class="content-title">
-                <h1>Thông tin tài khoản ngân hàng</h1>
+                <h1>Thông tin tài khoản sinh viên</h1>
             </div>
 
-            <div> 
+            <!-- <div> 
                 <div class="add-new">
                     <span>Thêm mới</span>
                     <i class="fas fa-plus-circle"></i>
                 </div>
-            </div>
+            </div> -->
             <!-- table -->
-            <table class="content-table">
+            <table class="content-table" id="Table_Student">
                 <thead>
                     <tr>
-                        <th>Phone</th>
+                        <th>Số diện thoại</th>
                         <th>Ảnh</th>
-                        <th>Tên</th>
+                        <th>Họ tên</th>
                         <th>Trường</th>
-                        <th>Ngày tạo</th>
-                        <th>Trạng thái</th>
+                        <th>Số khoản vay</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="first blue">Bùi Hữu Dũng</td>
-                        <td><div class="bank-img" style="background: url({{ asset('img-smoney/bank/bank_icon.png') }} ) no-repeat;">
-                                </div>
-                         </td>
-                        <td>0123456789</td>
-                        <td>Bắc Từ Liêm, Hà Nội</td>
-                         <td>0123456789</td>
-                        <td>
-                            <span class="badge badge-danger">Chưa xác minh</span>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -130,5 +119,33 @@
 
 
 @section('footer-js')
+    <script type="text/javascript" src="{{ asset('datatables/js/jquery.dataTables.js') }}" ></script>
+    <script type="text/javascript" src="{{ asset('datatables/js/dataTables.bootstrap4.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('js/Smoney/Student/student.js') }}"></script>
+    <script type="text/javascript">
+        var $url_path = '{!! url('/') !!}';
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        // bank
+        var table = $('#Table_Student').DataTable({
+            "columnDefs": [
+                { className: "first blue", "targets": [ 0 ] },
+                { className: "avatar-student", "targets": [ 1 ] }
+            ],
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('admin.showAllStudentTwo') !!}',
+            order:[],
+            columns: [
+                { data: 'sdt_custom', name: 'sdt_custom' },
+                { data: 'avatar', name: 'avatar' },
+                { data: 'hoten', name: 'hoten' },
+                { data: 'university', name: 'university'},
+                { data: 'loanNumber', name: 'loanNumber' },       
+            ]
+        });
+    </script>
 @stop

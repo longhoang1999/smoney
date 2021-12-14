@@ -71,12 +71,22 @@ $(document).ready(function(){
         }
     });
     // cuộn chuột xuống
-    $(window).bind('mousewheel', function(event) {
-		if (event.originalEvent.wheelDelta < 0) {
+    
+ 	//  $('body').not(".more-notification").on('mousewheel', function(event) {
+	// 	if (event.originalEvent.wheelDelta < 0) {
+	// 	    $(".more-service").hide();
+	// 	    $(".information-more").hide();
+	// 	    $(".more-notification").hide();
+	// 	}
+	// });
+	$(document).on('mousewheel', function (event) {
+	  if (!$(event.target).closest('.more-notification').length) {
+	    if (event.originalEvent.wheelDelta < 0) {
 		    $(".more-service").hide();
 		    $(".information-more").hide();
 		    $(".more-notification").hide();
 		}
+	  }
 	});
 
     $(".add-file-btn").click(function(){

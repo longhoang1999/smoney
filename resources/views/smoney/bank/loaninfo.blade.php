@@ -11,6 +11,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
     <link rel="stylesheet" href="{{ asset('css/Smoney/University/loaninfo.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/Smoney/Homepage/customModal.css') }}">
     <style>
         .banner-2 {
             background: url('{{ asset('img-smoney/bank/aaaa.png') }}') no-repeat;
@@ -26,7 +27,7 @@
             background-image: url('{{ asset('img-smoney/university/university_logo.png') }}') no-repeat;
             background-size: contain;
         }
-
+        .info-loan-normal{margin: auto;}
     </style>
 @stop
 @section('content')
@@ -79,7 +80,7 @@
                 <tr>
                     <th>Tên sinh viên</th>
                     <th>Số tiền vay (VNĐ)</th>
-                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Lãi suất (%/tháng)</th>
                     <th>Sinh viên Trường</th>
                     <th>Ngày vay</th>
                     <th>Kỳ hạn (tháng)</th>
@@ -111,7 +112,7 @@
                 <tr>
                     <th>Tên sinh viên</th>
                     <th>Số tiền vay (VNĐ)</th>
-                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Lãi suất (%/tháng)</th>
                     <th>Kỳ hạn (tháng)</th>
                     <th>Sinh viên Trường</th>
                     <th>Hạn trả sau</th>
@@ -143,7 +144,7 @@
                 <tr>
                     <th>Tên sinh viên</th>
                     <th>Số tiền vay (VNĐ)</th>
-                    <th>Lãi xuất (%/tháng)</th>
+                    <th>Lãi suất (%/tháng)</th>
                     <th>Kỳ hạn (tháng)</th>
                     <th>Sinh viên Trường</th>
                     <th>Đã quá hạn</th>
@@ -161,7 +162,7 @@
     </div>
 
     <!-- modal -->
-    <div class="modal fade" id="detailLoanNormal" tabindex="-1" role="dialog" aria-labelledby="detailLoanNormalLable" aria-hidden="true">
+    <div class="modal fade customModal" id="detailLoanNormal" tabindex="-1" role="dialog" aria-labelledby="detailLoanNormalLable" aria-hidden="true">
       <div class="modal-dialog modal-xl">
         
 

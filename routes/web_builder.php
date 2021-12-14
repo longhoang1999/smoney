@@ -6,9 +6,21 @@
         $all = HoSoKhoanVay::get();
         echo json_encode($all);
     });
+    Route::get("remove-HoSoKhoanVay",function(){
+        $all = HoSoKhoanVay::get();
+        foreach($all as $hs){
+            $hs->delete();
+        }
+    });
     Route::get("SinhVienHoSo",function(){
         $all = SinhVienHoSo::get();
         echo json_encode($all);
+    });
+    Route::get("remove-SinhVienHoSo",function(){
+        $all = SinhVienHoSo::get();
+        foreach($all as $sv){
+            $sv->delete();
+        }
     });
     Route::get('see-all',function() {
         $all = Student::get();
@@ -67,7 +79,8 @@
     Route::get('not-found', function(){
         return view("404");
     })->name('notFound'); 
-    
+    // reset notification
+    Route::post('change-check-read','SmoneyControllers\HomeController@changeCheckRead')->name('home.changeCheckRead');
     
     Route::group(
         ['middleware' => ['cookieUserLogged','language'] ],
@@ -150,6 +163,7 @@
             Route::post('feet-back-loan/{idHS}', 'SmoneyControllers\UniversityController@feetbackLoan')->name('school.feetbackLoan');
 
             Route::get('loan-info-approved-profile', 'SmoneyControllers\UniversityController@infoApprovedProfile')->name('school.infoApprovedProfile');
+            Route::get('loan-info-refuse-profile', 'SmoneyControllers\UniversityController@infoRefusedProfile')->name('school.infoRefusedProfile');
         }
     );
     Route::group(
@@ -193,6 +207,7 @@
             Route::get('admin-account', 'SmoneyControllers\AdminController@account')->name('admin.adminAccount'); 
             Route::get('admin-bank', 'SmoneyControllers\AdminController@bank')->name('admin.bankAccount');
             Route::get('show-all-student', 'SmoneyControllers\AdminController@showAllStudent')->name('admin.showAllStudent');
+            Route::get('show-all-student-two', 'SmoneyControllers\AdminController@showAllStudentTwo')->name('admin.showAllStudentTwo');
             Route::get('show-all-university', 'SmoneyControllers\AdminController@showAlluniversity')->name('admin.showAlluniversity');
             Route::get('show-all-bank', 'SmoneyControllers\AdminController@showAllbank')->name('admin.showAllbank');
             Route::get('get-uni-info', 'SmoneyControllers\AdminController@getUniInfo')->name('admin.getUniInfo');

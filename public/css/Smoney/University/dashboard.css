@@ -324,13 +324,13 @@ table {
 }
 
 /*data table*/
-#Table_KhoanVay_wrapper{
+#Table_KhoanVay_wrapper, #Table_KhoanVay_Refuse_wrapper{
     padding: 0 9rem;
 }
-#Table_KhoanVay_filter{
+#Table_KhoanVay_filter, #Table_KhoanVay_Refuse_filter{
     float: right;
 }
-#Table_KhoanVay{
+#Table_KhoanVay, #Table_KhoanVay_Refuse{
     width: 100% !important;
     margin: 0;
 }
@@ -338,16 +338,12 @@ table {
     float:  right;
 }
 #myTabContent{
-    background: #d9d9ff;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 }
 .nav-item a{
     color: black;
 }
-.nav-item .active{
-    background: #d9d9ff !important;
-    color: red !important;
-}
+
 .block-image img{
     width: 10rem;
     height: 7rem;

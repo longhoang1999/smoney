@@ -10,6 +10,7 @@
 integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" 
 crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+<link rel="stylesheet" href="{{  asset('css/Smoney/Homepage/customModal.css') }}">
 <style>
     .banner-2{
         background: url('{{ asset("img-smoney/university/aaa.png")  }}');
@@ -67,9 +68,9 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
             <tr>
                 <th>Họ tên</th>
                 <th>Mã sinh viên</th>
-                <th>Khoản vay</th>
-                <th>Kì hạn</th>
-                <th>Nhà trường</th>
+                <th>Yêu cầu vay</th>
+                <th>Kỳ hạn khai báo</th>
+                <th>Trạng thái nhà trường</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -83,7 +84,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 </div>
 
 <!-- modal detail -->
-<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
+<div class="modal fade customModal" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
     </div>
 </div>

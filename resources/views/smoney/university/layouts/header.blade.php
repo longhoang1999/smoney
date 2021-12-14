@@ -1,3 +1,19 @@
+<?php 
+    use Carbon\Carbon;
+    use App\Models\SmoneyModels\Student;
+    use App\Models\SmoneyModels\NhaTruong;
+    use App\Models\SmoneyModels\NganHang;
+
+    Carbon::setLocale('vi');
+    use App\Models\SmoneyModels\Notification;
+    $findNo = Notification::where("no_id_to" , Auth::user()->tks_sotk)
+            ->where('no_type_to', '3')
+            ->orderBy('no_time', 'desc')
+            ->take(15)
+            ->get();
+ ?>
+
+
 <!-- Come back -->
 <div id="header">
     <div class="come-back ">
@@ -72,15 +88,66 @@
                         <div class="nav-notification nav-item">
                             <div class="icon-bell">
                                 <i class="fas fa-bell"></i>
-                                <div class="bell-danger"></div>
+                                @for($i = 0; $i < count($findNo); $i++)
+                                    <?php 
+                                        if($findNo[$i]->no_check_read == "2"){
+                                            echo '<div class="bell-danger"></div>';
+                                            break;
+                                        }
+                                     ?>
+                                @endfor
                             </div>
                             <div class="more-notification">
-                                <a href="#" class="item-notification">
-                                    Khoản vay 20.000.000đ đến hạn thanh toán
-                                </a>
-                                <a href="#" class="item-notification">
-                                    Khoản vay 20.000.000đ đến hạn thanh toán
-                                </a>
+                                <p class="more-notification-title">Thông báo</p>
+                                @foreach($findNo as $no)
+                                    <?php 
+                                        if($no->no_type_from == "1"){
+                                            $sender = "Smoney";
+                                        }else if($no->no_type_from == "2"){
+                                            $sender = Student::where("_id", $no->no_id_from)
+                                                        ->select("hoten")
+                                                        ->first()
+                                                        ->hoten;
+                                        }else if($no->no_type_from == "3"){
+                                            $sender = NhaTruong::where("nt_id", $no->no_id_from)
+                                                        ->select("nt_ma")
+                                                        ->first()
+                                                        ->nt_ma;
+                                        }else if($no->no_type_from == "4"){
+                                            $sender = NganHang::where("nn_id", $no->no_id_from)
+                                                        ->select("nn_ten")
+                                                        ->first()
+                                                        ->nn_ten;
+                                        }else{
+                                            $sender = "Không xác định";
+                                        }
+                                     ?>
+                                    <div data-link="{{ url('/').'/'.$no->no_link }}"
+                                         data-id="{{ $no->no_id }}" 
+                                        class="item-notification {{ $no->no_type }}
+                                    ">
+                                        @if($no->no_check_read == "2")
+                                            <div class="bell-danger-unread"></div>
+                                        @endif
+                                        <div class="notification-title">
+                                            <img src="{{ asset('img-smoney/smoney.png') }}" alt="">
+                                        </div>
+                                        <div class="notification-content">
+                                            <small>Từ: {{ $sender }}</small>
+                                            <span>{{ $no->no_content }}</span>
+                                            <small class="font-italic">
+                                                <?php 
+                                                    $notime = Carbon::parse($no->no_time) 
+                                                ?>
+                                                {{ $notime->diffForHumans(Carbon::now()) }} - 
+                                                {{ date("h:i A d/m/Y", strtotime($no->no_time)) }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                @if(count($findNo) == "0")
+                                    <p class="font-italic">Bạn không có thông báo nào</p>
+                                @endif
                             </div>
                         </div>
                         <!-- avatar user -->
@@ -130,3 +197,32 @@
         </div>
     </header>
 </div>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    var $url_path = '{!! url('/') !!}';
+
+    $(".item-notification").click(function(){
+        let link = $(this).data('link');
+        let id = $(this).data('id');
+        $.ajax({
+            url:"{!! route('home.changeCheckRead') !!}",
+            method: "POST",
+            data:{
+                "id": id
+            },
+            success:function(data)
+            {
+                console.log(data)
+                if(data.trim() == "done")
+                    location.replace(link);
+                else
+                    alert("Có lỗi trong quá trình thực hiện");
+            }
+        });
+    })
+</script> 

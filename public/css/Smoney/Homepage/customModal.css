@@ -1,0 +1,114 @@
+.customModal .modal-header {
+    color: #fff;
+    background-color: #316fd3;
+}
+.customModal .modal-content {
+    border: none;
+}
+.customModal #myTab{
+	justify-content: center;
+}
+.customModal .nav-item .active {
+    border: none;
+    color: #0B5AC3 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #0B5AC3;
+}
+.customModal .nav-tabs .nav-link:focus, 
+.customModal .nav-tabs .nav-link:hover {
+    color: #316fd3;
+    border: none;
+    border-bottom: 2px solid #0B5AC3;
+}
+.customModal .nav-tabs {
+    border: none;
+}
+.customModal .customTable{
+	width: 100%;
+    border-spacing: 0;
+    margin-bottom: 2rem;
+    border-collapse: separate;
+}
+.customModal .customTable td:first-child {
+    width: 35%;
+}
+.customModal .customTable td {
+    padding: 0.7rem 1.2rem;
+    font-size: 14px;
+}
+.customModal .customTable span,
+.customModal .customTable p {
+    color: #222222;
+}
+.customModal .customTable tr:nth-child(even) {
+    background-color: #E7EFF8;
+}
+.customModal .customTable td:last-child {
+    display: flex;
+    flex-direction: column;
+}
+.customModal .nav-tabs .nav-link{
+	color:  #777;
+	font-size: 15px;
+}
+.customModal .tab-pane.fade{
+	margin: 0 5rem;
+}
+.customModal .block-image{
+	flex-direction: row !important;
+}
+.customModal .header-title {
+    background: #66aaff;
+}
+.customModal .header-title span, .customModal .header-title p{
+	color: white !important;
+}
+.customModal .text-title {
+    font-weight: bold;
+    font-size: 18px;
+    color:  #66aaff;
+    text-decoration: underline;
+    margin: 0;
+}
+.customModal .flex-row{
+	flex-direction: row;
+	align-items: center;
+}
+
+.customModal .handle{
+	margin: 0 12rem;
+	color: #777;
+}
+.customModal .modal-footer{
+	justify-content: center;
+}
+.customModal .color-blue {
+    color: #286dca;
+}
+
+
+
+
+/*modal loan bank*/
+.user-credit-score{
+    display: flex;
+    width: 85%;
+    margin: auto;
+}
+.user-credit-score .user-credit-avatar{
+    width: 20%;
+    height: 12rem;
+}
+.user-credit-score .user-credit-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.user-credit-score .user-credit-info{
+    width: 75%;
+}
+
+.style-block-success, .style-block-refuse{
+    background-color: #E7EFF8;
+    padding: 1rem 0;
+}

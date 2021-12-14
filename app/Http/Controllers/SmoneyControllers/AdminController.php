@@ -14,6 +14,7 @@ use App\Models\SmoneyModels\TaiKhoanSmoney;
 use Illuminate\Support\Facades\Hash;
 use App\Models\SmoneyModels\Admin;
 use Illuminate\Support\Facades\DB;
+use App\Models\SmoneyModels\HoSoKhoanVay;
 
 
 class AdminController extends Controller
@@ -97,6 +98,15 @@ class AdminController extends Controller
                 }
             )
             ->addColumn(
+                'sdt_custom',
+                function ($allStudent) {
+                    if($allStudent->sdt == null)
+                        return '<span class="badge badge-warning">Chưa khai báo</span>';
+                    else
+                        return $allStudent->sdt;
+                }
+            )
+            ->addColumn(
                 'university',
                 function ($allStudent) {
                     $uniString = "";
@@ -104,7 +114,7 @@ class AdminController extends Controller
                         $idArrUni = array_keys($allStudent->university);
                         foreach($idArrUni as $value){
                             $findUniversity = NhaTruong::where("nt_id",$value)->select("nt_ten")->first();
-                            $uniString = $uniString.$findUniversity->nt_ten;
+                            $uniString = $uniString.$findUniversity->nt_ten."<br>";
                         }
                     }else{
                         $uniString = '<span class="badge badge-warning">Chưa khai báo</span>';
@@ -112,7 +122,56 @@ class AdminController extends Controller
                     return $uniString;
                 }
             )
-            ->rawColumns(['stt','diachi','university'])
+            ->rawColumns(['stt','diachi','university','sdt_custom'])
+            ->make(true);
+    }
+    public function showAllStudentTwo(){
+        $allStudent = Student::get();
+        return DataTables::of($allStudent)
+            ->addColumn(
+                'avatar',
+                function ($allStudent) {
+                    if(isset($allStudent->avatar) && $allStudent->avatar != ""){
+                        return '<img src="'. asset($allStudent->avatar) .'">';
+                    }else
+                        return '<span class="badge badge-warning">Chưa khai báo</span>';
+                }
+            )
+            ->addColumn(
+                'university',
+                function ($allStudent) {
+                    $uniString = "";
+                    if($allStudent->university != null){
+                        $idArrUni = array_keys($allStudent->university);
+                        foreach($idArrUni as $value){
+                            $findUniversity = NhaTruong::where("nt_id",$value)->select("nt_ten")->first();
+                            $uniString = $uniString.$findUniversity->nt_ten."<br>";
+                        }
+                    }else{
+                        $uniString = '<span class="badge badge-warning">Chưa khai báo</span>';
+                    }
+                    return $uniString;
+                }
+            )
+            ->addColumn(
+                'sdt_custom',
+                function ($allStudent) {
+                    if($allStudent->sdt == null)
+                        return '<span class="badge badge-warning">Chưa khai báo</span>';
+                    else
+                        return $allStudent->sdt;
+                }
+            )
+            ->addColumn(
+                'loanNumber',
+                function ($allStudent) {
+                    $loanNumber = HoSoKhoanVay::where("hsk_id_student", $allStudent->_id)
+                            ->where("two_sides_accept", "true")
+                            ->get();
+                    return count($loanNumber) . " khoản vay";
+                }
+            )
+            ->rawColumns(['avatar','university','loanNumber','sdt_custom'])
             ->make(true);
     }
     public function showAlluniversity(){
